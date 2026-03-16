@@ -18,5 +18,5 @@ MonoBehaviour:
   longDescription: Unarmed
   minShootDamage: 100
   maxShootDamage: 200
-  minMeleeDamage: 150
-  maxMeleeDamage: 300
+  minMeleeDamage: 25
+  maxMeleeDamage: 50

@@ -1,3 +1,4 @@
+using HackedDesign.UI.DamageNumbers;
 using System.Collections;
 using UnityEngine;
 
@@ -93,6 +94,7 @@ namespace HackedDesign
             else if (hitTransform.TryGetComponent<CharController>(out var targetChar))
             {
                 targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - start);
+                DamageNumberPool.Instance.Spawn(damage, hitPoint);
             }
             else if (hitEnv)
             {

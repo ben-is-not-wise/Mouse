@@ -12,10 +12,13 @@ namespace HackedDesign.UI
         [Header("UI")]
         [SerializeField] private Slider ramSlider;
         [SerializeField] private Slider healthSlider;
+        [SerializeField] private Text healthText;
         [SerializeField] private Slider energySlider;
+        [SerializeField] private Text energyText;
         [SerializeField] private RectTransform attackPanel;
         [SerializeField] private RectTransform gunPanel;
         [SerializeField] private Text ammoText;
+
         [SerializeField] private List<Button> buttonList = new List<Button>(6);
         [SerializeField] private List<Image> imageList = new List<Image>(6);
 
@@ -27,19 +30,28 @@ namespace HackedDesign.UI
 
         public override void Repaint()
         {
-            healthSlider.value = os.Health;
+            RepaintHealth();
+            RepaintWeapon();
+            RepaintHacks();
+            RepaintMomentum();
+        }
+
+        private void RepaintWeapon()
+        {
             gunPanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Gun);
             if (os.CurrentWeapon.weaponType == WeaponType.Gun)
             {
                 ammoText.text = os.Ammo.ToString();
             }
-            
-            RepaintHacks();
-            RepaintMomentum();
-            RepaintEnergy();
         }
 
-        public void RepaintHacks()
+        private void RepaintHealth()
+        {
+            healthSlider.value = os.Health;
+            healthText.text = os.Health.ToString();
+        }
+
+        private void RepaintHacks()
         {
             for (int i = 0; i < buttonList.Count; i++)
             {
@@ -69,15 +81,11 @@ namespace HackedDesign.UI
             }
         }
 
-        public void RepaintMomentum()
+        private void RepaintMomentum()
         {
             ramSlider.maxValue = os.MaxMomentum;
             ramSlider.value = os.Momentum;
-        }
-
-        private void RepaintEnergy()
-        {
-            //energySlider.value = os.Momentum;
+            energyText.text = os.Momentum.ToString("N2");
         }
 
         public void Action1Click()

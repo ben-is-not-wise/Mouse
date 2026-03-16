@@ -139,34 +139,34 @@ namespace HackedDesign
         public void WalkToggle() => IsWalking = !IsWalking;
         public void SetAim(bool flag) => Aiming = flag;
 
-        //public void Knockback(Vector3 direction)
-        //{
-        //    if (body == null)
-        //    {
-        //        return;
-        //    }
+        public void Knockback(Vector3 direction)
+        {
+            if (body == null)
+            {
+                return;
+            }
 
-        //    this.knockback = true;
-        //    body.Knockback(direction, Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackAmount : 0);
-        //    if (Animator.EnsureNotNull(this, nameof(Animator)))
-        //    {
-        //        Animator.SetTrigger(AnimatorParams.Knockback);
-        //    }
-        //    StartCoroutine(KnockbackPause());
-        //}
+            this.knockback = true;
+            body.Knockback(direction, Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackAmount : 0);
+            if (Animator.EnsureNotNull(this, nameof(Animator)))
+            {
+                Animator.SetTrigger(AnimatorParams.Knockback);
+            }
+            StartCoroutine(KnockbackPause());
+        }
 
-        //private IEnumerator KnockbackPause()
-        //{
-        //    yield return new WaitForSeconds(Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackTime : 0);
-        //    Stop();
-        //    StartCoroutine(KnockbackOver());
-        //}
+        private IEnumerator KnockbackPause()
+        {
+            yield return new WaitForSeconds(Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackTime : 0);
+            Stop();
+            StartCoroutine(KnockbackOver());
+        }
 
-        //private IEnumerator KnockbackOver()
-        //{
-        //    yield return new WaitForSeconds(Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackFreezeTime : 0);
-        //    knockback = false;
-        //}
+        private IEnumerator KnockbackOver()
+        {
+            yield return new WaitForSeconds(Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackFreezeTime : 0);
+            knockback = false;
+        }
 
         public void TriggerInteract()
         {

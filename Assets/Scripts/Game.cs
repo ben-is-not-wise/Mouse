@@ -48,7 +48,6 @@ namespace HackedDesign
         [SerializeField] private MissionTimer? levelTimer = null;
         [SerializeField] private DialogManager? dialogManager = null;
         [Header("UI")]
-        [SerializeField] private DebugPresenter? debugPresenter = null;
         [SerializeField] private MainMenuPresenter? mainMenuPresenter = null;
         [SerializeField] private DeathPresenter? deathPresenter = null;
         [SerializeField] private PausePresenter? pausePresenter = null;
@@ -104,7 +103,7 @@ namespace HackedDesign
         public void SetStateRoom1() => CurrentState = new Room1State(Player, Level, dialogManager);
         public void SetStateMissionSelect() => CurrentState = new MissionSelectState(missionPresenter);
         public void SetStateIntermission() => CurrentState = new IntermissionState(this, Player, Level, dialogManager, actionBarPresenter);
-        public void SetStatePlaying() => CurrentState = new PlayingState(this, Player, EnemyManager, LevelTimer, actionBarPresenter, tracePresenter, debugPresenter, GameSettings.Debug);
+        public void SetStatePlaying() => CurrentState = new PlayingState(this, Player, EnemyManager, LevelTimer, actionBarPresenter, tracePresenter, GameSettings.Debug);
         public void SetStateLoading() => CurrentState = new LoadingState(this, Player, Level, EnemyManager);
         public void SetStateMainMenu() => CurrentState = new MainMenuState(mainMenuPresenter);
         public void SetStateDeath() => CurrentState = new DeathState(deathPresenter);
@@ -153,7 +152,6 @@ namespace HackedDesign
 
         private void HideUI()
         {
-            debugPresenter.HideIfValid(this, nameof(debugPresenter));
             mainMenuPresenter.HideIfValid(this, nameof(mainMenuPresenter));
             deathPresenter.HideIfValid(this, nameof(deathPresenter));
             pausePresenter.HideIfValid(this, nameof(pausePresenter));

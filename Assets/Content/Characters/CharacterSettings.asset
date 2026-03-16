@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRate: 0.33
   walkSpeed: 4
-  runSpeed: 10
+  runSpeed: 8
   crouchSpeed: 3.5
   shootDistance: 20
   meleeDistance: 1.5

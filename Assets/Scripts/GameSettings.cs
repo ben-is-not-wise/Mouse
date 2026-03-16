@@ -20,6 +20,9 @@ namespace HackedDesign
         [SerializeField] private float shatterMagnitude = 10.1f;
         [SerializeField] private float interactDistance = 2.0f;
         [SerializeField] private float defaultLevelTime = 64f;
+        [SerializeField] private float knockbackAmount = 1f;
+        [SerializeField] private float knockbackTime = 0.2f;
+        [SerializeField] private float knockbackFreezeTime = 0.2f;
 
         public bool Debug => debug;
         public bool SkipIntro => skipIntro;
@@ -30,5 +33,9 @@ namespace HackedDesign
         public float ShatterMagnitude => shatterMagnitude;
         public float InteractDistance => interactDistance;
         public float DefaultLevelTime => this.defaultLevelTime;
+
+        public float KnockbackAmount { get => this.knockbackAmount; set => this.knockbackAmount = value; }
+        public float KnockbackTime { get => this.knockbackTime; set => this.knockbackTime = value; }
+        public float KnockbackFreezeTime { get => this.knockbackFreezeTime; set => this.knockbackFreezeTime = value; }
     }
 }

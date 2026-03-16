@@ -9,7 +9,6 @@ namespace HackedDesign
         private readonly IPlayerController player;
         private readonly IPresenter actionBar;
         private readonly IPresenter traceBar;
-        private readonly IPresenter debugPanel;
         private readonly IEnemyManager enemyManager;
         private readonly IMissionTimer timer;
         private readonly bool debug;
@@ -17,7 +16,7 @@ namespace HackedDesign
         public bool PlayerActionAllowed => true;
         public bool Battle => true;
 
-        public PlayingState(IGame game, IPlayerController player, IEnemyManager enemyManager, IMissionTimer timer, IPresenter actionBar, IPresenter traceBar, IPresenter debugPanel, bool debug = false)
+        public PlayingState(IGame game, IPlayerController player, IEnemyManager enemyManager, IMissionTimer timer, IPresenter actionBar, IPresenter traceBar, bool debug = false)
         {
             this.game = game;
             this.player = player;
@@ -25,7 +24,6 @@ namespace HackedDesign
             this.timer = timer;
             this.actionBar = actionBar;
             this.traceBar = traceBar;
-            this.debugPanel = debugPanel;
             this.debug = debug;
         }
 
@@ -44,7 +42,6 @@ namespace HackedDesign
             player.Stop();
             traceBar.Hide();
             actionBar.Hide();
-            debugPanel.Hide();
             //UnityEngine.Cursor.visible = true;
         }
 
@@ -55,20 +52,6 @@ namespace HackedDesign
             timer.Timer.Tick(Time.deltaTime);
             player.UpdateBattleBehaviour();
             enemyManager.UpdateAllBehaviour();
-            UpdateDebugPanel();
-        }
-
-        private void UpdateDebugPanel()
-        {
-            if (this.debug)
-            {
-                debugPanel.Show();
-                debugPanel.Repaint();
-            }
-            else
-            {
-                debugPanel.Hide();
-            }
         }
 
         public void FixedUpdate()

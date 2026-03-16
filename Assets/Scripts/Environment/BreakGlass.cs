@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HackedDesign
 {
@@ -16,6 +11,7 @@ namespace HackedDesign
         [SerializeField] private bool playOnce = true;
         
         private bool hasPlayed = false;
+
         private void Awake()
         {
             collider = GetComponent<Collider2D>();
@@ -27,11 +23,10 @@ namespace HackedDesign
             {
                 return;
             }
+
             var x = transform.position.x - other.x;
 
             glassBreakEffect.transform.right = x > 0 ? Vector3.right : Vector3.left;
-
-            Debug.Log(glassBreakEffect.transform.right);
 
             glassBreakEffect.Play();
             spriteRenderer.enabled = false;
@@ -41,10 +36,8 @@ namespace HackedDesign
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            
             if(collision.gameObject.CompareTag(Tags.Player) && !(playOnce && hasPlayed))
             {
-                Debug.Log($" {collision.relativeVelocity.magnitude} {collision.relativeVelocity.x} ");
                 if (collision.relativeVelocity.magnitude > Game.Instance.GameSettings.ShatterMagnitude)
                 {
                     Break(collision.gameObject.transform.position);

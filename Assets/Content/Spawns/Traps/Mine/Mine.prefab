@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b05a16705081c45b5a4f22a5c4ae57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.TripLaser
-  amount: 200
+  amount: 75
   damageType: 1
 --- !u!95 &8135058378961306702
 Animator:

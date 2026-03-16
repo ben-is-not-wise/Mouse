@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using HackedDesign.UI.DamageNumbers;
 using System.Collections;
 using UnityEngine;
 
@@ -138,9 +139,11 @@ namespace HackedDesign
                 AlertNearbyEnemies();
             }
 
-            var dir = (target - barrel.position).normalized;
+            var start = barrel != null ? barrel.position : this.transform.position;
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, barrel.position, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, 100f);
+            var dir = (target - start).normalized;
+
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, 100f);
 
             OperatingSystem.DecreaseAmmo();
 
@@ -182,7 +185,9 @@ namespace HackedDesign
             }
             else if (hitTransform.TryGetComponent<CharController>(out var targetChar))
             {
-                targetChar.TakeDamage(OperatingSystem.CurrentWeapon.RandomShootDamage, hitPoint, (Vector3)hitPoint - Pivot);
+                var damage = OperatingSystem.CurrentWeapon.RandomMeleeDamage;
+                targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - Pivot);
+                DamageNumberPool.Instance.Spawn(damage, hitPoint);
             }
             else if(hitEnv)
             {

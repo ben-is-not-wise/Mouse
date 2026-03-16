@@ -1,9 +1,6 @@
-﻿using System;
+﻿using HackedDesign.UI.DamageNumbers;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using UnityEngine;
 
 namespace HackedDesign
@@ -12,7 +9,9 @@ namespace HackedDesign
     {
         private new Collider2D collider2D;
         private Animator animator;
-        [SerializeField] private int amount = 200;
+        [SerializeField] private int minAmount = 25;
+        [SerializeField] private int maxAmount = 99;
+        //[SerializeField] private int amount = 200;
         [SerializeField] private DamageType damageType = DamageType.Damage;
 
         private void Awake()
@@ -36,13 +35,19 @@ namespace HackedDesign
         {
             AnimateAttack();
 
-            if (damageType == DamageType.Damage)
+            switch (damageType)
             {
-                Game.Instance.Player.Character.TakeDamage(amount, hit + (Vector2.up * 0.5f), Vector2.up);
-            }
-            else if (damageType == DamageType.Momentum)
-            {
-                Game.Instance.Player.Character.TakeMomentumHit(amount, hit, Vector2.up);
+                case DamageType.Damage:
+                    Game.Instance.Player.Character.Knockback(Vector2.up);
+                    var damage = Random.Range(minAmount, maxAmount);
+                    var hitPoint = hit + Vector2.up * 0.5f;
+                    Game.Instance.Player.Character.TakeDamage(damage, hitPoint, Vector2.up);
+                    DamageNumberPool.Instance.Spawn(damage, hitPoint);
+                    break;
+                case DamageType.Momentum:
+                    Game.Instance.Player.Character.Knockback(Vector2.up);
+                    Game.Instance.Player.Character.TakeMomentumHit(Random.Range(minAmount, maxAmount), hit, Vector2.up);
+                    break;
             }
         }
 
@@ -50,7 +55,7 @@ namespace HackedDesign
         {
             if (animator)
             {
-                animator.SetTrigger("attack");
+                animator.SetTrigger(AnimatorParams.Attack);
                 StartCoroutine(Reset());
             }
         }
