@@ -48,7 +48,7 @@ namespace HackedDesign
         public float MinMomentum { get => this.minMomentum; set => this.minMomentum = value; }
         public float AttackMomentumLoss { get => this.attackMomentumLoss; set => this.attackMomentumLoss = value; }
         public float BaseMomentumFactor { get => this.baseMomentumFactor; set => this.baseMomentumFactor = value; }
-        public float MomentumAirLoss { get => this.momentumAirLoss; set => this.momentumAirLoss = value; }
+        public float MomentumLoss { get => this.momentumAirLoss; set => this.momentumAirLoss = value; }
         public List<WeaponSettings> WeaponSettings { get => this.weaponSettings; set => this.weaponSettings = value; }
         public bool InfiniteHealth { get => this.infiniteHealth; set => this.infiniteHealth = value; }
         public bool InfiniteAmmo { get => this.infiniteAmmo; set => this.infiniteAmmo = value; }

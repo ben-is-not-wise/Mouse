@@ -35,8 +35,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a13376bfbbfd8884f8eef6608c74c67e, type: 2}
   - {fileID: 11400000, guid: 9b0f56487dedb6041851381a82169f6d, type: 2}
   - {fileID: 11400000, guid: 2297feb942ec50346a39e3ccaef56f59, type: 2}
-  momentumAirLoss: 1
-  baseMomentumFactor: 0.3
+  momentumAirLoss: 0.75
+  baseMomentumFactor: 0.33
   attackMomentumLoss: 0
   minMomentum: 0
   maxMomentum: 5

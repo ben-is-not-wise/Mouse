@@ -144,7 +144,7 @@ namespace HackedDesign
         #region Movement
         public void FixedMovement(float desiredVelocity, float climbVelocity, bool jumpFlag, bool jumpHoldFlag, float momentum)
         {
-            wallStick = momentum > 0;
+            wallStick = momentum > 0.1f;
 
             if (Static || !body.EnsureNotNull(this, nameof(body)))
             {

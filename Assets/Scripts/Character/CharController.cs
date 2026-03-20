@@ -255,12 +255,15 @@ namespace HackedDesign
             {
                 if (Mathf.Abs(InputDirection) < Mathf.Epsilon || Body.CurrentlyClimbingLedge || Body.OnWall)
                 {
-                    OperatingSystem.Momentum -= Time.fixedDeltaTime * Settings.MomentumAirLoss;
+                    OperatingSystem.Momentum -= Time.fixedDeltaTime * Settings.MomentumLoss;
                 }
                 else
                 {
-                    OperatingSystem.Momentum += Time.fixedDeltaTime * Settings.BaseMomentumFactor;
-                    //OperatingSystem.momentum -= Time.fixedDeltaTime * Settings.MomentumAirLoss;
+                    if (Body.OnGround)
+                    {
+                        OperatingSystem.Momentum += Time.fixedDeltaTime * Settings.BaseMomentumFactor;
+                    }
+                    //OperatingSystem.Momentum -= Time.fixedDeltaTime * Settings.MomentumAirLoss;
 
                 }
 
