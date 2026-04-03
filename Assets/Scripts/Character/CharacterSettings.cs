@@ -32,6 +32,9 @@ namespace HackedDesign
         [SerializeField] private FXType hitfx = FXType.Blood;
         [SerializeField] private float timeSlowSpeed = 0.5f;
         [SerializeField] private float anticipateDelay = 0.2f;
+        [SerializeField] private float knockbackAmount = 1f;
+        [SerializeField] private float knockbackTime = 0.2f;
+        [SerializeField] private float knockbackFreezeTime = 0.2f;
 
         public float ShootDistance { get => shootDistance; private set => shootDistance = value; }
         public float AttackRate { get => attackRate; private set => attackRate = value; }
@@ -57,5 +60,10 @@ namespace HackedDesign
         public float TimeSlowSpeed { get => this.timeSlowSpeed; set => this.timeSlowSpeed = value; }
 
         public float AnticipateDelay { get => this.anticipateDelay; private set => this.anticipateDelay = value; }
+
+        public float KnockbackAmount { get => this.knockbackAmount; set => this.knockbackAmount = value; }
+        public float KnockbackTime { get => this.knockbackTime; set => this.knockbackTime = value; }
+        public float KnockbackFreezeTime { get => this.knockbackFreezeTime; set => this.knockbackFreezeTime = value; }
+
     }
 }

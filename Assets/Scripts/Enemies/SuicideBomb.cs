@@ -23,12 +23,12 @@ namespace HackedDesign
                 if(collision.gameObject.TryGetComponent<CharController>(out var otherCharacterController))
                 {
                     Vector3 closestPoint = collision.ClosestPoint(this.transform.position);
-                    otherCharacterController.TakeDamage(200, closestPoint, otherCharacterController.transform.position - closestPoint); 
+                    otherCharacterController.TakeDamage(200, closestPoint, otherCharacterController.transform.position - closestPoint, true); 
                 }
 
                 if(charController.OrNull() != null)
                 {
-                    charController.TakeDamage(200, Vector3.zero, Vector3.zero);
+                    charController.TakeDamage(200, Vector3.zero, Vector3.zero, false);
                 }
             }
         }

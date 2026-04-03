@@ -9,6 +9,7 @@ namespace HackedDesign
 {
     public class OperatingSystem : MonoBehaviour
     {
+        [SerializeField] private float healFactor = 0;
         [SerializeField] private List<OSHex> osHexList = new List<OSHex>();
                 
         [SerializeField] public Action changeActions;
@@ -50,7 +51,8 @@ namespace HackedDesign
 
         public void UpdateBehaviour()
         {
-            for (int i = 0; i < osHexList.Count; i++)
+            Health += healFactor * Time.deltaTime;
+             for (int i = 0; i < osHexList.Count; i++)
             {
                 if(Game.Instance.HackMode)
                 {
@@ -68,22 +70,31 @@ namespace HackedDesign
         public List<Hack> ActiveHacks => activeHacks;
         public List<Hack> RepoHacks { get => repoHacks; set => repoHacks = value; }
 
-        public int Health
+        public float Health
         {
             get => this.characterData.health;
             set
             {
+                float prevHealth = this.characterData.health;
                 this.characterData.health = Mathf.Clamp(value, 0, characterData.maxHealth);
-                changeActions?.Invoke();
-                if (characterData.health <= 0)
+                if (prevHealth != this.characterData.health)
                 {
-                    dieActions?.Invoke();
-                }
-                else
-                {
-                    hitActions?.Invoke();
+                    changeActions?.Invoke();
+                    if (this.characterData.health < prevHealth)
+                    {
+                        hitActions?.Invoke();
+                    }
+                    if (characterData.health <= 0)
+                    {
+                        dieActions?.Invoke();
+                    }
                 }
             }
+        }
+
+        public float MaxHealth
+        {
+            get => this.characterData.maxHealth;
         }
 
         public int CurrentMission { get => this.characterData.currentMission; set => this.characterData.currentMission = value; }
@@ -118,12 +129,17 @@ namespace HackedDesign
             get => Game.Instance.GameSettings.InfiniteMomentum ? this.characterData.maxMomentum : this.characterData.momentum;
             set
             {
-                this.characterData.momentum = Mathf.Clamp(value, 0, this.characterData.maxMomentum);
+                this.characterData.momentum = Mathf.Clamp(value, 0, this.characterData.maxMomentum - this.characterData.preallocatedEnergy);
                 changeActions?.Invoke();
             }
         }
 
         public float MaxMomentum => this.characterData.maxMomentum;
+
+        public float PreallocatedEnergy
+        {
+            get => this.characterData.preallocatedEnergy;
+        }
 
         private void Awake() => this.AutoBind(ref characterData);
 

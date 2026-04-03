@@ -1,4 +1,5 @@
 #nullable enable
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -37,11 +38,10 @@ namespace HackedDesign
         public float VelocityY => body != null ? body.linearVelocityY : 0;
         public float LastFallTime { get; private set; }
 
-        public bool Flying => false; // settings != null && settings.fly;
-
         public bool Static => body != null && body.bodyType == RigidbodyType2D.Static;
 
         public bool CurrentlyClimbingLedge { get => this.currentlyClimbingLedge; set => this.currentlyClimbingLedge = value; }
+        
 
         private float fallingTime = 0;
         private float fallingStartY = 0;
@@ -53,9 +53,9 @@ namespace HackedDesign
 
         private bool currentlyClimbingLedge = false;
 
-        public bool currentlyKnockback = false;
+        
 
-        private bool canGrabLedge = true;
+        
 
         private readonly float jumpAnticipationTime = 0.10f;
         private float jumpAnticipationTimer = 0f;
@@ -69,7 +69,26 @@ namespace HackedDesign
             this.AutoBind(ref body);
             this.AutoBind(ref bodyCollider);
             Physics2D.queriesStartInColliders = true;
+            if(settings != null && settings.fly && body)
+            {
+                body.gravityScale = 0;
+                SetFlying();
+            }
+            
+
         }
+
+        public void Reset()
+        {
+            SetFlying();
+        }
+
+        #region Flying
+        public bool Flying { get; set; }
+
+        private void SetFlying() => Flying = settings != null && settings.fly;
+        #endregion
+
 
         #region Freeze
         public void Stop()
@@ -99,17 +118,25 @@ namespace HackedDesign
         #endregion
 
         #region Knockback
+        private bool currentlyKnockback = false;
+
+        public bool CurrentlyKnockback { get => this.currentlyKnockback; set => this.currentlyKnockback = value; }
+
         public void Knockback(Vector3 direction, float amount)
         {
             Stop();
             if (body.EnsureNotNull(this, nameof(body)))
             {
+                Debug.Log($"knockback called - direction: {direction.normalized}, amount: {amount}");
+                Debug.Log($"velocity BEFORE: {body.linearVelocity}");
                 body.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
+                Debug.Log($"velocity AFTER AddForce: {body.linearVelocity}");
             }
         }
         #endregion Knockback
 
         #region LedgeGrab
+        private bool canGrabLedge = true;
 
         private bool LedgeEdgeStart()
         {
@@ -126,6 +153,7 @@ namespace HackedDesign
 
         private bool DetectClearAirForLedgeGrab() => airDetect != null && airDetect.IsTouchingLayers(environmentMask) == false;
 
+        // This is called by an animation event
         void LedgeEdgeEnd()
         {
             if (body.EnsureNotNull(this, nameof(body)))
@@ -134,17 +162,21 @@ namespace HackedDesign
                 Unfreeze();
             }
             CurrentlyClimbingLedge = false;
-            Invoke(nameof(ClearCanGrabLedge), 0.1f); // FIXME:
+            StartCoroutine(ClearCanGrabLedge());
         }
 
-        private void ClearCanGrabLedge() => this.canGrabLedge = true;
+        private IEnumerator ClearCanGrabLedge()
+        {
+            yield return new WaitForEndOfFrame();
+            this.canGrabLedge = true;
+        }
 
         #endregion LedgeGrab
 
         #region Movement
         public void FixedMovement(float desiredVelocity, float climbVelocity, bool jumpFlag, bool jumpHoldFlag, float momentum)
         {
-            wallStick = momentum > 0.1f;
+            wallStick = momentum > 0.1f || CurrentlyClimbingLedge;
 
             if (Static || !body.EnsureNotNull(this, nameof(body)))
             {
@@ -159,19 +191,23 @@ namespace HackedDesign
                 return;
             }
 
-
             UpdateFalling();
+
+            if(CurrentlyKnockback)
+            {
+                Debug.Log($"In knockback - velocity: {body.linearVelocity}, position: {body.position}");
+            }
 
             // If we're going through a currentlyKnockback, do nothing else
             // If we're climbing a ledge, do nothing else
-            if (currentlyKnockback || (CurrentlyClimbingLedge && wallStick))
+            if (CurrentlyKnockback || (CurrentlyClimbingLedge && wallStick))
             {
                 return;
             }
 
             // Check if we can start grabbing a ledge
             // This must be before the next check
-            if (wallStick && canGrabLedge && LedgeEdgeStart())
+            if (canGrabLedge && LedgeEdgeStart())
             {
                 canGrabLedge = false;
                 CurrentlyClimbingLedge = true;

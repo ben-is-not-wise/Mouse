@@ -39,3 +39,7 @@ MonoBehaviour:
   maxMomentum: 5
   hitfx: 2
   timeSlowSpeed: 0.5
+  anticipateDelay: 0.2
+  knockbackAmount: 1
+  knockbackTime: 0.4
+  knockbackFreezeTime: 0.2

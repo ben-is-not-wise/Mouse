@@ -1,7 +1,5 @@
 #nullable enable
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,7 +29,6 @@ namespace HackedDesign
         [field: SerializeField, NotNull] private Targeter Targeter { get; set; } = null!;
         [field: SerializeField, NotNull] private Transform AimPivot { get; set; } = null!;
 
-        private const float LookMagnitude = 0.1f;
         private const float DefaultTimeScale = 1f;
         private const string GamepadControlMethod = "Gamepad";
 

@@ -8,6 +8,11 @@
         Wasp,
         BombDrone,
         Laser,
-        ProxMine
+        ProxMine,
+        GunDrone,
+        CanineDrone,
+        FlyingDrone,
+        FanDrone,
+        ShieldDrone
     }
 }

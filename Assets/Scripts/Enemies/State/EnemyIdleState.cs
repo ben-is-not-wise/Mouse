@@ -38,18 +38,24 @@ namespace HackedDesign
                 return;
             }
 
+            if (startPhaseChange + ctx.settings.RoamTime < Time.time)
+            {
+
+                isRoaming = !isRoaming;
+                Debug.Log("Switch roaming " + isRoaming + " " + ctx.name);
+                startPhaseChange = Time.time;
+
+                // Randomly switch direction during a phase change
+                if(Random.value < 0.33f)
+                {
+                    this.ai.Character.ExecuteCommand(new FacingCommand(0, ctx.facing * -1));
+                }
+            }
+
             // FIXME: Use constants for facing directions
             if (ctx.wallInFront || ctx.dropInFront)
             {
                 this.ai.Character.ExecuteCommand(new FacingCommand(0, ctx.facing * -1));
-            }
-
-            if(startPhaseChange + ctx.settings.RoamTime < Time.time)
-            {
-                
-                isRoaming = !isRoaming;
-                Debug.Log("Switch roaming " + isRoaming + " " + ctx.name);
-                startPhaseChange = Time.time;
             }
 
             float move = 0;

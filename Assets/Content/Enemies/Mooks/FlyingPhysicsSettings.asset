@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da616f7d152ddd04caf931e2e7fc11a7, type: 3}
+  m_Name: FlyingPhysicsSettings
+  m_EditorClassIdentifier: 
+  fly: 1
+  defaultGravityScale: 1
+  fallingGravityScale: 2.5
+  risingGravityScale: 2
+  jumpHeight: 7
+  maxAirJumps: 0
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
+  fallingTimeDeath: 1
+  fallingDeathYLimit: -30
+  maxAcceleration: 35
+  maxAirAcceleration: 20
+  wallClimbSpeed: 6
+  wallStick: 0
+  wallSlideMaxSpeed: 0
+  wallJumpClimb: {x: 4, y: 12}
+  wallJumpBounce: {x: 10.7, y: 10}
+  wallJumpLeap: {x: 14, y: 12}

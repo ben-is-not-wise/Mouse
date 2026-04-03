@@ -23,6 +23,7 @@ namespace HackedDesign
         public int maxShootDamage = 100;
         public int minMeleeDamage = 10;
         public int maxMeleeDamage = 100;
+        public float projectileForce = 10f;
 
         public int RandomShootDamage => Random.Range(minShootDamage, maxShootDamage + 1);
         public int RandomMeleeDamage => Random.Range(minMeleeDamage, maxMeleeDamage + 1);

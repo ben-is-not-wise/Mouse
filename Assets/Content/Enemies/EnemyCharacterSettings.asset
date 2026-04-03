@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d71cf1787dfb5b47a173fae95c97f93, type: 3}
   m_Name: EnemyCharacterSettings
   m_EditorClassIdentifier: 
-  attackRate: 0.33
-  walkSpeed: 3
-  runSpeed: 8
-  crouchSpeed: 3.5
+  attackRate: 0.5
+  walkSpeed: 2.5
+  runSpeed: 5
+  crouchSpeed: 2
   shootDistance: 20
   meleeDistance: 1.5
   interactDistance: 1
@@ -43,3 +43,6 @@ MonoBehaviour:
   hitfx: 0
   timeSlowSpeed: 0.5
   anticipateDelay: 0.5
+  knockbackAmount: 1
+  knockbackTime: 0.2
+  knockbackFreezeTime: 0.5

@@ -68,6 +68,12 @@ namespace HackedDesign
                 return;
             }
 
+            if (character.Knockback)
+            {
+                UpdateNextAttackTimer();
+                return;
+            }
+
             StartCoroutine(MeleeAnticipate());
         }
 
@@ -77,18 +83,33 @@ namespace HackedDesign
             //int meleeType = GetRandomMeleeAnimationType();
             Animator.SetTrigger(meleeAnticipationAnimations[meleeType]);
 
-            yield return new WaitForSeconds(settings.AnticipateDelay);
+            float elapsedTime = 0f;
+            while (elapsedTime < CalcAnticipateDelay())
+            {
+                // If we get knocked back, cancel the attack
+                if (character.Knockback)
+                {
+                    Animator.ResetTrigger(AnimatorParams.ShootAnticipate);
+                    UpdateNextAttackTimer();
+                    yield break; // Exit the coroutine
+                }
+
+                elapsedTime += Time.deltaTime;
+                yield return null; // Wait one frame
+            }
+
             MeleeExecute(meleeType);
         }
 
         private void MeleeExecute(int meleeType)
         {
-            if(!character.CanAttack)
+            UpdateNextAttackTimer();
+
+            if (!character.CanAttack || character.Knockback)
             {
                 return;
             }
 
-            UpdateNextAttackTimer();
             Animator.SetTrigger(meleeExecuteAnimations[meleeType]);
 
             var results = Physics2D.OverlapCircleAll(Pivot, Settings.MeleeDistance, Settings.AttackMask);
@@ -114,23 +135,49 @@ namespace HackedDesign
                 return;
             }
 
+            if (character.Knockback)
+            {
+                UpdateNextAttackTimer();
+                return;
+            }
+
             StartCoroutine(ShootAnticipate(target));
         }
 
         private IEnumerator ShootAnticipate(Vector3 target)
         {
             Animator.SetTrigger(AnimatorParams.ShootAnticipate);
-            yield return new WaitForSeconds(settings.AnticipateDelay);
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < CalcAnticipateDelay())
+            {
+                // If we get knocked back, cancel the attack
+                if (character.Knockback)
+                {
+                    Animator.ResetTrigger(AnimatorParams.ShootAnticipate);
+                    UpdateNextAttackTimer();
+                    yield break; // Exit the coroutine
+                }
+
+                elapsedTime += Time.deltaTime;
+                yield return null; // Wait one frame
+            }
+
             ShootExecute(target);
         }
 
+        private float CalcAnticipateDelay() => settings != null ? settings.AnticipateDelay : 0;
+
         private void ShootExecute(Vector3 target)
         {
-            if (!character.CanAttack)
+            UpdateNextAttackTimer();
+
+            if (!character.CanAttack || character.Knockback)
             {
                 return;
             }
-            UpdateNextAttackTimer();
+
             Animator.SetTrigger(AnimatorParams.Shoot);
 
             if (isPlayer)
@@ -143,30 +190,23 @@ namespace HackedDesign
 
             var dir = (target - start).normalized;
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, 100f);
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, OperatingSystem.CurrentWeapon.projectileForce);
 
             OperatingSystem.DecreaseAmmo();
 
             Debug.DrawRay(Pivot, target - Pivot, Color.red, 0.3f);
-
-            //var result = Physics2D.Raycast(Pivot, target - Pivot, Settings.ShootDistance, Settings.AttackMask);
-
-            //if (result)
-            //{
-            //    ApplyHit(result.transform, result.point, true);
-            //}
         }
 
         private void AlertNearbyEnemies()
         {
-            var hits = Physics2D.OverlapCircleAll(Pivot, settings? settings.AlertRadius : 20);
+            var hits = Physics2D.OverlapCircleAll(Pivot, settings ? settings.AlertRadius : 20);
 
-            foreach(var hit in hits)
+            foreach (var hit in hits)
             {
-                if(hit.TryGetComponent<IAi>(out var ai))
+                if (hit.TryGetComponent<IAi>(out var ai))
                 {
                     var inline = Physics2D.Linecast(Pivot, ai.Character.transform.position, settings ? settings.AttackMask : 0);
-                    if(inline.transform != null && inline.transform.gameObject == ai.Character.gameObject)
+                    if (inline.transform != null && inline.transform.gameObject == ai.Character.gameObject)
                     {
                         Debug.Log($"alerting ai {ai.Character.name}");
                         ai.Alert(Pivot);
@@ -182,14 +222,24 @@ namespace HackedDesign
             if (hitTransform.TryGetComponent<BreakGlass>(out var glass))
             {
                 glass.Break(Pivot);
+                return;
             }
-            else if (hitTransform.TryGetComponent<CharController>(out var targetChar))
+
+            if (hitTransform.TryGetComponent<CharController>(out var targetChar))
             {
-                var damage = OperatingSystem.CurrentWeapon.RandomMeleeDamage;
-                targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - Pivot);
-                DamageNumberPool.Instance.Spawn(damage, hitPoint);
+                if(!targetChar.IsDead)
+                {
+                    var damage = OperatingSystem.CurrentWeapon.RandomMeleeDamage;
+                    targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - Pivot, true);
+                    DamageNumberPool.Instance.Spawn(damage, hitPoint);
+                }
+                
+                FXPool.Instance.Spawn(FXType.Blood, hitPoint, (Vector3)hitPoint - Pivot);
+
+                return;
             }
-            else if(hitEnv)
+            
+            if (hitEnv)
             {
                 FXPool.Instance.Spawn(FXType.EnvHit, hitPoint, Pivot - (Vector3)hitPoint);
             }

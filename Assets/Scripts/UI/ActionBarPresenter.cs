@@ -10,11 +10,11 @@ namespace HackedDesign.UI
         //[SerializeField] private CharacterData gameData;
         [SerializeField] private OperatingSystem os;
         [Header("UI")]
-        [SerializeField] private Slider ramSlider;
         [SerializeField] private Slider healthSlider;
         [SerializeField] private Text healthText;
         [SerializeField] private Slider energySlider;
         [SerializeField] private Text energyText;
+        [SerializeField] private Slider preallocatedSlider;
         [SerializeField] private RectTransform attackPanel;
         [SerializeField] private RectTransform gunPanel;
         [SerializeField] private Text ammoText;
@@ -48,7 +48,7 @@ namespace HackedDesign.UI
         private void RepaintHealth()
         {
             healthSlider.value = os.Health;
-            healthText.text = os.Health.ToString();
+            healthText.text = os.Health.ToString("N0");
         }
 
         private void RepaintHacks()
@@ -83,9 +83,11 @@ namespace HackedDesign.UI
 
         private void RepaintMomentum()
         {
-            ramSlider.maxValue = os.MaxMomentum;
-            ramSlider.value = os.Momentum;
-            energyText.text = os.Momentum.ToString("N2");
+            preallocatedSlider.maxValue = os.MaxMomentum;
+            preallocatedSlider.value = os.PreallocatedEnergy;
+            energySlider.maxValue = os.MaxMomentum;
+            energySlider.value = os.Momentum;
+            energyText.text = (os.Momentum * 10).ToString("N0");
         }
 
         public void Action1Click()

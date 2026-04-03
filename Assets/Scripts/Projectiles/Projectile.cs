@@ -1,6 +1,7 @@
 using HackedDesign.UI.DamageNumbers;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace HackedDesign
 {
@@ -93,8 +94,13 @@ namespace HackedDesign
             }
             else if (hitTransform.TryGetComponent<CharController>(out var targetChar))
             {
-                targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - start);
-                DamageNumberPool.Instance.Spawn(damage, hitPoint);
+                if (!targetChar.IsDead)
+                {
+                    targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - start, true);
+                    DamageNumberPool.Instance.Spawn(damage, hitPoint);
+                }
+
+                FXPool.Instance.Spawn(targetChar.HitFXType, hitPoint, (Vector3)hitPoint - start);
             }
             else if (hitEnv)
             {

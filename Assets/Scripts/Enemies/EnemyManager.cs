@@ -10,7 +10,7 @@ namespace HackedDesign
     public interface IEnemyManager
     {
         void Reset();
-        EnemyController Spawn(EnemySpawn spawn);
+        EnemyController Spawn(Spawn spawn);
         void UpdateAllBehaviour();
         void UpdateAllFixedBehaviour();
         void UpdateAllLateBehaviour();
@@ -18,13 +18,11 @@ namespace HackedDesign
 
     public class EnemyManager : AutoSingleton<EnemyManager>, IEnemyManager
     {
-        [SerializeField] private List<EnemyController> prefabList;
-
         private readonly List<EnemyController> pool = new(100);
 
         public void Reset()
         {
-            for(int i = 0;i < this.transform.childCount;i++)
+            for(int i = 0; i < this.transform.childCount; i++)
             {
                 this.transform.GetChild(i).gameObject.SetActive(false);
                 Destroy(this.transform.GetChild(i).gameObject);
@@ -33,7 +31,7 @@ namespace HackedDesign
             pool.Clear();
         }
 
-        public EnemyController Spawn(EnemySpawn spawn)
+        public EnemyController Spawn(Spawn spawn)
         {
             Debug.Log("Spawning enemy at " + spawn.transform.position);
 
@@ -45,14 +43,14 @@ namespace HackedDesign
                 pool.Add(enemy);
             }
 
-            enemy.gameObject.SetActive(true);
+            enemy.Spawn(spawn.transform.position);
 
             return enemy;
         }
 
-        public EnemyController InstantiateNewEnemy(EnemySpawn spawn)
+        public EnemyController InstantiateNewEnemy(Spawn spawn)
         {
-            var prefab = FindPrefabForSpawn(spawn);
+            var prefab = spawn.GetRandomEnemyPrefab();
 
             if (prefab == null)
             {
@@ -65,10 +63,8 @@ namespace HackedDesign
             return enemy;
         }
 
-        public EnemyController FindInactiveEnemyForSpawn(EnemySpawn spawn) => 
+        public EnemyController FindInactiveEnemyForSpawn(Spawn spawn) => 
             pool.Where(e => !e.gameObject.activeInHierarchy && spawn.CanSpawnEnemy(e.EnemyType)).OrderBy(_ => Random.value).FirstOrDefault();
-        private EnemyController FindPrefabForSpawn(EnemySpawn spawn) => 
-            prefabList.Where(e => spawn.CanSpawnEnemy(e.EnemyType)).OrderBy(_ => Random.value).FirstOrDefault();
         
         public void UpdateAllBehaviour()
         {

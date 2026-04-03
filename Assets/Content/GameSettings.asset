@@ -21,3 +21,6 @@ MonoBehaviour:
   shatterMagnitude: 10.1
   interactDistance: 2
   defaultLevelTime: 256
+  knockbackAmount: 1
+  knockbackTime: 0.2
+  knockbackFreezeTime: 0.2

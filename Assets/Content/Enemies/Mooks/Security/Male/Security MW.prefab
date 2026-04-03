@@ -183,6 +183,7 @@ MonoBehaviour:
   collider: {fileID: 7211875260852719595}
   head: {fileID: 4923303347849868303}
   ghost: {fileID: 0}
+  shadow: {fileID: 0}
   settings: {fileID: 11400000, guid: ba6230f8c35d06a4cbc20230c7c01c2c, type: 2}
 --- !u!114 &7530977765874885625
 MonoBehaviour:
@@ -198,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 1067899732512914277}
   pivot: {fileID: 4923303347849868303}
+  barrel: {fileID: 0}
   operatingSystem: {fileID: 4081725381104033010}
   animator: {fileID: 1142321386509273071}
   settings: {fileID: 11400000, guid: ba6230f8c35d06a4cbc20230c7c01c2c, type: 2}
@@ -229,7 +231,6 @@ MonoBehaviour:
   contactNormal: {x: 0, y: 0}
   ledgeDetectionPoint: {fileID: 0}
   ledgeOffsetEnd: {x: 0, y: 0, z: 0}
-  currentlyKnockback: 0
 --- !u!50 &-3612888876117353864
 Rigidbody2D:
   serializedVersion: 5
@@ -242,7 +243,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 50
+  m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -323,7 +324,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5781068085863188074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
   m_Name: 

@@ -45,14 +45,7 @@ namespace HackedDesign
         public void SetIdleState() => CurrentState = new CharacterIdleState(this, Animator);
         public void SetBattleState() => CurrentState = new CharacterBattleState(this, attackController, Animator);
         public void SetSitState() => CurrentState = new CharacterSittingState(Animator);
-        public void SetDeadState()  {
-            if(collider)
-            {
-                collider.enabled = false;
-            }
-            
-            CurrentState = new CharacterDeadState(Animator);
-        }
+        public void SetDeadState() => CurrentState = new CharacterDeadState(Animator);
         #endregion State
 
         #region Properties
@@ -62,7 +55,7 @@ namespace HackedDesign
         public PhysicsController? Body { get => body; set => body = value; }
         public CharacterSettings? Settings { get => settings; set => settings = value; }
 
-        public ShadowCaster2D? Shadow { get => shadow; }
+        public ShadowCaster2D? Shadow => shadow;
 
         public Transform Head => head;
 
@@ -73,8 +66,11 @@ namespace HackedDesign
         public bool IsWalking { get; private set; } = false;
         public bool GhostToggle { get; private set; } = false;
 
-        #endregion Properties
+        public bool IsPlayer => this.gameObject.CompareTag(Tags.Player);
 
+        public FXType HitFXType => settings != null ? settings.HitFX : FXType.EnvHit;
+
+        #endregion Properties
 
         private bool jumpFlag = false;
         private bool knockback = false;
@@ -89,7 +85,8 @@ namespace HackedDesign
                     walk = IsWalking,
                     walkSpeed = Settings != null ? Settings.WalkSpeed : 0,
                     runSpeed = Settings != null ? Settings.RunSpeed : 0,
-                    momentum = OperatingSystem.Momentum
+                    momentum = OperatingSystem.Momentum,
+                    knockback = knockback
                 }
             ),
             0f);
@@ -139,33 +136,53 @@ namespace HackedDesign
         public void WalkToggle() => IsWalking = !IsWalking;
         public void SetAim(bool flag) => Aiming = flag;
 
-        public void Knockback(Vector3 direction)
+        public void ApplyKnockback(Vector3 direction)
         {
             if (body == null)
             {
                 return;
             }
 
+            if(OperatingSystem.Health == 0)
+            {
+                return;
+            }
+
+            Debug.Log("Knockback start", this);
+
             this.knockback = true;
-            body.Knockback(direction, Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackAmount : 0);
+            body.Knockback(direction, Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.KnockbackAmount : 0);
+            body.CurrentlyKnockback = true;
             if (Animator.EnsureNotNull(this, nameof(Animator)))
             {
                 Animator.SetTrigger(AnimatorParams.Knockback);
             }
+
+            if(IsPlayer)
+            {
+                CameraShake.Instance.Shake(0.5f, 0.3f);
+            }
+
             StartCoroutine(KnockbackPause());
         }
 
         private IEnumerator KnockbackPause()
         {
-            yield return new WaitForSeconds(Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackTime : 0);
-            Stop();
+            yield return new WaitForSeconds(Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.KnockbackTime : 0);
+            Debug.Log("Knockback pause over", this);
             StartCoroutine(KnockbackOver());
         }
 
         private IEnumerator KnockbackOver()
         {
-            yield return new WaitForSeconds(Game.Instance.GameSettings.EnsureNotNull(this, nameof(Game.Instance.GameSettings)) ? Game.Instance.GameSettings.KnockbackFreezeTime : 0);
+            yield return new WaitForSeconds(Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.KnockbackFreezeTime : 0);
+            Debug.Log("Knockback over", this);
+            Stop();
             knockback = false;
+            if (body)
+            {
+                body.CurrentlyKnockback = false;
+            }
         }
 
         public void TriggerInteract()
@@ -292,6 +309,7 @@ namespace HackedDesign
                 rollOnLand = Body != null && Body.LastFallTime > 1f,
                 aiming = Aiming,
                 isClimbingLedge = Body != null && Body.CurrentlyClimbingLedge,
+                knockback = knockback
             });
         }
 
@@ -319,6 +337,7 @@ namespace HackedDesign
         public bool CanAttack => CurrentState.CanAttack;
         public UnityEvent DieActions { get => this.dieActions; set => this.dieActions = value; }
         public UnityEvent HitActions { get => this.hitActions; set => this.hitActions = value; }
+        public bool Knockback { get => this.knockback; set => this.knockback = value; }
 
         private void Die()
         {
@@ -334,18 +353,12 @@ namespace HackedDesign
                 Animator.SetTrigger(AnimatorParams.Dying);
             }
 
-            SetDeadState();
-            //state = CharacterState.Dead;
-            if (Body.EnsureNotNull(this, nameof(Body)))
+            if (Body != null)
             {
-                Body.Stop();
-                Body.Freeze();
+                Body.Flying = false;
             }
 
-            if(collider.EnsureNotNull(this, nameof(collider)))
-            {
-                collider.enabled = false;
-            }
+            SetDeadState();
 
             DieActions?.Invoke();
         }
@@ -376,17 +389,22 @@ namespace HackedDesign
         {
             target = target,
             aiming = aiming,
+            knockback = knockback
         });
 
         #endregion Attack
 
         #region Health
 
-        public void TakeDamage(int amount, Vector3 contact, Vector3 direction)
+        public void TakeDamage(int amount, Vector3 contact, Vector3 direction, bool applyKnockback)
         {
             Debug.Log($"take damage {amount}" , this);
             FXPool.Instance.Spawn(settings? settings.HitFX : FXType.EnvHit, contact, direction);
             OperatingSystem.Health -= amount;
+            if(OperatingSystem.Health > 0 && applyKnockback)
+            {
+                ApplyKnockback(direction);
+            }
         }
 
         public void TakeMomentumHit(int amount, Vector3 contact, Vector3 direction)
@@ -428,6 +446,7 @@ namespace HackedDesign
     {
         public Vector3 target;
         public bool aiming;
+        public bool knockback;
     }
 
     public struct CharacterSpeedContext
@@ -438,6 +457,7 @@ namespace HackedDesign
         public float walkSpeed;
         public float runSpeed;
         public float momentum;
+        public bool knockback;
     }
 
     public struct CharacterAnimationContext
@@ -450,5 +470,6 @@ namespace HackedDesign
         public bool rollOnLand;
         public bool aiming;
         public bool isClimbingLedge;
+        public bool knockback;
     }
 }

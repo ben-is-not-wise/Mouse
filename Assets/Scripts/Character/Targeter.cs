@@ -15,7 +15,7 @@ namespace HackedDesign
         [SerializeField] private Animator animator;
         [SerializeField] private TargetPresenter targetPresenter;
 
-        public UnityAction<Interactable> targetChangedAction;
+        public UnityAction<Interactable> targetUpdateAction;
 
         private Interactable currentTarget;
         private ICharacterExecute charExecute;
@@ -30,7 +30,7 @@ namespace HackedDesign
         void Awake()
         {
             charExecute = GetComponent<ICharacterExecute>();
-            targetChangedAction += targetPresenter.Repaint;
+            targetUpdateAction += targetPresenter.Repaint;
         }
 
         public bool IsTargetInRange => (pivot.position - currentTarget.transform.position).sqrMagnitude < (Game.Instance.GameSettings.InteractDistance * Game.Instance.GameSettings.InteractDistance);
@@ -55,7 +55,7 @@ namespace HackedDesign
 
             if (aiming)
             {
-                DrawAimLine(direction);
+                DrawAimLine(direction, hasPistol);
                 AnimateAiming(hasPistol);
             }
             else
@@ -70,18 +70,29 @@ namespace HackedDesign
 
         private void AnimateAiming(bool flag) => charExecute.ExecuteCommand(flag ? trueAimCommand : falseAimCommand);
 
-        private void DrawAimLine(Vector3 direction)
+        private void DrawAimLine(Vector3 direction, bool hasPistol)
         {
-            lineRenderer.positionCount = 2;
+            if (hasPistol)
+            {
+                lineRenderer.positionCount = 2;
 
-            var startPosition = pivot.position + (direction.normalized * lineInnerRadius);
+                var startPosition = pivot.position + (direction.normalized * lineInnerRadius);
 
-            int hitCount = Physics2D.RaycastNonAlloc(pivot.position,direction.normalized,hitBuffer,targetRadius,laserMask);
+                int hitCount = Physics2D.RaycastNonAlloc(pivot.position, direction.normalized, hitBuffer, targetRadius, laserMask);
 
-            Vector3 endPosition = hitCount > 0 ? hitBuffer[0].point : startPosition + (direction.normalized * targetRadius);
+                Vector3 endPosition = hitCount > 0 ? hitBuffer[0].point : startPosition + (direction.normalized * targetRadius);
 
-            lineRenderer.SetPosition(0, startPosition);
-            lineRenderer.SetPosition(1, endPosition);
+                lineRenderer.SetPosition(0, startPosition);
+                lineRenderer.SetPosition(1, endPosition);
+            }
+            else
+            {
+                if(lineRenderer.positionCount > 0)
+                {
+                    lineRenderer.positionCount = 0;
+                    lineRenderer.enabled = false;
+                }
+            }
         }
 
         private void UpdateHover(RaycastHit2D hit)
@@ -93,8 +104,8 @@ namespace HackedDesign
                     ClearHighlightable();
                     currentTarget = newTarget;
                     currentTarget.Target(true);
-                    targetChangedAction.Invoke(currentTarget);
                 }
+                targetUpdateAction.Invoke(currentTarget);
             }
             else if (currentTarget != null)
             {
@@ -108,7 +119,7 @@ namespace HackedDesign
             {
                 currentTarget.Target(false);
                 currentTarget = null;
-                targetChangedAction.Invoke(null);
+                targetUpdateAction.Invoke(null);
             }
         }
     }

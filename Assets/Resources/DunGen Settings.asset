@@ -11,9 +11,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad1ebb4e3aa3b474d849bc53fbe48191, type: 3}
   m_Name: DunGen Settings
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: DunGen::DunGen.DunGenSettings
   BroadphaseSettings:
-    rid: 7388886513147707392
+    rid: 4546627280197386240
   BoundsCalculationsIgnoreSprites: 0
   RecalculateTileBoundsOnSave: 1
   EnableTilePooling: 0
@@ -21,22 +21,16 @@ MonoBehaviour:
   CheckForUnusedFiles: 1
   defaultSocket: {fileID: 0}
   tagManager:
-    keys: 000000000100000002000000030000000400000005000000
-    values:
-    - General
-    - Staircase Up
-    - Staircase Down
-    - Vent Up
-    - Vent Down
-    - BossRoom
+    keys: 
+    values: []
   references:
     version: 2
     RefIds:
-    - rid: 7388886513147707392
+    - rid: 4546627280197386240
       type: {class: SpatialHashBroadphaseSettings, ns: DunGen.Collision, asm: DunGen}
       data:
         CellSize: 40
---- !u!114 &4740562356623480056
+--- !u!114 &3242344251405389381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

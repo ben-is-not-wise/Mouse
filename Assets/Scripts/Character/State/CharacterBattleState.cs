@@ -64,7 +64,7 @@ namespace HackedDesign
 
         public void Attack(CharacterAttackContext ctx)
         {
-            if (attackController.CanShoot && attackController.HasGun && ctx.aiming)
+            if (!ctx.knockback && attackController.CanShoot && attackController.HasGun && ctx.aiming)
             {
                 Debug.Log("ranged attack");
                 this.attackController.Shoot(ctx.target);

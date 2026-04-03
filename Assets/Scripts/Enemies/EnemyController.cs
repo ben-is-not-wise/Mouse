@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,17 +9,17 @@ namespace HackedDesign
     public class EnemyController : MonoBehaviour, IAi
     {
         [Header("Actions")]
-        [SerializeField] private UnityAction hitBehaviour;
-        [SerializeField] private UnityAction deathBehaviour;
+        [SerializeField, NotNull] private UnityAction hitBehaviour;
+        [SerializeField, NotNull] private UnityAction deathBehaviour;
         [Header("Game Objects")]
-        [SerializeField] private CharController character;
-        [SerializeField] private StatusIcon characterStatusIcon;
-        [SerializeField] private Transform? aimPivot = null;
+        [SerializeField, NotNull] private CharController character;
+        [SerializeField, NotNull] private StatusIcon characterStatusIcon;
+        [SerializeField, NotNull] private Transform? aimPivot = null;
         [Header("Settings")]
         [SerializeField] private EnemyType enemyType;
         [SerializeField] private LayerMask lineOfSightMask;
         [SerializeField] private LayerMask movementMask;
-        [SerializeField] private EnemySettings enemySettings;
+        [SerializeField, NotNull] private EnemySettings enemySettings;
 
         private PlayerController? player = null;
 
@@ -69,7 +70,7 @@ namespace HackedDesign
         {
             get
             {
-                var boxA =  new Vector2(transform.position.x + (transform.right.x * 0.25f), transform.position.y + 0.25f);
+                var boxA = new Vector2(transform.position.x + (transform.right.x * 0.25f), transform.position.y + 0.25f);
                 var boxB = new Vector2(boxA.x + (transform.right.x * 0.5f), boxA.y + (2f - 0.5f));
 #if UNITY_EDITOR
                 if (Application.isPlaying && Application.isEditor)
@@ -85,7 +86,7 @@ namespace HackedDesign
         {
             get
             {
-                if(character.Body == null || (character.Body != null && character.Body.Flying))
+                if (character.Body == null || (character.Body != null && character.Body.Flying))
                 {
                     return false;
                 }
@@ -121,14 +122,25 @@ namespace HackedDesign
             Reset();
         }
 
+        public void Spawn(Vector3 position)
+        {
+            if (Character.Body != null && Character.Body.Flying)
+            {
+                position += Vector3.up * Random.Range(0, 5);
+            }
+
+            transform.position = position;
+            gameObject.SetActive(true);
+        }
+
         private void UpdateDetect()
         {
-            if(!this.player.EnsureNotNull(this,nameof(this.player)) || !this.player.Character.EnsureNotNull(this, nameof(this.player.Character)))
+            if (!this.player.EnsureNotNull(this, nameof(this.player)) || !this.player.Character.EnsureNotNull(this, nameof(this.player.Character)))
             {
                 return;
             }
 
-            if(!aimPivot.EnsureNotNull(this, nameof(aimPivot)))
+            if (!aimPivot.EnsureNotNull(this, nameof(aimPivot)))
             {
                 Debug.LogError("aimPivot is null");
                 return;
@@ -138,7 +150,7 @@ namespace HackedDesign
 
             var hit = this.player.Character.CanSee(aimPivot.position, EnemySettings.MaxVisualRange, lineOfSightMask);
 
-            if(hit.HasValue && hit.Value.transform != null && hit.Value.transform.CompareTag(Tags.Player))
+            if (hit.HasValue && hit.Value.transform != null && hit.Value.transform.CompareTag(Tags.Player))
             {
                 CanSeePlayer = true;
                 HasSeenPlayer = true;
@@ -164,7 +176,6 @@ namespace HackedDesign
             }
         }
 
-        
         public void Reset()
         {
             Character.Reset();
@@ -180,7 +191,7 @@ namespace HackedDesign
         {
             UpdateDetect();
 
-            if(Game.Instance.Player.Character.IsDead)
+            if (Game.Instance.Player.Character.IsDead)
             {
                 Character.SetMovement(0, 0);
                 return;
@@ -223,36 +234,5 @@ namespace HackedDesign
         }
 
         private void Die() => CurrentState = new EnemyDeadState();
-    }
-
-    public struct AiContext
-    {
-        public string name;
-        public Vector3 position;
-        public bool canSeePlayer;
-        public bool canHearPlayer;
-        public bool hasSeenPlayer;
-        public bool playerInFrontOfUs;
-        public bool hasSeenDeadEnemies;
-        public int facing;
-        public Vector3 lastKnownPlayerPosition;
-        public bool wallInFront;
-        public bool dropInFront;
-        public int bullets;
-        public bool flying;
-        public EnemySettings settings;
-    }
-
-    public interface IAi
-    {
-        IEnemyState CurrentState { get; set; }
-        CharController Character { get; }
-        StatusIcon Icon { get; }
-
-        bool WallInFront { get; }
-
-        bool DropInFront { get; }
-
-        void Alert(Vector3 position);
     }
 }

@@ -26,7 +26,7 @@ namespace HackedDesign
             LoadLevel();
             player.Reset();
             player.Teleport(level.GetLevelPlayerSpawnLocation() + Vector3.up);
-            SpawnEnemies(10);
+            level.SpawnEnemies(33);
         }
 
         private void LoadLevel()
@@ -34,19 +34,6 @@ namespace HackedDesign
             level.Reset();
             level.Generate(Random.Range(1, 1000), 50, 1);
             level.RainOn();
-        }
-
-        public void SpawnEnemies(int count)
-        {
-            enemyManager.Reset();
-            var spawns = level.GetSpawnLocationsOnLevel();
-
-            Debug.Log("Spawning " + Mathf.Min(count, spawns.Count) + " enemies");
-
-            for (int i = 0; i < Mathf.Min(count, spawns.Count); i++)
-            {
-                enemyManager.Spawn(spawns[i]);
-            }
         }
 
         public void End() => game.LevelTimer.Timer.Start();

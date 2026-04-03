@@ -1,8 +1,6 @@
 ﻿using HackedDesign.UI;
 
 using System;
-using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +9,8 @@ namespace HackedDesign.UI
     public class TargetPresenter : AbstractPresenter
     {
         [Header("UI")]
-        [SerializeField] private UnityEngine.UI.Text nameLabel;
-        [SerializeField] private UnityEngine.UI.Slider targetHealthbar;
+        [SerializeField] private Text nameLabel;
+        [SerializeField] private Slider targetHealthbar;
 
         public void Repaint(Interactable interactable)
         {
@@ -24,12 +22,14 @@ namespace HackedDesign.UI
 
             Show();
             nameLabel.text = string.IsNullOrEmpty(interactable.Label) ? interactable.name : interactable.Label;
-            if (interactable.TryGetComponent<CharController>(out var character))
+            if(interactable.OS != null)
             {
-                targetHealthbar.value = character?.OperatingSystem?.Health ?? 0;   
+                targetHealthbar.maxValue = interactable.OS.MaxHealth;
+                targetHealthbar.value = interactable.OS.Health;
             }
             else
             {
+                targetHealthbar.maxValue = 1;
                 targetHealthbar.value = 0;
             }
         }

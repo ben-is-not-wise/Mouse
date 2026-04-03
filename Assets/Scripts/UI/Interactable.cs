@@ -10,6 +10,7 @@ namespace HackedDesign
     {
         [SerializeField] private Outlinable outlinable;
         [SerializeField] public UnityEvent interactAction;
+        [SerializeField] private OperatingSystem os;
         [SerializeField] private string label;
 
         private bool interact = false;
@@ -20,9 +21,12 @@ namespace HackedDesign
 
         public string Label { get => label; set => label = value; }
 
+        public OperatingSystem OS;
+
         void Awake()
         {
             this.AutoBind(ref outlinable);
+            this.AutoBind(ref OS);
             Target(false);
 
             FixTag();

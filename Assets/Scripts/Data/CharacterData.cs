@@ -8,7 +8,7 @@ namespace HackedDesign
         public List<OSTask> PuTaskList { get => puTaskList; set => puTaskList = value; }
         public string saveName;
         public int maxHealth = 100;
-        public int health = 0;
+        public float health = 0;
         public int ammo = 0;
         public int ram = 100;
         public int maxRam = 100;
@@ -19,6 +19,7 @@ namespace HackedDesign
         public float momentumFactor = 0.05f;
         public float momentum = 0.0f;
         public float maxMomentum = 5.0f;
+        public float preallocatedEnergy = 2.0f;
 
         public int kinetic = 1;
         public int digital = 1;

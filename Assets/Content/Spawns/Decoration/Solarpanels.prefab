@@ -35,6 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9144180617449409173
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -53,6 +54,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -74,10 +77,12 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1991457745
   m_SortingLayer: -1
   m_SortingOrder: 2
-  m_Sprite: {fileID: -5391879529046575787, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: c5642d4cfb07eec478bdea1c040c7532, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,8 +91,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &5957816115229573004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,9 +106,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 9144180617449409173}
   sprites:
-  - {fileID: -5391879529046575787, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
-  - {fileID: 9048288764117043530, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
-  - {fileID: -3707002486540017073, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
-  - {fileID: 3371635014090334378, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
-  - {fileID: -3610254309448376044, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
-  - {fileID: -8660716236246925858, guid: 53d7cdd0a249a8d4bbf04566dd1f4b8e, type: 3}
+  - {fileID: 21300000, guid: c5642d4cfb07eec478bdea1c040c7532, type: 3}
+  - {fileID: 21300000, guid: 1d64060bd3b5c96408ae1eb65f8d1bef, type: 3}
+  - {fileID: 21300000, guid: 91a7c77c053cab64eac1b4033d23dd8c, type: 3}
+  - {fileID: 21300000, guid: 9a9c44c63ac929c49a3ad482fd81ce79, type: 3}
+  - {fileID: 21300000, guid: 237e1c25e49b67148a9cfe679b6a106b, type: 3}
+  - {fileID: 21300000, guid: 539b9f7371b74ac4c97419d742919b65, type: 3}
+  - {fileID: 21300000, guid: dea1e2129eb26614491628f41a5201ec, type: 3}
+  - {fileID: 21300000, guid: c404dd12bfdf6ae409627c80d36a0ebd, type: 3}
