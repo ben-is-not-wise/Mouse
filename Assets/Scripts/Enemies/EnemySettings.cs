@@ -18,14 +18,15 @@ namespace HackedDesign
         [SerializeField] private float roamTime = 7f;
         [field: SerializeField] public Vector2 SpawnOffset {  get; set; }
         
-        public float ReactionTime { get => reactionTime; set => reactionTime = value; }
-        public bool Aggressive { get => aggressive; set => aggressive = value; }
-        public float GiveUpTime { get => giveUpTime; set => giveUpTime = value; }
-        public float MaxVisualRange { get => maxVisualRange; set => maxVisualRange = value; }
-        public float RecognitionTime { get => recognitionTime; set => recognitionTime = value; }
-        public float MinRoamTime { get => minRoamTime; set => minRoamTime = value; }
-        public float MaxRoamTime { get => maxRoamTime; set => maxRoamTime = value; }
-        public float RoamTime { get => roamTime; set => roamTime = value; }
-        public bool Stationary { get => this.stationary; set => this.stationary = value; }
+        public float ReactionTime { get => reactionTime;  }
+        public bool Aggressive { get => aggressive;  }
+        public float GiveUpTime { get => giveUpTime;  }
+        public float MaxVisualRange { get => maxVisualRange;  }
+        public float RecognitionTime { get => recognitionTime;  }
+        public float MinRoamTime { get => minRoamTime; }
+        public float MaxRoamTime { get => maxRoamTime;  }
+        public float RoamTime { get => roamTime; }
+        public bool Stationary { get => this.stationary;  }
+
     }
 }

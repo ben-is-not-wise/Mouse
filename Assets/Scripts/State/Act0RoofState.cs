@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace HackedDesign
 {
-    public class Intro1RoofState : IState
+    public class Act0RoofState : IState
     {
         private const string DialogId = "intro_roof1";
         //private const string LevelName = "Rooftop";
@@ -15,7 +15,7 @@ namespace HackedDesign
         public bool PlayerActionAllowed => true;
         public bool Battle => false;
 
-        public Intro1RoofState(IPlayerController player, ILevelManager level, IDialogManager dialog)
+        public Act0RoofState(IPlayerController player, ILevelManager level, IDialogManager dialog)
         {
             this.player = player;
             this.level = level;
@@ -35,8 +35,7 @@ namespace HackedDesign
         private void DialogOver()
         {
             Debug.Log("Dialog over roof state");
-            Game.Instance.SetStateIntermission();
-            //Game.Instance.SetStateRoom1();
+            Game.Instance.SetStateAct0Room2();
         }
 
         public void End() => dialog.HideDialog();

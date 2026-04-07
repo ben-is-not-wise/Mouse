@@ -136,14 +136,11 @@ namespace HackedDesign
         public void WalkToggle() => IsWalking = !IsWalking;
         public void SetAim(bool flag) => Aiming = flag;
 
-        public void ApplyKnockback(Vector3 direction)
-        {
-            if (body == null)
-            {
-                return;
-            }
+        public void ApplyKnockback(Vector3 direction) => ApplyKnockback(direction, Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.KnockbackAmount : 0);
 
-            if(OperatingSystem.Health == 0)
+        public void ApplyKnockback(Vector3 direction, float amount)
+        {
+            if (OperatingSystem.Health == 0)
             {
                 return;
             }
@@ -151,14 +148,17 @@ namespace HackedDesign
             Debug.Log("Knockback start", this);
 
             this.knockback = true;
-            body.Knockback(direction, Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.KnockbackAmount : 0);
-            body.CurrentlyKnockback = true;
+            if (body.EnsureNotNull(this, nameof(body)))
+            {
+                body.ApplyKnockback(direction, amount);
+                body.CurrentlyKnockback = true;
+            }
             if (Animator.EnsureNotNull(this, nameof(Animator)))
             {
                 Animator.SetTrigger(AnimatorParams.Knockback);
             }
 
-            if(IsPlayer)
+            if (IsPlayer)
             {
                 CameraShake.Instance.Shake(0.5f, 0.3f);
             }
@@ -179,7 +179,7 @@ namespace HackedDesign
             Debug.Log("Knockback over", this);
             Stop();
             knockback = false;
-            if (body)
+            if (body.EnsureNotNull(this, nameof(body)))
             {
                 body.CurrentlyKnockback = false;
             }
@@ -263,22 +263,27 @@ namespace HackedDesign
 
         public void Physics()
         {
-            if (IsDead || Body == null || Body.Static)
+            if (Body == null || Body.Static)
             {
                 return;
+            }
+
+            if(IsDead)
+            {
+                Body.FixedMovement(0, 0, false, false, 0);
             }
 
             if (!knockback)
             {
                 if (Mathf.Abs(InputDirection) < Mathf.Epsilon || Body.CurrentlyClimbingLedge || Body.OnWall)
                 {
-                    OperatingSystem.Momentum -= Time.fixedDeltaTime * Settings.MomentumLoss;
+                    OperatingSystem.Momentum -= Time.fixedDeltaTime * (Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.MomentumLoss : 0);
                 }
                 else
                 {
                     if (Body.OnGround)
                     {
-                        OperatingSystem.Momentum += Time.fixedDeltaTime * Settings.BaseMomentumFactor;
+                        OperatingSystem.Momentum += Time.fixedDeltaTime * (Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.BaseMomentumFactor : 0);
                     }
                     //OperatingSystem.Momentum -= Time.fixedDeltaTime * Settings.MomentumAirLoss;
 
@@ -315,8 +320,13 @@ namespace HackedDesign
 
         public bool CanHear(Vector3 position)
         {
+            if (settings == null)
+            {
+                return false;
+            }
+
             var vectorToPlayer = Head.transform.position - position;
-            var hearDistance = IsCrouched ? 0f : IsWalking ? 1f : 4f;
+            var hearDistance = IsCrouched ? settings.HearDistanceCrouched : IsWalking ? settings.HearDistanceWalking :settings.HearDistanceRunning;
 
             return vectorToPlayer.magnitude < hearDistance;
         }
@@ -407,10 +417,7 @@ namespace HackedDesign
             }
         }
 
-        public void TakeMomentumHit(int amount, Vector3 contact, Vector3 direction)
-        {
-            OperatingSystem.Momentum -= amount;
-        }
+        public void TakeMomentumHit(int amount, Vector3 contact, Vector3 direction) => OperatingSystem.Momentum -= amount;
 
         private void Hit() => HitActions?.Invoke();
 

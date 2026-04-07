@@ -1,8 +1,9 @@
 using HackedDesign.UI;
+using UnityEngine;
 
 namespace HackedDesign
 {
-    public class Act3State : IState
+    public class Act1IntroCardState : IState
     {
 
         public bool PlayerActionAllowed => false;
@@ -11,13 +12,16 @@ namespace HackedDesign
 
         private readonly ActPresenter presenter;
 
-        public Act3State(ActPresenter presenter)
+        public Act1IntroCardState(ActPresenter presenter)
         {
             this.presenter = presenter;
             this.presenter.finishedEvent.AddListener(Continue);
         }
 
-        public void Begin() => presenter.Show();
+        public void Begin()
+        {
+            presenter.Show();
+        }
 
         private void Continue()
         {

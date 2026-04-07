@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Collider2D))]
     public class Trap : MonoBehaviour
     {
         private new Collider2D collider2D;
@@ -18,8 +20,6 @@ namespace HackedDesign
         {
             collider2D = GetComponent<Collider2D>();
             animator = GetComponent<Animator>();
-            //animator.SetBool("on", true);
-            //animator.SetFloat("type", 1);
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -63,10 +63,8 @@ namespace HackedDesign
         private IEnumerator Reset()
         {
             yield return new WaitForEndOfFrame();
-            if (animator)
-            {
-                animator.ResetTrigger("attack");
-            }
+
+            animator.ResetTrigger(AnimatorParams.Attack);
         }
     }
 

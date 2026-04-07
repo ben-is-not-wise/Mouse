@@ -35,6 +35,9 @@ namespace HackedDesign
         [SerializeField] private float knockbackAmount = 1f;
         [SerializeField] private float knockbackTime = 0.2f;
         [SerializeField] private float knockbackFreezeTime = 0.2f;
+        [SerializeField] private float hearDistanceRunning = 3f;
+        [SerializeField] private float hearDistanceWalking = 1f;
+        [SerializeField] private float hearDistanceCrouched = 0.5f;
 
         public float ShootDistance { get => shootDistance; private set => shootDistance = value; }
         public float AttackRate { get => attackRate; private set => attackRate = value; }
@@ -65,5 +68,9 @@ namespace HackedDesign
         public float KnockbackTime { get => this.knockbackTime; set => this.knockbackTime = value; }
         public float KnockbackFreezeTime { get => this.knockbackFreezeTime; set => this.knockbackFreezeTime = value; }
 
+        public float HearDistanceRunning { get => this.hearDistanceRunning; }
+        public float HearDistanceWalking { get => this.hearDistanceWalking; }
+        public float HearDistanceCrouched { get => this.hearDistanceCrouched; }
+        
     }
 }

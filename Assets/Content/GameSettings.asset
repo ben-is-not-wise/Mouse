@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   debug: 0
-  skipIntro: 1
+  skipIntro: 0
   startPistol: 0
   infiniteMomentum: 0
   fallDeathHeight: 27

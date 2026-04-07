@@ -122,7 +122,7 @@ namespace HackedDesign
 
         public bool CurrentlyKnockback { get => this.currentlyKnockback; set => this.currentlyKnockback = value; }
 
-        public void Knockback(Vector3 direction, float amount)
+        public void ApplyKnockback(Vector3 direction, float amount)
         {
             Stop();
             if (body.EnsureNotNull(this, nameof(body)))

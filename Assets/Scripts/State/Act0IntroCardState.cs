@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class Act0State : IState
+    public class Act0IntroCardState : IState
     {
 
         public bool PlayerActionAllowed => false;
@@ -13,7 +13,7 @@ namespace HackedDesign
         private readonly bool skipIntro;
         private readonly ActPresenter presenter;
 
-        public Act0State(IGame game, ActPresenter presenter, bool skipIntro)
+        public Act0IntroCardState(IGame game, ActPresenter presenter, bool skipIntro)
         {
             this.game = game;
             this.skipIntro = skipIntro;
@@ -34,7 +34,7 @@ namespace HackedDesign
             }
             else
             {
-                game.SetStateRoom1();
+                game.SetStateAct0Room1();
             }
         }
 

@@ -429,7 +429,8 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
-  label: Security Mech
+  os: {fileID: 4554344944284156272}
+  label: Canine Drone
 --- !u!1001 &3434397442497837217
 PrefabInstance:
   m_ObjectHideFlags: 0

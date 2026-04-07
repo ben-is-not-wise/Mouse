@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class Room1State : IState
+    public class Act0Hotdog1State : IState
     {
         private readonly IPlayerController player;
         private readonly ILevelManager level;
@@ -14,7 +14,7 @@ namespace HackedDesign
         public bool Battle => false;
 
 
-        public Room1State(IPlayerController player, ILevelManager level, IDialogManager dialog)
+        public Act0Hotdog1State(IPlayerController player, ILevelManager level, IDialogManager dialog)
         {
             this.player = player;
             this.level = level;
@@ -24,7 +24,7 @@ namespace HackedDesign
         public void Begin()
         {
             level.Reset();
-            level.ShowNamedRoom(NamedLevels.MouseStartingRoom, true, true, player);
+            //level.ShowNamedRoom(NamedLevels.MouseStartingRoom, true, true, player);
             player.Character.Shadow.enabled = false;
             player.Character.SetIdleState();
             dialog.ShowDialog("intro_room1", Dialog1End);

@@ -21,12 +21,12 @@ namespace HackedDesign
 
         public string Label { get => label; set => label = value; }
 
-        public OperatingSystem OS;
+        public OperatingSystem OS => os;
 
         void Awake()
         {
             this.AutoBind(ref outlinable);
-            this.AutoBind(ref OS);
+            this.AutoBind(ref os);
             Target(false);
 
             FixTag();
@@ -45,7 +45,6 @@ namespace HackedDesign
             pingTimer = Time.time;
             ping = true;
         }
-
 
         public void TriggerInteract()
         {
@@ -76,8 +75,6 @@ namespace HackedDesign
                 {
                     outlinable.OutlineParameters.Color = Color.grey;
                 }
-
-
             }
             else if (ping)
             {

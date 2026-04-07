@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4723107735738678597, guid: 8f129d3db0a613844b50d943800f59cf, type: 3}
+  m_Sprite: {fileID: 4723107735738678597, guid: ef4f5282b1162ba49b11419f6295ce81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -429,6 +429,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 762859114430244096}
   label: Gun Drone
 --- !u!1001 &1876627262623194321
 PrefabInstance:

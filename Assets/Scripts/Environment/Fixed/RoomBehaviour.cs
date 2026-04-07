@@ -10,6 +10,7 @@ namespace HackedDesign
 {
     public class RoomBehaviour: MonoBehaviour
     {
-        public void ExitInteract() => Game.Instance.SetStateRoof1();
+        public void ExitRoom1Interact() => Game.Instance.SetStateAct0Roof();
+        public void ExitRoom2Interact() => Game.Instance.SetStateAct0Loading();
     }
 }

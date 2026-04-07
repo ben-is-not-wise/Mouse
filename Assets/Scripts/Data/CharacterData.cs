@@ -23,7 +23,7 @@ namespace HackedDesign
 
         public int kinetic = 1;
         public int digital = 1;
-        public int stealth = 1;
+        public int ghost = 1;
 
         public List<WeaponSettings> weapons = new List<WeaponSettings>();
 

@@ -949,6 +949,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 0}
   label: 
 --- !u!1 &1913867174076986923
 GameObject:
@@ -992,7 +993,7 @@ GameObject:
   - component: {fileID: 7777715312094759880}
   - component: {fileID: 7531423747764688628}
   m_Layer: 0
-  m_Name: Mouse Starting Room
+  m_Name: Act 0 Mouse Starting Room 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1379,8 +1380,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 221020995183215305}
-        m_TargetAssemblyTypeName: HackedDesign.RoomExit, Assembly-CSharp
-        m_MethodName: ExitInteract
+        m_TargetAssemblyTypeName: HackedDesign.RoomBehaviour, Mouse
+        m_MethodName: ExitRoom2Interact
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1390,6 +1391,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  os: {fileID: 0}
   label: 
 --- !u!114 &221020995183215305
 MonoBehaviour:
@@ -1532,7 +1534,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 221020995183215305}
           m_TargetAssemblyTypeName: HackedDesign.RoomBehaviour, Mouse
-          m_MethodName: ExitInteract
+          m_MethodName: ExitRoom2Interact
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2531,6 +2533,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 0}
   label: 
 --- !u!1 &4283159917961789420
 GameObject:
@@ -3501,6 +3504,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 0}
   label: 
 --- !u!61 &34846299063947029
 BoxCollider2D:
@@ -4831,6 +4835,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 0}
   label: 
 --- !u!1 &8870804074347968234
 GameObject:

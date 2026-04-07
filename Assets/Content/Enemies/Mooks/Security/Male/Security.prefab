@@ -397,6 +397,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 1146147692202717897}
   label: Security Guard
 --- !u!1001 &2268347047890438936
 PrefabInstance:

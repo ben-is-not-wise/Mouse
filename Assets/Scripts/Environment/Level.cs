@@ -270,6 +270,7 @@ namespace HackedDesign
     public static class NamedLevels
     {
         public static string Rooftop = "Rooftop";
-        public static string MouseStartingRoom = "Mouse Starting Room";
+        public static string MouseStartingRoom1 = "Act 0 Mouse Starting Room 1";
+        public static string MouseStartingRoom2 = "Act 0 Mouse Starting Room 2";
     }
 }

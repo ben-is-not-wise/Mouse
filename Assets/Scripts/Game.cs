@@ -19,10 +19,10 @@ namespace HackedDesign
         bool HackMode { get; set; }
 
         void NewGame();
-        void SetStateAct0();
-        void SetStateAct1();
-        void SetStateAct2();
-        void SetStateAct3();
+        void SetStateAct0IntroCard();
+        void SetStateAct1IntroCard();
+        void SetStateAct2IntroCard();
+        void SetStateAct3IntroCard();
         void SetStateDeath();
         void SetStateElevator();
         void SetStateIntermission();
@@ -34,8 +34,10 @@ namespace HackedDesign
         void SetStatePaused();
         void SetStatePlaying();
         void SetStateQuit();
-        void SetStateRoof1();
-        void SetStateRoom1();
+        void SetStateAct0Roof();
+        void SetStateAct0Room1();
+        void SetStateAct0Loading();
+        void SetStateAct0Room2();
     }
 
     public class Game : AutoSingleton<Game>, IGame
@@ -99,22 +101,24 @@ namespace HackedDesign
             }
         }
 
-        public void SetStateRoof1() => CurrentState = new Intro1RoofState(Player, Level, dialogManager);
-        public void SetStateRoom1() => CurrentState = new Room1State(Player, Level, dialogManager);
+        public void SetStateAct0Roof() => CurrentState = new Act0RoofState(Player, Level, dialogManager);
+        public void SetStateAct0Room1() => CurrentState = new Act0Room1State(Player, Level, dialogManager);
+        public void SetStateAct0Room2() => CurrentState = new Act0Room2State(Player, Level, dialogManager);
         public void SetStateMissionSelect() => CurrentState = new MissionSelectState(missionPresenter);
         public void SetStateIntermission() => CurrentState = new IntermissionState(this, Player, Level, dialogManager, actionBarPresenter);
         public void SetStatePlaying() => CurrentState = new PlayingState(this, Player, EnemyManager, LevelTimer, actionBarPresenter, tracePresenter, GameSettings.Debug);
         public void SetStateLoading() => CurrentState = new LoadingState(this, Player, Level, EnemyManager);
+        public void SetStateAct0Loading() => CurrentState = new Act0LoadingState(this, Player, Level, EnemyManager);
         public void SetStateMainMenu() => CurrentState = new MainMenuState(mainMenuPresenter);
         public void SetStateDeath() => CurrentState = new DeathState(deathPresenter);
         public void SetStateLevelEnd() => CurrentState = new LevelEndState(Player);
         public void SetStatePaused() => CurrentState = new PausedState(pausePresenter);
         public void SetStateOS() => CurrentState = new OSState(this, osPresenter);
         public void SetStateElevator() => CurrentState = new ElevatorState(this, elevatorPresenter);
-        public void SetStateAct0() => CurrentState = new Act0State(this, act0Presenter, GameSettings.SkipIntro);
-        public void SetStateAct1() => CurrentState = new Act1State(act1Presenter);
-        public void SetStateAct2() => CurrentState = new Act2State(act2Presenter);
-        public void SetStateAct3() => CurrentState = new Act3State(act3Presenter);
+        public void SetStateAct0IntroCard() => CurrentState = new Act0IntroCardState(this, act0Presenter, GameSettings.SkipIntro);
+        public void SetStateAct1IntroCard() => CurrentState = new Act1IntroCardState(act1Presenter);
+        public void SetStateAct2IntroCard() => CurrentState = new Act2IntroCardState(act2Presenter);
+        public void SetStateAct3IntroCard() => CurrentState = new Act3IntroCardState(act3Presenter);
         public void SetStateQuit() => Application.Quit();
 
         #endregion
@@ -126,7 +130,7 @@ namespace HackedDesign
 
             Player.Character.OperatingSystem.CurrentMission = 1;
 
-            SetStateAct0();
+            SetStateAct0IntroCard();
         }
 
         private void Initialization()

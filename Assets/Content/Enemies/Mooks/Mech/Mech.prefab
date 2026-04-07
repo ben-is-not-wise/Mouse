@@ -429,6 +429,7 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 4554344944284156272}
   label: Security Mech
 --- !u!1001 &3434397442497837217
 PrefabInstance:

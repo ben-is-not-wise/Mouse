@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class Act2State : IState
+    public class Act2IntroCardState : IState
     {
 
         public bool PlayerActionAllowed => false;
@@ -12,7 +12,7 @@ namespace HackedDesign
 
         private readonly ActPresenter presenter;
 
-        public Act2State(ActPresenter presenter)
+        public Act2IntroCardState(ActPresenter presenter)
         {
             this.presenter = presenter;
             this.presenter.finishedEvent.AddListener(Continue);

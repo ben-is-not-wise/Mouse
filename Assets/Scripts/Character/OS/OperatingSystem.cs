@@ -100,7 +100,7 @@ namespace HackedDesign
         public int CurrentMission { get => this.characterData.currentMission; set => this.characterData.currentMission = value; }
         public int KineticLevel => this.characterData.kinetic;
         public int DigitalLevel => this.characterData.digital;
-        public int StealthLevel => this.characterData.stealth;
+        public int GhostLevel => this.characterData.ghost;
         public WeaponSettings CurrentWeapon => this.characterData.weapons[this.characterData.currentWeaponSlot];
 
         public int GetWeaponSlotByName(string name) => this.characterData.weapons.FindIndex(x => x.name == name);
