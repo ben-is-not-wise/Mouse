@@ -8,9 +8,16 @@ using UnityEngine.Events;
 
 namespace HackedDesign
 {
-    public class IntermissionBehaviour: MonoBehaviour
+    public class IntermissionBehaviour: MonoBehaviour, ICutscene
     {
+
         [SerializeField] private Transform anarchist;
+
+
+        public void Play() { }
+
+        public void Stop() { }
+
         public void HotDogManInteract()
         {
 

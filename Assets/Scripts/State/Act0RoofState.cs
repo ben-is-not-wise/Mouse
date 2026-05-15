@@ -6,13 +6,11 @@ namespace HackedDesign
 {
     public class Act0RoofState : IState
     {
-        private const string DialogId = "intro_roof1";
-        //private const string LevelName = "Rooftop";
         private readonly IPlayerController player;
         private readonly ILevelManager level;
         private readonly IDialogManager dialog;
 
-        public bool PlayerActionAllowed => true;
+        public bool PlayerActionAllowed => false;
         public bool Battle => false;
 
         public Act0RoofState(IPlayerController player, ILevelManager level, IDialogManager dialog)
@@ -24,27 +22,19 @@ namespace HackedDesign
 
         public void Begin()
         {
-            level.ShowNamedRoom(NamedLevels.Rooftop, true, false, player);
-            player.Character.ExecuteCommand(new FacingCommand(0, 1f));
-            //player.Character.SetIdleState();
-            player.Character.SetSitState();
-            
-            dialog.ShowDialog(DialogId, new UnityAction(DialogOver));
+            var cutscene = level.ShowCutscene(Cutscenes.Rooftop1, true, 0, 25, 1, true, true, player);
+            player.Teleport(level.GetLevelPlayerSpawnLocation() + Vector3.up);
+
+            cutscene.Play();
         }
 
-        private void DialogOver()
-        {
-            Debug.Log("Dialog over roof state");
-            Game.Instance.SetStateAct0Room2();
-        }
+        public void End() { }
 
-        public void End() => dialog.HideDialog();
+        public void Update() { }
 
-        public void Update() => player.UpdateSitBehaviour();
+        public void FixedUpdate() { }
 
-        public void FixedUpdate() => player.FixedUpdateBehaviour();
-
-        public void LateUpdate() => player.LateUpdateBehaviour();
+        public void LateUpdate() { }
 
         public void Menu()
         {

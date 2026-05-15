@@ -13,7 +13,7 @@ namespace HackedDesign.UI
 
         public void RestartClick()
         {
-            Game.Instance.SetStateLoading();
+            Game.Instance.SetStateLoadLevel();
         }
 
         public void ExitClick()

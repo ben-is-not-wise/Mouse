@@ -1,11 +1,11 @@
-﻿#nullable enable
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
 namespace HackedDesign
 {
     [RequireComponent(typeof(Interactable))]
+    [RequireComponent(typeof(Animator))]
     public class Door : MonoBehaviour
     {
         [field: SerializeField, NotNull] private Animator animator;

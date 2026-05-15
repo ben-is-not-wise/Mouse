@@ -179,7 +179,7 @@ namespace HackedDesign
         public void Reset()
         {
             Character.Reset();
-            Character.SetBattleState();
+            Character.SetStateBattle();
         }
 
         public void UpdateBehaviour()

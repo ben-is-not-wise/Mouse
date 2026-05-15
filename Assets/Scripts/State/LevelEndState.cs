@@ -22,7 +22,7 @@ namespace HackedDesign
         public void Begin()
         {
             player.Stop();
-            player.Character.SetIdleState();
+            player.Character.SetStateIdle();
         }
 
         public void End()

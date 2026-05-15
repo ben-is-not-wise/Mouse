@@ -22,6 +22,9 @@ namespace HackedDesign
             {
                 return;
             }
+
+            //this.animator.Play("Idle");
+
             this.animator.SetBool(AnimatorParams.Sit, false);
             this.animator.SetBool(AnimatorParams.Dead, false);
             this.animator.SetBool(AnimatorParams.Crouched, ctx.crouched);

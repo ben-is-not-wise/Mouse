@@ -8,6 +8,7 @@ namespace HackedDesign
         [SerializeField] new private Collider2D collider;
         [SerializeField] private ParticleSystem glassBreakEffect;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private bool breakable = true;
         [SerializeField] private bool playOnce = true;
         
         private bool hasPlayed = false;
@@ -19,7 +20,7 @@ namespace HackedDesign
 
         public void Break(Vector3 other)
         {
-            if (hasPlayed)
+            if (!breakable || hasPlayed)
             {
                 return;
             }
@@ -36,6 +37,11 @@ namespace HackedDesign
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            if(!breakable)
+            {
+                return;
+            }
+
             if(collision.gameObject.CompareTag(Tags.Player) && !(playOnce && hasPlayed))
             {
                 if (collision.relativeVelocity.magnitude > Game.Instance.GameSettings.ShatterMagnitude)

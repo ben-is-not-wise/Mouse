@@ -152,6 +152,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1670407703002308985
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -170,6 +171,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -191,10 +194,12 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1332483603
   m_SortingLayer: -5
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 08c0996c05b3a2c4592c48602bf4a26a, type: 3}
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 6a410982593f764409571f4de1ff9eea, type: 3}
   m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -203,7 +208,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3859528213139616729
 MonoBehaviour:
@@ -219,10 +223,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1670407703002308985}
   billboards:
+  - {fileID: 21300000, guid: 6a410982593f764409571f4de1ff9eea, type: 3}
   - {fileID: 21300000, guid: f957904826211d546b02863d8e93433f, type: 3}
   - {fileID: 21300000, guid: 3945e969103854f41ac4ceb59065d5f5, type: 3}
   - {fileID: 21300000, guid: 08c0996c05b3a2c4592c48602bf4a26a, type: 3}
   - {fileID: 21300000, guid: 1d2ec054bb1e3564981abd05be8cb1cf, type: 3}
+  - {fileID: 21300000, guid: 9dfb5591a24dcff45983e2884aff59a2, type: 3}
+  - {fileID: 21300000, guid: 134fc9728c7330545b646f30a14da72f, type: 3}
+  - {fileID: 21300000, guid: d277e5d6a5a35f44993ac840d0f200b4, type: 3}
+  - {fileID: 21300000, guid: 09caa38f105375441adea99a2cc5134d, type: 3}
+  - {fileID: 21300000, guid: 126ba3a914ef8af41adbe7e6effc13f0, type: 3}
+  - {fileID: 21300000, guid: e7ee407e7b836cc4db11727cbdbd3df4, type: 3}
+  - {fileID: 21300000, guid: 17cafdf6b22167e43b6b915e2b5aa0e6, type: 3}
+  - {fileID: 21300000, guid: 48abdaccd226d4641b1123ff07530abd, type: 3}
+  - {fileID: 21300000, guid: 9ed6130c588993341a4303641f3556e8, type: 3}
+  - {fileID: 21300000, guid: 8c793160eba233d4dba2e8d3ce6c9b7d, type: 3}
+  - {fileID: 21300000, guid: 8d3c0e55fa6631445939b3c5f481bd7d, type: 3}
+  - {fileID: 21300000, guid: 4e42c7861dbee8840a4c8dfde7272f9e, type: 3}
+  - {fileID: 21300000, guid: 73aa09e5ec264604880e6baf0c3baa2a, type: 3}
+  - {fileID: 21300000, guid: 8b7d8010d4b96c142bc1a1a89c555f93, type: 3}
+  - {fileID: 21300000, guid: 1634018b1bc8f01489c474dda8f137b7, type: 3}
   change: 1
   changeTimeMin: 10
-  changeTimeMax: 40
+  changeTimeMax: 30

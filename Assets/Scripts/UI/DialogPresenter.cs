@@ -30,7 +30,7 @@ namespace HackedDesign.UI
                 var page = dialogManager.CurrentDialog[currentPage];
                 dialogText.text = page.Text;
                 dialogAvatar.sprite = dialogManager.GetSpeakerSprite(page);
-                nameText.text = page.Speaker;
+                nameText.text = page.Speakertitle;
                 typewriter.Play(page.Text);
             }
             else

@@ -24,9 +24,9 @@ namespace HackedDesign
         public void Begin()
         {
             level.Reset();
-            level.ShowNamedRoom(NamedLevels.MouseStartingRoom2, true, true, player);
+            level.ShowCutscene(Cutscenes.MouseStartingRoom2, true, true, player);
             player.Character.Shadow.enabled = false;
-            player.Character.SetIdleState();
+            player.Character.SetStateIdle();
             dialog.ShowDialog("intro_room1", Dialog1End);
         }
 

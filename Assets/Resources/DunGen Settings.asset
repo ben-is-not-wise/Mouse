@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1ebb4e3aa3b474d849bc53fbe48191, type: 3}
   m_Name: DunGen Settings
   m_EditorClassIdentifier: DunGen::DunGen.DunGenSettings
+  BoundsCalculationsIgnoreSprites: 0
+  BoundsCalculator:
+    rid: 6665347385676792042
   BroadphaseSettings:
     rid: 4546627280197386240
-  BoundsCalculationsIgnoreSprites: 0
   RecalculateTileBoundsOnSave: 1
   EnableTilePooling: 0
   DisplayFailureReportWindow: 1
   CheckForUnusedFiles: 1
-  defaultSocket: {fileID: 0}
+  defaultSocket: {fileID: 3242344251405389381}
   tagManager:
     keys: 
     values: []
+  fileVersion: 1
+  migrationWarningVersion: 1
   references:
     version: 2
     RefIds:
@@ -30,6 +34,18 @@ MonoBehaviour:
       type: {class: SpatialHashBroadphaseSettings, ns: DunGen.Collision, asm: DunGen}
       data:
         CellSize: 40
+    - rid: 6665347385676792042
+      type: {class: DefaultTileBoundsCalculator, ns: DunGen.TileBounds, asm: DunGen}
+      data:
+        IncludeRenderers: 1
+        IncludeSpriteRenderers: 1
+        IncludeColliders: 1
+        IncludeTriggerColliders: 0
+        IncludeTerrain: 1
+        IncludeInactive: 0
+        LayerMask:
+          serializedVersion: 2
+          m_Bits: 4294967295
 --- !u!114 &3242344251405389381
 MonoBehaviour:
   m_ObjectHideFlags: 0

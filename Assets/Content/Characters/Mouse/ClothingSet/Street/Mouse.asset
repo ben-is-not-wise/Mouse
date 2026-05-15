@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b87639ed3a100e449f24a293a821b16, type: 3}
+  m_Name: Mouse
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 1735226141, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: -1742363795, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: -204100175, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: -155886365, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: 722785533, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: -684830162, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: -1941150375, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}
+  - {fileID: 970104807, guid: 16d31d5a5792d7e4ba1dd07abc911ab0, type: 3}

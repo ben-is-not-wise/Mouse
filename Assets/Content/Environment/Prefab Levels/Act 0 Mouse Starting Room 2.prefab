@@ -951,6 +951,9 @@ MonoBehaviour:
       m_Calls: []
   os: {fileID: 0}
   label: 
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
 --- !u!1 &1913867174076986923
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +995,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7777715312094759880}
   - component: {fileID: 7531423747764688628}
+  - component: {fileID: 3657734454249173980}
   m_Layer: 0
   m_Name: Act 0 Mouse Starting Room 2
   m_TagString: Untagged
@@ -1024,6 +1028,7 @@ Transform:
   - {fileID: 2228796371729092185}
   - {fileID: 4040547665117265198}
   - {fileID: 1150886710295568925}
+  - {fileID: 6103934472647580767}
   - {fileID: 7160844446964848131}
   - {fileID: 6659455639576068618}
   - {fileID: 7581986179190430288}
@@ -1084,6 +1089,109 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &3657734454249173980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941694052614715992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa36b3d438a6c24995484dac0e00ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mouse::HackedDesign.Room1Behaviour
+--- !u!1 &2186745675725189933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6103934472647580767}
+  - component: {fileID: 5721527766884352042}
+  m_Layer: 0
+  m_Name: ceilinglight3 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6103934472647580767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186745675725189933}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 17, y: 3.9375, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7777715312094759880}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &5721527766884352042
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186745675725189933}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -661875875705270828, guid: 996a4f1bae942454eabebfabbe9c1863, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.25, y: 0.25}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
 --- !u!1 &2310216205881539094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1385,6 @@ GameObject:
   - component: {fileID: 1364127631032882923}
   - component: {fileID: 807216198430273246}
   - component: {fileID: 3636772187030912131}
-  - component: {fileID: 221020995183215305}
   - component: {fileID: 6900177161416682639}
   - component: {fileID: 744713562375114212}
   - component: {fileID: 1488511904486795561}
@@ -1379,9 +1486,9 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 221020995183215305}
-        m_TargetAssemblyTypeName: HackedDesign.RoomBehaviour, Mouse
-        m_MethodName: ExitRoom2Interact
+      - m_Target: {fileID: 3657734454249173980}
+        m_TargetAssemblyTypeName: HackedDesign.Act0Room2Behaviour, Mouse
+        m_MethodName: ExitRoomInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1393,18 +1500,9 @@ MonoBehaviour:
         m_CallState: 2
   os: {fileID: 0}
   label: 
---- !u!114 &221020995183215305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2526129087202366918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 626f55ccb110be3409651656f1afd1e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
 --- !u!61 &6900177161416682639
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1531,19 +1629,7 @@ MonoBehaviour:
   - eventID: 4
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 221020995183215305}
-          m_TargetAssemblyTypeName: HackedDesign.RoomBehaviour, Mouse
-          m_MethodName: ExitRoom2Interact
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
 --- !u!1 &2670023663553145470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,8 +2244,7 @@ Transform:
   m_LocalPosition: {x: 10, y: 3.9375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5353759315912727377}
+  m_Children: []
   m_Father: {fileID: 7777715312094759880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7002038064320714417
@@ -2535,6 +2620,9 @@ MonoBehaviour:
       m_Calls: []
   os: {fileID: 0}
   label: 
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
 --- !u!1 &4283159917961789420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,6 +3594,9 @@ MonoBehaviour:
       m_Calls: []
   os: {fileID: 0}
   label: 
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
 --- !u!61 &34846299063947029
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3616,90 +3707,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034bc47afcbf5e141a58d5c20b7808e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7085360806986120017
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5353759315912727377}
-  - component: {fileID: 4462638812164470212}
-  m_Layer: 0
-  m_Name: Freeform Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5353759315912727377
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7085360806986120017}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: -3.9375, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1150886710295568925}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4462638812164470212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7085360806986120017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 2
-  m_LightType: 1
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 696214fcede993b0ffb3823aa7a61d460db80ab8d13bb376000000005faa7687314a8600
-  m_LightCookieSprite: {fileID: 0}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowsEnabled: 1
-  m_ShadowIntensity: 0.75
-  m_ShadowSoftness: 0.3
-  m_ShadowSoftnessFalloffIntensity: 0.5
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 1.9996, y: 1.8131001, z: 0}
-    m_Extent: {x: 1.7494, y: 2.3123, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: 1.5, y: 3.625, z: 0}
-  - {x: 0.75, y: 0, z: 0}
-  - {x: 3.25, y: 0, z: 0}
-  - {x: 2.5, y: 3.625, z: 0}
 --- !u!1 &7223417143626176980
 GameObject:
   m_ObjectHideFlags: 0
@@ -4837,6 +4844,9 @@ MonoBehaviour:
       m_Calls: []
   os: {fileID: 0}
   label: 
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
 --- !u!1 &8870804074347968234
 GameObject:
   m_ObjectHideFlags: 0

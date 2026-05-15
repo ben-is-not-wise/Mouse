@@ -155,6 +155,7 @@ MonoBehaviour:
   collider: {fileID: 0}
   glassBreakEffect: {fileID: 5906930431400661177}
   spriteRenderer: {fileID: 3955405141027904055}
+  breakable: 1
   playOnce: 1
 --- !u!1 &8212043179903114772
 GameObject:
@@ -206,7 +207,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

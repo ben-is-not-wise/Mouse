@@ -1,25 +1,49 @@
-sequence,speaker,emotion,text
-intro_roof1,Mouse,angry,"It was the night before christmas, and all through the city, not a creature was stirring... except for a Mouse."
-intro_room1,Mouse,Confused,"<color=""#999999"">Your computer flashes with a new messsage. Work.</color>"
-intro_room2,Boss,Glee,"M, work"
-intro_intermission1,Hotdog Vendor,Happy,"Take a seat, friend. You look down on your luck."
-intro_intermission1,Hotdog Vendor,Confused,"Another victim of the corp hegemony?"
-intro_intermission1,Mouse,Blink,"<color=""#999999"">You nod.</color>"
-intro_intermission1,Hotdog Vendor,Default,"Who do you work for?"
-intro_intermission1,Mouse,Upset,"Did. <color=""#999999"">You flash your useless Nisana ID.</color>"
-intro_intermission1,Hotdog Vendor,Default,"Of course. Hungry?"
-intro_intermission1,Mouse,Default,"<color=""#999999"">You nod again</color>"
-intro_intermission1,Hotdog Vendor,Confused,"Toppings?"
-intro_intermission1,Mouse,Blink,"<color=""#999999"">You shrug.</color>"
-intro_intermission1,Hotdog Vendor,Happy,"The works then. On the house."
-intro_intermission1,Hotdog Vendor,Glee,"A good evening starts with a good hotdog friend."
-intro_intermission2,Anarchist,Angry,"Class C Security, huh. I'd be careful flashing that card around here. I overheard your predicament."
-intro_intermission2,Anarchist,Happy,"What did you do? Penetration? Diving? Exploiting? Wait, don't tell me. You have the eyes of a solo."
-intro_intermission2,Anarchist,Default,"I have work for somebody like you. If you're interested, of course... Simple slurp and dash. Walk in, fiddle some slots, walk out."
-intro_intermission2,Anarchist,Happy,"Easy work."
-intro_intermission2,Mouse,Confused,"<color=""#999999"">At this point, what do you have to lose? You know.</color>"
-intro_intermission2,Anarchist,Default,"<color=""#999999"">He slides a note and a memory stick to you across the counter. The note is the name of a corp.</color>"
-intro_intermission2,Anarchist,Happy,"Speak to Salie when you're ready. She can get you in the front door. The rest will be on you."
-intro_intermission2,Anarchist,Default,"Take everything you can get your hands on. The more, the happier I'll be. Meet me back here once you're done."
-intro_intermission2,Mouse,Confused,"Security?"
-intro_intermission2,Anarchist,Glee,"<color=""#999999"">He shrugs.</color>Do what you need to do."
+sequence,speaker,speakertitle,emotion,text
+intro_room1,Mouse PD,Mouse PD,Angry,"<color=""#999999"">A buzzing keeps going off in the distant haze of consciousness.</color>"
+intro_room1,Mouse PD,Mouse PD,Confused,"<color=""#999999"">You look over. A new job notification is flashing on your computer. HPD. Work.</color>"
+intro_room1,Mouse PD,Mouse PD,Blink,"<color=""#999999"">Yawning, you play the notification from your boss.</color>"
+intro_room1,Boss,Boss,Happy,M. Want some overtime work?
+intro_room1,Mouse PD,Mouse PD,Default,"<color=""#999999"">It wasn't really a question. You'd made it explicitly clear last week that you needed the cash.</color>"
+intro_room1,Boss,Boss,Default,Allison Corp HQ needs some extra rooftop coverage. 
+intro_room1,Boss,Boss,Happy,"Thomasin's pulled out, so it'll just be you. Not that we're expecting any noise. Should be a quiet night."
+intro_room1,Boss,Boss,Default,You'll be fine. Think of the holiday rates. Easy money.
+intro_room1,Boss,Boss,Glee,"Come on M, don't give me that look. <color=""#999999"">It's a one way message.</color>"
+intro_room1,Mouse PD,Mouse PD,Angry,"<color=""#999999"">You click the accept job button. The screen doesn't actually have any other option...</color>"
+intro_roof1,Mouse PD,Mouse PD,Angry,"It was the night before christmas, and all through the city, not a creature was stirring, except for..."
+intro_roof2,Mouse PD,Mouse PD,Confused,"Hold it, who are you?"
+intro_roof2,unknown,unknown,Happy,Does it matter? Nap time.
+intro_roof3,Mouse PD,Mouse PD,Blink,"<color=""#999999"">Static swells in fills your vision and the world suddenly fades to a silent grey...</color>"
+intro_roof4,Mouse PD,Mouse PD,Confused,"<color=""#999999"">Two notification alarms in one night… You come too on the rooftop. The alarm is actually the siren of a police copter hovering overhead.</color>"
+intro_roof5,Boss,Boss,Angry,"First Thomasin, and now you, sleeping on the job, M? Convenient…"
+intro_roof5,Boss,Boss,Upset,"While you were having your little nap, thieves entered the Allison facility and stole 21 TB of ghost data during a transfer."
+intro_roof5,Mouse PD,Mouse PD,Confused,I had nothing to do with it…
+intro_roof5,Boss,Boss,Default,"And yet, the security tapes clearly show you talking with the thief moments prior."
+intro_roof5,Boss,Boss,Default,You didn't put up even a moment's resistance. It stands to obvious reason that you were in cohoots with the team 
+intro_roof5,Mouse PD,Mouse PD,Confused,That doesn't make sense.
+intro_roof5,Boss,Boss,Default,"I hope they paid well, because you are under arrest. Your employment at HPD has been terminated"
+intro_roof5,Mouse PD,Mouse PD,Confused,"What, I…"
+intro_roof5,Boss,Boss,Default,"All property of the HPD, including your HPD provided employee unit and all complementary property within revert immediately to the HPD's ownership"
+intro_roof5,Boss,Boss,Default,"And as of 30 seconds ago, your social rights have reverted to class D"
+intro_roof5,Boss,Boss,Default,"Now, if you'd be kind enough to stay still and hold out your hands, these fine security officers need to cuff you."
+intro_roof5,Mouse PD,Mouse PD,Confused,"<color=""#999999"">You know, M. There is another option. You could always...</color>"
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Happy,"Take a seat, friend. You look down on your luck."
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Confused,Another victim of the corp hegemony?
+intro_intermission1,Mouse,Mouse,Blink,"<color=""#999999"">You nod.</color>"
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Default,Who do you work for?
+intro_intermission1,Mouse,Mouse,Upset,"Did. <color=""#999999"">You flash your useless HPD ID.</color>"
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Default,Of course. Hungry?
+intro_intermission1,Mouse,Mouse,Default,"<color=""#999999"">You nod again</color>"
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Confused,Toppings?
+intro_intermission1,Mouse,Mouse,Blink,"<color=""#999999"">You shrug.</color>"
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Happy,The works then. On the house.
+intro_intermission1,Hotdog Vendor,Hotdog Vendor,Glee,A good evening starts with a good hotdog friend.
+intro_intermission2,Anarchist,Anarchist,Angry,"Class C Security, huh. I'd be careful flashing that card around here. I overheard your predicament."
+intro_intermission2,Anarchist,Anarchist,Happy,"What did you do? Penetration? Diving? Exploiting? Wait, don't tell me. You have the eyes of a solo."
+intro_intermission2,Anarchist,Anarchist,Default,"I have work for somebody like you. If you're interested, of course... Simple slurp and dash. Walk in, fiddle some slots, walk out."
+intro_intermission2,Anarchist,Anarchist,Happy,Easy work.
+intro_intermission2,Mouse,Mouse,Confused,"<color=""#999999"">At this point, what do you have to lose? You know.</color>"
+intro_intermission2,Anarchist,Anarchist,Default,"<color=""#999999"">He slides a note and a memory stick to you across the counter. The note is the name of a corp.</color>"
+intro_intermission2,Anarchist,Anarchist,Happy,Speak to Salie when you're ready. She can get you in the front door. The rest will be on you.
+intro_intermission2,Anarchist,Anarchist,Default,"Take everything you can get your hands on. The more, the happier I'll be. Meet me back here once you're done."
+intro_intermission2,Mouse,Mouse,Confused,Security?
+intro_intermission2,Anarchist,Anarchist,Glee,"<color=""#999999"">He shrugs.</color>Do what you need to do."

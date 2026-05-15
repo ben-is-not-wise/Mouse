@@ -30,7 +30,7 @@ namespace HackedDesign
         public void Begin()
         {
             timer.Timer.OnTimerStop += TimeOut;
-            player.Character.SetBattleState();
+            player.Character.SetStateBattle();
             actionBar.Show();
             traceBar.Show();
             //UnityEngine.Cursor.visible = false;

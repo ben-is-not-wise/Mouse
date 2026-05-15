@@ -8,9 +8,15 @@ using UnityEngine.Events;
 
 namespace HackedDesign
 {
-    public class RoomBehaviour: MonoBehaviour
+    public class Act0Room2Behaviour: MonoBehaviour, ICutscene
     {
-        public void ExitRoom1Interact() => Game.Instance.SetStateAct0Roof();
-        public void ExitRoom2Interact() => Game.Instance.SetStateAct0Loading();
+        public void ExitRoomInteract()
+        {
+
+        }
+
+        public void Play() { }
+
+        public void Stop() { }
     }
 }

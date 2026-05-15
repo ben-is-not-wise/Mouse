@@ -27,7 +27,7 @@ namespace HackedDesign
         void SetStateElevator();
         void SetStateIntermission();
         void SetStateLevelEnd();
-        void SetStateLoading();
+        void SetStateLoadLevel();
         void SetStateMainMenu();
         void SetStateMissionSelect();
         void SetStateOS();
@@ -36,8 +36,8 @@ namespace HackedDesign
         void SetStateQuit();
         void SetStateAct0Roof();
         void SetStateAct0Room1();
-        void SetStateAct0Loading();
         void SetStateAct0Room2();
+        void SetStateAct0LoadTutorialLevel();
     }
 
     public class Game : AutoSingleton<Game>, IGame
@@ -102,13 +102,13 @@ namespace HackedDesign
         }
 
         public void SetStateAct0Roof() => CurrentState = new Act0RoofState(Player, Level, dialogManager);
-        public void SetStateAct0Room1() => CurrentState = new Act0Room1State(Player, Level, dialogManager);
+        public void SetStateAct0Room1() => CurrentState = new Act0Room1State(Player, Level);
         public void SetStateAct0Room2() => CurrentState = new Act0Room2State(Player, Level, dialogManager);
         public void SetStateMissionSelect() => CurrentState = new MissionSelectState(missionPresenter);
         public void SetStateIntermission() => CurrentState = new IntermissionState(this, Player, Level, dialogManager, actionBarPresenter);
         public void SetStatePlaying() => CurrentState = new PlayingState(this, Player, EnemyManager, LevelTimer, actionBarPresenter, tracePresenter, GameSettings.Debug);
-        public void SetStateLoading() => CurrentState = new LoadingState(this, Player, Level, EnemyManager);
-        public void SetStateAct0Loading() => CurrentState = new Act0LoadingState(this, Player, Level, EnemyManager);
+        public void SetStateLoadLevel() => CurrentState = new LoadLevelState(this, Player, Level, EnemyManager);
+        public void SetStateAct0LoadTutorialLevel() => CurrentState = new LoadTutorialState(this, Player, Level, EnemyManager);
         public void SetStateMainMenu() => CurrentState = new MainMenuState(mainMenuPresenter);
         public void SetStateDeath() => CurrentState = new DeathState(deathPresenter);
         public void SetStateLevelEnd() => CurrentState = new LevelEndState(Player);
@@ -135,6 +135,8 @@ namespace HackedDesign
 
         private void Initialization()
         {
+            EnemyManager.Reset();
+
             if (!Player.EnsureNotNull(this, nameof(Player)))
             {
                 Debug.LogError("Player is null");

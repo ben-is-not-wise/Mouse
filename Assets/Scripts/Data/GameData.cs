@@ -10,6 +10,8 @@ namespace HackedDesign
     [System.Serializable]
     public class GameData
     {
+        public HashSet<string> GameFlags = new();
+
         public List<MissionData> completedMissions = new();
         //public List<MissionData> availableMissions = new();
         private MissionData currentMission;
@@ -44,6 +46,8 @@ namespace HackedDesign
             }
         }*/
     }
+
+    
 
     public class MissionData
     {

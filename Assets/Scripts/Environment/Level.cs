@@ -17,8 +17,9 @@ namespace HackedDesign
         void RainOn();
         void RainOff();
         void Reset();
-        void ShowNamedRoom(string name, bool cityBg, bool rain, IPlayerController player);
+        ICutscene ShowCutscene(string name, bool cityBg, bool rain, IPlayerController player);
         void SpawnEnemies(int count);
+        ICutscene ShowCutscene(string name, bool randomLevel, int level, int length, int difficulty, bool cityBg, bool rain, IPlayerController player);
     }
     public class Level : AutoSingleton<Level>, ILevelManager
     {
@@ -60,8 +61,6 @@ namespace HackedDesign
         void Start()
         {
             Reset();
-            //runtimeDungeon.Generator.ShouldRandomizeSeed = false;
-            //backgroundLevels.ForEach(bg => bg.Generator.ShouldRandomizeSeed = false);
         }
 
         public void Reset()
@@ -81,7 +80,7 @@ namespace HackedDesign
 
             //backgroundLevels.ForEach(x => x.Generator.Clear(true));
 
-            runtimeDungeon.Generator.Clear(true);
+            //runtimeDungeon.Generator.ClearAllDungeons(true);
 
             foreach (Transform child in parent)
             {
@@ -92,10 +91,55 @@ namespace HackedDesign
 
         public void RainOff() => this.rain.gameObject.SetActive(false);
         public void RainOn() => this.rain.gameObject.SetActive(true);
-        public void ShowNamedRoom(string name, bool cityBg, bool rain, IPlayerController player)
+
+        public ICutscene ShowCutscene(string name, bool randomLevel, int level, int length, int difficulty, bool cityBg, bool rain, IPlayerController player)
         {
             Reset();
-            Random.seed = 1;
+            Random.InitState(level);
+
+            if (cityBg)
+            {
+                SpawnBG1();
+                SpawnBG2();
+                SpawnBG3();
+            }
+
+            var room = namedRoomPrefabs.First(x => x.name == name);
+            this.namedRoom = Instantiate(room, this.transform);
+            this.namedRoom.SetActive(true);
+
+            var buildingX = this.namedRoom.GetWorldBounds().max.x;
+
+            for (int i = 1; i <= length; i++)
+            {
+                buildingX = SpawnBuilding(midBuildings[Random.Range(0, midBuildings.Count)], buildingX, difficulty);
+            }
+
+            SpawnBuilding(endBuildings[Random.Range(0, endBuildings.Count)], buildingX, difficulty);
+
+            ClearProps();
+            SpawnProps(propCount);
+            SpawnTraps(5 * difficulty);
+
+
+            var spawn = this.namedRoom.transform.Find("Spawn");
+            if (spawn)
+            {
+                player.Teleport(this.namedRoom.transform.Find("Spawn").transform.position);
+            }
+
+            this.rain.gameObject.SetActive(rain);
+
+            return this.namedRoom.GetComponent<ICutscene>();
+
+
+        }
+
+        public ICutscene ShowCutscene(string name, bool cityBg, bool rain, IPlayerController player)
+        {
+            Reset();
+            Random.InitState(1);
+            
 
             if (cityBg)
             {
@@ -118,8 +162,15 @@ namespace HackedDesign
             }
 
             var room = namedRoomPrefabs.First(x => x.name == name);
+
             this.namedRoom = Instantiate(room, this.transform);
             this.namedRoom.SetActive(true);
+
+            var buildingX = this.namedRoom.GetWorldBounds().max.x;
+
+
+
+
             var spawn = this.namedRoom.transform.Find("Spawn");
             if (spawn)
             {
@@ -127,12 +178,14 @@ namespace HackedDesign
             }
 
             this.rain.gameObject.SetActive(rain);
+
+            return this.namedRoom.GetComponent<ICutscene>();
         }
 
-        // FIXME: This should be separated into seed and level
         public void Generate(int level, int length, int difficulty)
         {
-            Random.seed = level;
+            Random.InitState(level);
+            //Random.seed = level;
 
             SpawnBG1();
             SpawnBG2();
@@ -267,9 +320,11 @@ namespace HackedDesign
         //public List<Spawn> GetPropSpawnLocationsOnLevel() => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(_ => Random.value).ToList();
     }
 
-    public static class NamedLevels
+    public static class Cutscenes
     {
-        public static string Rooftop = "Rooftop";
+        public static string Rooftop1 = "Act 0 Rooftop 1";
+        public static string Rooftop2 = "Act 0 Rooftop 2";
+        public static string Rooftop3 = "Act 0 Rooftop 3";
         public static string MouseStartingRoom1 = "Act 0 Mouse Starting Room 1";
         public static string MouseStartingRoom2 = "Act 0 Mouse Starting Room 2";
     }

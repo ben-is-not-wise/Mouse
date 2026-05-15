@@ -35,6 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8888052711685868836
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -53,6 +54,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -74,9 +77,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 94ac5df9b47b94309a57e589102b6ee7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -86,7 +91,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7989545397337579756
 MonoBehaviour:
@@ -104,3 +108,6 @@ MonoBehaviour:
   alertSprite: {fileID: 21300000, guid: e73266254092c274f8a4e274309ee2f6, type: 3}
   searchingSprite: {fileID: 21300000, guid: 94ac5df9b47b94309a57e589102b6ee7, type: 3}
   pickupSprite: {fileID: 21300000, guid: a40309af475914d03801adb3092e184d, type: 3}
+  talkSprite: {fileID: 21300000, guid: 48e69ef7fd3f149eb91c4ba8e59379fe, type: 3}
+  interactSprite: {fileID: 21300000, guid: f7d3e01dd772c4c45b43b38531850085, type: 3}
+  showDefault: 0

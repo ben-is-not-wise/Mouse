@@ -48,6 +48,8 @@ MonoBehaviour:
   changeToPickSomething: 0.75
   weightedPrefabs:
   - weight: 1
+    prefab: {fileID: 2605326013822489405, guid: 6cac6d8b702ac984497b09cff1a93297, type: 3}
+  - weight: 1
     prefab: {fileID: 2605326013822489405, guid: 7b1493f0874d8c04cbfb810168eb79bd, type: 3}
   - weight: 1
     prefab: {fileID: 2605326013822489405, guid: 2546e389d018d5a49bbd125e3af4c3ef, type: 3}

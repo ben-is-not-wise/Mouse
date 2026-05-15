@@ -16,15 +16,12 @@ public class Ad : MonoBehaviour
     private float timer; 
 
     //private SpriteRenderer spriteRenderer;
-    private Light2D light2D;
+    //private Light2D light2D;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         this.AutoBind(ref spriteRenderer);
-        light2D = GetComponentInChildren<Light2D>();
-    }
-    void Start()
-    {
+        //light2D = GetComponentInChildren<Light2D>();
     }
 
     void SetSprite()

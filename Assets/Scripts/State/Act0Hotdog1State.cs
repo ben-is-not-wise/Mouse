@@ -26,7 +26,7 @@ namespace HackedDesign
             level.Reset();
             //level.ShowNamedRoom(NamedLevels.MouseStartingRoom, true, true, player);
             player.Character.Shadow.enabled = false;
-            player.Character.SetIdleState();
+            player.Character.SetStateIdle();
             dialog.ShowDialog("intro_room1", Dialog1End);
         }
 

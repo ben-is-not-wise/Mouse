@@ -30,7 +30,7 @@ namespace HackedDesign
         {
             if (skipIntro)
             {
-                game.SetStateLoading();
+                game.SetStateLoadLevel();
             }
             else
             {

@@ -42,10 +42,12 @@ namespace HackedDesign
             }
         }
 
-        public void SetIdleState() => CurrentState = new CharacterIdleState(this, Animator);
-        public void SetBattleState() => CurrentState = new CharacterBattleState(this, attackController, Animator);
-        public void SetSitState() => CurrentState = new CharacterSittingState(Animator);
-        public void SetDeadState() => CurrentState = new CharacterDeadState(Animator);
+        public void SetStateIdle() => CurrentState = new CharacterIdleState(this, Animator);
+        public void SetStateBattle() => CurrentState = new CharacterBattleState(this, attackController, Animator);
+        public void SetStateSitting() => CurrentState = new CharacterSittingState(Animator);
+        public void SetStateDead() => CurrentState = new CharacterDeadState(Animator);
+
+        public void SetStateSleeping() => CurrentState = new CharacterSleepingState(Animator);
         #endregion State
 
         #region Properties
@@ -117,7 +119,7 @@ namespace HackedDesign
             }
             operatingSystem.hitActions += Hit;
             operatingSystem.dieActions += Die;
-            SetIdleState();
+            SetStateIdle();
         }
 
         #region Commands
@@ -368,7 +370,7 @@ namespace HackedDesign
                 Body.Flying = false;
             }
 
-            SetDeadState();
+            SetStateDead();
 
             DieActions?.Invoke();
         }
@@ -380,7 +382,7 @@ namespace HackedDesign
                 Animator.SetBool(AnimatorParams.Dead, true);
                 Animator.SetTrigger(AnimatorParams.Splat);
             }
-            SetDeadState();
+            SetStateDead();
 
             StartCoroutine(EndFall());
         }

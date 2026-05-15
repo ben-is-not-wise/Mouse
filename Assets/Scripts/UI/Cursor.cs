@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using HackedDesign.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,7 +7,7 @@ namespace HackedDesign
     public class Cursor : MonoBehaviour
     {
         //[SerializeField] private HoverPresenter hoverPresenter;
-        [SerializeField] UnityEngine.UI.Text nametagLabel;
+        [SerializeField] Text nametagLabel;
         [SerializeField] private CanvasScaler canvas;
         [SerializeField] private Camera uiCamera;
         [SerializeField] private PlayerInput playerInput = null;
@@ -21,10 +16,6 @@ namespace HackedDesign
         [SerializeField] private int screenHeight = 180;
 
         private InputAction mousePosAction;
-
-        //private TilemapHighlight currentTile;
-
-        private Interactable currentHighlightable;
 
         void Awake()
         {
@@ -35,7 +26,6 @@ namespace HackedDesign
             screenWidth = (int)canvas.referenceResolution.x;
             screenHeight = (int)canvas.referenceResolution.y;
             nametagLabel.text = "";
-
         }
 
         void OnApplicationQuit()
@@ -47,34 +37,6 @@ namespace HackedDesign
         {
             var mousePos = mousePosAction.ReadValue<Vector2>();
             PositionCrosshair(mousePos);
-            //UpdateHover(mousePos);
-        }
-
-        private void UpdateHover(Vector2 mousePos)
-        {
-            
-
-            var worldPos = uiCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-
-            var collider = Physics2D.OverlapPoint(new Vector2(worldPos.x, worldPos.y));
-
-            if (currentHighlightable)
-            {
-                currentHighlightable.Interact(false);
-                nametagLabel.text = "";
-            }
-
-
-            if (collider != null && (collider.CompareTag("Interactable") || collider.CompareTag("Player") || collider.CompareTag("Enemy")))
-            {
-                nametagLabel.text = collider.name.ToString();
-                if(collider.gameObject.TryGetComponent<Interactable>(out var highlight))
-                {
-                    Debug.Log("interact");
-                    currentHighlightable = highlight;
-                    currentHighlightable.Interact(true);
-                }
-            }
         }
 
         private void PositionCrosshair(Vector2 mousePos)

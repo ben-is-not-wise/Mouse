@@ -35,6 +35,7 @@ namespace HackedDesign
         public static readonly int FlyAway = Animator.StringToHash("flyaway");
         public static readonly int LookAround = Animator.StringToHash("lookaround");
         public static readonly int Attack = Animator.StringToHash("attack");
-        
+        public static readonly int Sleep = Animator.StringToHash("sleep");
+
     }
 }

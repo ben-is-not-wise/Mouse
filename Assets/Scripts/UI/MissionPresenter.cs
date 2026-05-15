@@ -37,7 +37,7 @@ namespace HackedDesign.UI
 
         public void ContinueClick()
         {
-            Game.Instance.SetStateLoading();
+            Game.Instance.SetStateLoadLevel();
             //Game.Instance.SetStateIntermission();
             //Game.Instance.GameData.SelectMission(mission);
         }

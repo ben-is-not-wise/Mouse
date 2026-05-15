@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class Act0LoadingState : IState
+    public class LoadTutorialState : IState
     {
         private readonly IGame game;
         private readonly IPlayerController player;
@@ -13,7 +13,7 @@ namespace HackedDesign
         public bool PlayerActionAllowed => true;
         public bool Battle => true;
 
-        public Act0LoadingState(IGame game, IPlayerController player, ILevelManager level, IEnemyManager enemyManager)
+        public LoadTutorialState(IGame game, IPlayerController player, ILevelManager level, IEnemyManager enemyManager)
         {
             this.game = game;
             this.player = player;
@@ -23,17 +23,10 @@ namespace HackedDesign
 
         public void Begin()
         {
-            LoadLevel();
-            player.Reset();
-            player.Teleport(level.GetLevelPlayerSpawnLocation() + Vector3.up);
-            level.SpawnEnemies(33);
-        }
-
-        private void LoadLevel()
-        {
-            level.Reset();
-            level.Generate(Random.Range(1, 1000), 50, 0);
+            Debug.Log("load tut state");
             level.RainOn();
+            player.Reset();
+            level.SpawnEnemies(20);
         }
 
         public void End() => game.LevelTimer.Timer.Start();

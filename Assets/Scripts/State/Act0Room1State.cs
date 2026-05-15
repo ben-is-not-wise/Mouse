@@ -8,33 +8,32 @@ namespace HackedDesign
     {
         private readonly IPlayerController player;
         private readonly ILevelManager level;
-        private readonly IDialogManager dialog;
 
         public bool PlayerActionAllowed => true;
         public bool Battle => false;
 
+        ICutscene cutscene;
 
-        public Act0Room1State(IPlayerController player, ILevelManager level, IDialogManager dialog)
+        public Act0Room1State(IPlayerController player, ILevelManager level)
         {
             this.player = player;
             this.level = level;
-            this.dialog = dialog;
         }
 
         public void Begin()
         {
             level.Reset();
-            level.ShowNamedRoom(NamedLevels.MouseStartingRoom1, true, true, player);
+            this.cutscene = level.ShowCutscene(Cutscenes.MouseStartingRoom1, false, true, player);
             player.Character.Shadow.enabled = false;
-            player.Character.SetIdleState();
-            dialog.ShowDialog("intro_room1", Dialog1End);
+            player.Character.SetStateIdle();
+            
+            this.cutscene.Play();
         }
 
-        public void End() => player.Character.Shadow.enabled = true;
-
-        public void Dialog1End()
+        public void End()
         {
-
+            this.cutscene.Stop();
+            player.Character.Shadow.enabled = true;
         }
 
         public void Update() => player.UpdateIdleBehaviour();
@@ -45,7 +44,7 @@ namespace HackedDesign
 
         public void Menu()
         {
-            //GameManager.Instance.SetStartMenu();
+
         }
 
         public void Select()

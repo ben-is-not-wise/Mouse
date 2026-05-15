@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class LoadingState : IState
+    public class LoadLevelState : IState
     {
         private readonly IGame game;
         private readonly IPlayerController player;
@@ -13,7 +13,7 @@ namespace HackedDesign
         public bool PlayerActionAllowed => true;
         public bool Battle => true;
 
-        public LoadingState(IGame game, IPlayerController player, ILevelManager level, IEnemyManager enemyManager)
+        public LoadLevelState(IGame game, IPlayerController player, ILevelManager level, IEnemyManager enemyManager)
         {
             this.game = game;
             this.player = player;

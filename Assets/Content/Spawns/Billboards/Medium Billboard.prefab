@@ -36,6 +36,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4571080708408635541
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -81,6 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 981644287
   m_SortingLayer: -4
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 460643f3dfea1df438672405d0e79562, type: 3}
   m_Color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   m_FlipX: 0
@@ -90,7 +92,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3826188015671872924
 MonoBehaviour:
@@ -106,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 4571080708408635541}
   billboards:
+  - {fileID: 21300000, guid: 1d29b1e7e67164e4b99c0f6c215dbf19, type: 3}
   - {fileID: 21300000, guid: f87101e0a5ac96f4faa0898949e6a5c8, type: 3}
   - {fileID: 21300000, guid: 4e236b8debb11cf4ea60ccba51d35e23, type: 3}
   - {fileID: 21300000, guid: 59241db7dcbca3143995a243e1e75da1, type: 3}
@@ -123,7 +125,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7346be334b4df7c46ad8e4f70fa95a08, type: 3}
   change: 1
   changeTimeMin: 10
-  changeTimeMax: 40
+  changeTimeMax: 30
 --- !u!1 &1688468520415235776
 GameObject:
   m_ObjectHideFlags: 0

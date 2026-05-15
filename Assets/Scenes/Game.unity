@@ -2595,8 +2595,12 @@ MonoBehaviour:
   presenter: {fileID: 1877328570}
   speakers:
   - {fileID: 11400000, guid: 1a834a1299c77b84aa579bd6b4a19c4f, type: 2}
+  - {fileID: 11400000, guid: 35dab5b0547fb804bad69088fd3454cd, type: 2}
   - {fileID: 11400000, guid: bb634f1c21bc08440b73212b0b484d3d, type: 2}
   - {fileID: 11400000, guid: 4cb59b4f7e8859448a145231defbfd00, type: 2}
+  - {fileID: 11400000, guid: 5eefe5219038f1f47a851f032e6f94dd, type: 2}
+  - {fileID: 11400000, guid: 2a5e5a29d63621d4bb08d1bf0172c00a, type: 2}
+  - {fileID: 11400000, guid: aa032a490d0e49942818428a455155af, type: 2}
 --- !u!114 &187296078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6509,6 +6513,8 @@ MonoBehaviour:
     DisallowOverhangs: 0
     AvoidCollisionsWithOtherDungeons: 0
     PlaceTileTriggers: 0
+    DebugRender: 0
+    DungeonFlow: {fileID: 11400000, guid: 2395b2b2ac2df57488c0b7d8f9112fb5, type: 2}
     Seed: 0
     ShouldRandomizeSeed: 0
     MaxAttemptCount: 3
@@ -6519,7 +6525,10 @@ MonoBehaviour:
     RepeatMode: 0
     OverrideAllowTileRotation: 0
     AllowTileRotation: 0
-    DebugRender: 0
+    DebugRenderSettings:
+      Enabled: 0
+      ShowCollision: 1
+      ShowPathColours: 1
     LengthMultiplier: 1
     TriggerPlacement: 0
     TileTriggerLayer: 2
@@ -6531,13 +6540,48 @@ MonoBehaviour:
       m_Center: {x: 475, y: 0, z: 0}
       m_Extent: {x: 500, y: 150, z: 5}
     CollisionSettings:
+      AvoidCollisionsWithOtherDungeons: 0
       DisallowOverhangs: 0
       OverlapThreshold: 0.01
       Padding: 0
-      AvoidCollisionsWithOtherDungeons: 0
+      MultiDungeonCollisionMode: 1
+      fileVersion: 0
+    Settings:
+      DungeonFlow: {fileID: 11400000, guid: 2395b2b2ac2df57488c0b7d8f9112fb5, type: 2}
+      PipelineOverride: {fileID: 0}
+      ShouldRandomizeSeed: 0
+      Seed: 0
+      MaxAttemptCount: 3
+      UseMaximumPairingAttempts: 0
+      MaxPairingAttempts: 5
+      UpDirection: 2
+      OverrideRepeatMode: 0
+      RepeatMode: 0
+      OverrideAllowTileRotation: 0
+      AllowTileRotation: 0
+      DebugRenderSettings:
+        Enabled: 0
+        ShowCollision: 1
+        ShowPathColours: 1
+      LengthMultiplier: 1
+      TriggerPlacement: 0
+      TileTriggerLayer: 2
+      GenerateAsynchronously: 0
+      MaxAsyncFrameMilliseconds: 50
+      PauseBetweenRooms: 0
+      RestrictDungeonToBounds: 1
+      TilePlacementBounds:
+        m_Center: {x: 475, y: 0, z: 0}
+        m_Extent: {x: 500, y: 150, z: 5}
+      CollisionSettings:
+        AvoidCollisionsWithOtherDungeons: 0
+        DisallowOverhangs: 0
+        OverlapThreshold: 0.01
+        Padding: 0
+        MultiDungeonCollisionMode: 1
+        fileVersion: 0
     Root: {fileID: 0}
-    DungeonFlow: {fileID: 11400000, guid: 2395b2b2ac2df57488c0b7d8f9112fb5, type: 2}
-    fileVersion: 3
+    fileVersion: 4
   GenerateOnStart: 0
   Root: {fileID: 513545915}
 --- !u!1 &514594024
@@ -6911,12 +6955,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bb42831ee5422f409e7f24f9e7488ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: 0
+  stage: 1
   renderingStrategy: 0
   renderingMode: 0
   outlineLayerMask: -1
@@ -6924,7 +6968,7 @@ MonoBehaviour:
   primaryRendererScale: 0.75
   primarySizeReference: 640
   blurShift: 0
-  dilateShift: 1
+  dilateShift: 0
   dilateIterations: 1
   dilateQuality: 0
   blurIterations: 1
@@ -7707,7 +7751,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -350935103410364309, guid: 3609e3e073f383c4eb843f933d24f9ed, type: 3}
+  m_Sprite: {fileID: -350935103410364309, guid: 96528d281c263ae4d9c3e8ef6dc5a0af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7717,14 +7761,13 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!4 &601726443
-Transform:
+--- !u!224 &601726443
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 601726440}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -7740,6 +7783,11 @@ Transform:
   - {fileID: 142121664}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 3, y: 3}
+  m_Pivot: {x: 0.5, y: -0}
 --- !u!114 &601726445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8035,6 +8083,9 @@ MonoBehaviour:
       m_Calls: []
   os: {fileID: 0}
   label: 
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
 --- !u!114 &601726457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8157,7 +8208,7 @@ MonoBehaviour:
     rid: -2
   m_ShadowCastingSource: 1
   m_ShadowMesh:
-    m_Mesh: {fileID: 1078057170}
+    m_Mesh: {fileID: 626713099}
     m_LocalBounds:
       m_Center: {x: 0, y: 1, z: 0}
       m_Extent: {x: 0.25, y: 1, z: 0}
@@ -8205,7 +8256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 3c1b6696397448a4abf7c425f2ef39d7, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 629ca98c67a1ebd49916c22c160d31f3, type: 3}
 --- !u!1 &604129746
 GameObject:
   m_ObjectHideFlags: 0
@@ -8450,6 +8501,184 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5861241570148626119, guid: 4a659453e0173ea4bb13d7215971b557, type: 3}
   m_PrefabInstance: {fileID: 1241861072}
   m_PrefabAsset: {fileID: 0}
+--- !u!43 &626713099
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 12
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 36
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 20
+    localAABB:
+      m_Center: {x: 0, y: 1, z: 0}
+      m_Extent: {x: 0.25, y: 1, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 0
+  m_KeepIndices: 0
+  m_IndexFormat: 1
+  m_IndexBuffer: 030000000400000005000000050000000000000003000000000000000800000009000000090000000100000000000000010000000c0000000d0000000d0000000200000001000000020000001000000011000000110000000300000002000000030000000600000007000000000000000a0000000b000000010000000e0000000f000000020000001200000013000000
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 20
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 560
+    _typelessdata: 000080be0000000000000000000080bf00000000000080be00000040000080be0000004000000000000080bf000000000000803e000000400000803e0000004000000000000080bf000000000000803e000000000000803e0000000000000000000080bf00000000000080be000000000000803e00000000000000000000000000000000000080be00000000000080be000000000000000000000000000000000000803e000000000000803e00000000000000000000803f00000000000080be000000000000803e00000000000000000000404000000000000080be00000000000080be00000000000000000000000000000000000080be00000040000080be00000040000000000000000000000000000080be00000000000080be00000000000000000000803f00000000000080be00000040000080be00000000000000000000404000000000000080be00000040000080be000000400000000000000000000000000000803e000000400000803e00000040000000000000000000000000000080be00000040000080be00000040000000000000803f000000000000803e00000040000080be000000400000000000004040000000000000803e000000400000803e000000400000000000000000000000000000803e000000000000803e000000000000000000000000000000000000803e000000400000803e00000040000000000000803f000000000000803e000000000000803e000000400000000000004040000000000000803e00000000
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_MeshUsageFlags: 0
+  m_CookingOptions: 30
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  'm_MeshMetrics[0]': 1
+  'm_MeshMetrics[1]': 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &632937135
 GameObject:
   m_ObjectHideFlags: 0
@@ -13694,6 +13923,8 @@ MonoBehaviour:
     DisallowOverhangs: 0
     AvoidCollisionsWithOtherDungeons: 0
     PlaceTileTriggers: 0
+    DebugRender: 0
+    DungeonFlow: {fileID: 11400000, guid: 9895a54b9f093214e926e666fb8f7aba, type: 2}
     Seed: 0
     ShouldRandomizeSeed: 0
     MaxAttemptCount: 3
@@ -13704,7 +13935,10 @@ MonoBehaviour:
     RepeatMode: 0
     OverrideAllowTileRotation: 0
     AllowTileRotation: 0
-    DebugRender: 0
+    DebugRenderSettings:
+      Enabled: 0
+      ShowCollision: 1
+      ShowPathColours: 1
     LengthMultiplier: 1
     TriggerPlacement: 0
     TileTriggerLayer: 2
@@ -13716,13 +13950,48 @@ MonoBehaviour:
       m_Center: {x: 475, y: 0, z: 0}
       m_Extent: {x: 500, y: 150, z: 5}
     CollisionSettings:
+      AvoidCollisionsWithOtherDungeons: 0
       DisallowOverhangs: 0
       OverlapThreshold: 0.01
       Padding: 0
-      AvoidCollisionsWithOtherDungeons: 0
+      MultiDungeonCollisionMode: 1
+      fileVersion: 0
+    Settings:
+      DungeonFlow: {fileID: 11400000, guid: 9895a54b9f093214e926e666fb8f7aba, type: 2}
+      PipelineOverride: {fileID: 0}
+      ShouldRandomizeSeed: 0
+      Seed: 0
+      MaxAttemptCount: 3
+      UseMaximumPairingAttempts: 0
+      MaxPairingAttempts: 5
+      UpDirection: 2
+      OverrideRepeatMode: 0
+      RepeatMode: 0
+      OverrideAllowTileRotation: 0
+      AllowTileRotation: 0
+      DebugRenderSettings:
+        Enabled: 0
+        ShowCollision: 1
+        ShowPathColours: 1
+      LengthMultiplier: 1
+      TriggerPlacement: 0
+      TileTriggerLayer: 2
+      GenerateAsynchronously: 0
+      MaxAsyncFrameMilliseconds: 50
+      PauseBetweenRooms: 0
+      RestrictDungeonToBounds: 1
+      TilePlacementBounds:
+        m_Center: {x: 475, y: 0, z: 0}
+        m_Extent: {x: 500, y: 150, z: 5}
+      CollisionSettings:
+        AvoidCollisionsWithOtherDungeons: 0
+        DisallowOverhangs: 0
+        OverlapThreshold: 0.01
+        Padding: 0
+        MultiDungeonCollisionMode: 1
+        fileVersion: 0
     Root: {fileID: 0}
-    DungeonFlow: {fileID: 11400000, guid: 9895a54b9f093214e926e666fb8f7aba, type: 2}
-    fileVersion: 3
+    fileVersion: 4
   GenerateOnStart: 0
   Root: {fileID: 971886677}
 --- !u!1 &973403268
@@ -15171,184 +15440,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075515558}
   m_CullTransparentMesh: 1
---- !u!43 &1078057170
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 12
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 36
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 20
-    localAABB:
-      m_Center: {x: 0, y: 1, z: 0}
-      m_Extent: {x: 0.25, y: 1, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 0
-  m_KeepIndices: 0
-  m_IndexFormat: 1
-  m_IndexBuffer: 030000000400000005000000050000000000000003000000000000000800000009000000090000000100000000000000010000000c0000000d0000000d0000000200000001000000020000001000000011000000110000000300000002000000030000000600000007000000000000000a0000000b000000010000000e0000000f000000020000001200000013000000
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 20
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 560
-    _typelessdata: 000080be0000000000000000000080bf00000000000080be00000040000080be0000004000000000000080bf000000000000803e000000400000803e0000004000000000000080bf000000000000803e000000000000803e0000000000000000000080bf00000000000080be000000000000803e00000000000000000000000000000000000080be00000000000080be000000000000000000000000000000000000803e000000000000803e00000000000000000000803f00000000000080be000000000000803e00000000000000000000404000000000000080be00000000000080be00000000000000000000000000000000000080be00000040000080be00000040000000000000000000000000000080be00000000000080be00000000000000000000803f00000000000080be00000040000080be00000000000000000000404000000000000080be00000040000080be000000400000000000000000000000000000803e000000400000803e00000040000000000000000000000000000080be00000040000080be00000040000000000000803f000000000000803e00000040000080be000000400000000000004040000000000000803e000000400000803e000000400000000000000000000000000000803e000000000000803e000000000000000000000000000000000000803e000000400000803e00000040000000000000803f000000000000803e000000000000803e000000400000000000004040000000000000803e00000000
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
-  m_MeshLodInfo:
-    serializedVersion: 2
-    m_LodSelectionCurve:
-      serializedVersion: 1
-      m_LodSlope: 0
-      m_LodBias: 0
-    m_NumLevels: 1
-    m_SubMeshes:
-    - serializedVersion: 2
-      m_Levels:
-      - serializedVersion: 1
-        m_IndexStart: 0
-        m_IndexCount: 0
 --- !u!1 &1087832163
 GameObject:
   m_ObjectHideFlags: 0
@@ -17641,6 +17732,8 @@ MonoBehaviour:
   - {fileID: 1941694052614715992, guid: 5b6b4f6f33b717b409540cd9646cd7ad, type: 3}
   - {fileID: 1941694052614715992, guid: 8674d5ed10a9d4d4784743d6a18e9ea7, type: 3}
   - {fileID: 367791881421361011, guid: b0c9a94a52eba0b47a158fc53bfbc341, type: 3}
+  - {fileID: 367791881421361011, guid: f0527fb1e83587f4cb0d30bdf8a122b0, type: 3}
+  - {fileID: 367791881421361011, guid: 4d572d1ff660b6f4495df8df7224166a, type: 3}
   levelStartPrefab: {fileID: 7346449545815944771, guid: 4a659453e0173ea4bb13d7215971b557, type: 3}
   bg1Prefabs:
   - {fileID: 6768238267040990639, guid: 9e8c963fd2988c34ca1158cc61a8bda3, type: 3}
@@ -18698,6 +18791,8 @@ MonoBehaviour:
     DisallowOverhangs: 0
     AvoidCollisionsWithOtherDungeons: 0
     PlaceTileTriggers: 0
+    DebugRender: 0
+    DungeonFlow: {fileID: 11400000, guid: d6778adf04488704184d58599f7dcc5a, type: 2}
     Seed: 0
     ShouldRandomizeSeed: 0
     MaxAttemptCount: 3
@@ -18708,7 +18803,10 @@ MonoBehaviour:
     RepeatMode: 0
     OverrideAllowTileRotation: 0
     AllowTileRotation: 0
-    DebugRender: 0
+    DebugRenderSettings:
+      Enabled: 0
+      ShowCollision: 1
+      ShowPathColours: 1
     LengthMultiplier: 1
     TriggerPlacement: 0
     TileTriggerLayer: 2
@@ -18720,13 +18818,48 @@ MonoBehaviour:
       m_Center: {x: 475, y: 0, z: 0}
       m_Extent: {x: 500, y: 150, z: 5}
     CollisionSettings:
+      AvoidCollisionsWithOtherDungeons: 0
       DisallowOverhangs: 0
       OverlapThreshold: 0.01
       Padding: 0
-      AvoidCollisionsWithOtherDungeons: 0
+      MultiDungeonCollisionMode: 1
+      fileVersion: 0
+    Settings:
+      DungeonFlow: {fileID: 11400000, guid: d6778adf04488704184d58599f7dcc5a, type: 2}
+      PipelineOverride: {fileID: 0}
+      ShouldRandomizeSeed: 0
+      Seed: 0
+      MaxAttemptCount: 3
+      UseMaximumPairingAttempts: 0
+      MaxPairingAttempts: 5
+      UpDirection: 2
+      OverrideRepeatMode: 0
+      RepeatMode: 0
+      OverrideAllowTileRotation: 0
+      AllowTileRotation: 0
+      DebugRenderSettings:
+        Enabled: 0
+        ShowCollision: 1
+        ShowPathColours: 1
+      LengthMultiplier: 1
+      TriggerPlacement: 0
+      TileTriggerLayer: 2
+      GenerateAsynchronously: 0
+      MaxAsyncFrameMilliseconds: 50
+      PauseBetweenRooms: 0
+      RestrictDungeonToBounds: 1
+      TilePlacementBounds:
+        m_Center: {x: 475, y: 0, z: 0}
+        m_Extent: {x: 500, y: 150, z: 5}
+      CollisionSettings:
+        AvoidCollisionsWithOtherDungeons: 0
+        DisallowOverhangs: 0
+        OverlapThreshold: 0.01
+        Padding: 0
+        MultiDungeonCollisionMode: 1
+        fileVersion: 0
     Root: {fileID: 0}
-    DungeonFlow: {fileID: 11400000, guid: d6778adf04488704184d58599f7dcc5a, type: 2}
-    fileVersion: 3
+    fileVersion: 4
   GenerateOnStart: 0
   Root: {fileID: 1328825832}
 --- !u!1 &1332762040
@@ -28747,6 +28880,8 @@ MonoBehaviour:
     DisallowOverhangs: 0
     AvoidCollisionsWithOtherDungeons: 0
     PlaceTileTriggers: 0
+    DebugRender: 0
+    DungeonFlow: {fileID: 11400000, guid: b42be5456d1ab3247a491e7aeedb787f, type: 2}
     Seed: 0
     ShouldRandomizeSeed: 0
     MaxAttemptCount: 3
@@ -28757,7 +28892,10 @@ MonoBehaviour:
     RepeatMode: 0
     OverrideAllowTileRotation: 0
     AllowTileRotation: 0
-    DebugRender: 0
+    DebugRenderSettings:
+      Enabled: 0
+      ShowCollision: 1
+      ShowPathColours: 1
     LengthMultiplier: 1
     TriggerPlacement: 0
     TileTriggerLayer: 2
@@ -28769,13 +28907,48 @@ MonoBehaviour:
       m_Center: {x: 425, y: 0, z: 0}
       m_Extent: {x: 750, y: 200, z: 5}
     CollisionSettings:
+      AvoidCollisionsWithOtherDungeons: 0
       DisallowOverhangs: 0
       OverlapThreshold: 0.2
       Padding: 0
-      AvoidCollisionsWithOtherDungeons: 0
+      MultiDungeonCollisionMode: 1
+      fileVersion: 0
+    Settings:
+      DungeonFlow: {fileID: 11400000, guid: b42be5456d1ab3247a491e7aeedb787f, type: 2}
+      PipelineOverride: {fileID: 0}
+      ShouldRandomizeSeed: 0
+      Seed: 0
+      MaxAttemptCount: 3
+      UseMaximumPairingAttempts: 0
+      MaxPairingAttempts: 5
+      UpDirection: 2
+      OverrideRepeatMode: 0
+      RepeatMode: 0
+      OverrideAllowTileRotation: 0
+      AllowTileRotation: 0
+      DebugRenderSettings:
+        Enabled: 0
+        ShowCollision: 1
+        ShowPathColours: 1
+      LengthMultiplier: 1
+      TriggerPlacement: 0
+      TileTriggerLayer: 2
+      GenerateAsynchronously: 0
+      MaxAsyncFrameMilliseconds: 50
+      PauseBetweenRooms: 0
+      RestrictDungeonToBounds: 1
+      TilePlacementBounds:
+        m_Center: {x: 425, y: 0, z: 0}
+        m_Extent: {x: 750, y: 200, z: 5}
+      CollisionSettings:
+        AvoidCollisionsWithOtherDungeons: 0
+        DisallowOverhangs: 0
+        OverlapThreshold: 0.2
+        Padding: 0
+        MultiDungeonCollisionMode: 1
+        fileVersion: 0
     Root: {fileID: 0}
-    DungeonFlow: {fileID: 11400000, guid: b42be5456d1ab3247a491e7aeedb787f, type: 2}
-    fileVersion: 3
+    fileVersion: 4
   GenerateOnStart: 0
   Root: {fileID: 2003208290}
 --- !u!1 &2009490335
