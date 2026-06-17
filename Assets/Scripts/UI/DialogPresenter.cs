@@ -60,5 +60,13 @@ namespace HackedDesign.UI
                 Repaint();
             }
         }
+
+        public void SkipClick()
+        {
+            Debug.Log("Skip", this);
+            currentPage = 0;
+            Hide();
+            finishedEvent.Invoke();
+        }
     }
 }

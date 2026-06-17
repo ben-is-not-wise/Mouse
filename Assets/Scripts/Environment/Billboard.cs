@@ -37,12 +37,15 @@ public class Billboard : MonoBehaviour
                 light2D.gameObject.SetActive(false);
             }
 
-
             return;
         }
         else
         {
-            light2D?.gameObject.SetActive(true);
+            if(light2D != null)
+            {
+                light2D.gameObject.SetActive(true);
+            }
+
             SetSprite();
         }
 

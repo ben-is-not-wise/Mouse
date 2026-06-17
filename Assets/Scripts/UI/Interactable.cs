@@ -117,7 +117,6 @@ namespace HackedDesign
                 Game.Instance.GameData.GameFlags.Add(gameFlag);
             }
 
-            Debug.Log("Invoke interact");
             interactAction?.Invoke();
 
             if(!repeatable && statusIcon != null)
@@ -128,6 +127,8 @@ namespace HackedDesign
 
         private void Update()
         {
+
+
             if (pingTimer + 4 < Time.time)
             {
                 ping = false;
@@ -175,7 +176,7 @@ namespace HackedDesign
 
         public void Target(bool flag)
         {
-            if(!CanTrigger() && flag)
+            if(!CanTrigger())
             {
                 return;
             }
@@ -185,6 +186,7 @@ namespace HackedDesign
 
         public void Interact(bool flag)
         {
+
             if (!CanTrigger())
             {
                 return;
@@ -204,7 +206,7 @@ namespace HackedDesign
             //outlinable.OutlineParameters.Color = Color.yellow;
         }
 
-        private bool CanTrigger() => repeatable || touched;
+        private bool CanTrigger() => repeatable || !touched;
         
     }
 

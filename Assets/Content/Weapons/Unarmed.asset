@@ -20,3 +20,4 @@ MonoBehaviour:
   maxShootDamage: 200
   minMeleeDamage: 25
   maxMeleeDamage: 50
+  projectileForce: 13

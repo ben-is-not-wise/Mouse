@@ -1,9 +1,7 @@
 
 using HackedDesign;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class Ad : MonoBehaviour
 {

@@ -30,6 +30,7 @@ namespace HackedDesign
         public void Begin()
         {
             timer.Timer.OnTimerStop += TimeOut;
+            Debug.Log("Set start battle");
             player.Character.SetStateBattle();
             actionBar.Show();
             traceBar.Show();

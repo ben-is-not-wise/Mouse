@@ -91,7 +91,8 @@ namespace HackedDesign
             phase3.SetActive(false);
             phase4.SetActive(true);
             phase5.SetActive(false);
-            Game.Instance.Player.Character.SetStateSleeping();
+            Game.Instance.Player.Character.ExecuteCommand(new FacingCommand(0, -1f));
+            Game.Instance.Player.Character.SetStateIdle();
             Game.Instance.Player.Character.Animate();
             DialogManager.Instance.ShowDialog("intro_roof4", new UnityAction(Phase4DialogOver));
             Debug.Log("phase 4");
@@ -112,7 +113,6 @@ namespace HackedDesign
             phase3.SetActive(false);
             phase4.SetActive(false);
             phase5.SetActive(true);
-            Game.Instance.Player.Character.ExecuteCommand(new FacingCommand(0, -1f));
             Game.Instance.Player.Character.SetStateIdle();
             Game.Instance.Player.Character.Animate();
             DialogManager.Instance.ShowDialog("intro_roof5", new UnityAction(Phase5DialogOver));
@@ -120,6 +120,11 @@ namespace HackedDesign
 
         private void Phase5DialogOver()
         {
+            phase1.SetActive(false);
+            phase2.SetActive(false);
+            phase3.SetActive(false);
+            phase4.SetActive(false);
+            phase5.SetActive(false);
             Debug.Log("phase 5 over");
             Game.Instance.Player.Reset();
             Game.Instance.SetStateAct0LoadTutorialLevel();

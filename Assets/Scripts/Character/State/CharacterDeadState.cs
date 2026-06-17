@@ -34,6 +34,7 @@ namespace HackedDesign
             {
                 return;
             }
+            this.animator.ResetTrigger(AnimatorParams.Sleep);
             this.animator.ResetTrigger(AnimatorParams.Interact);
             this.animator.ResetTrigger(AnimatorParams.Roll);
             this.animator.ResetTrigger(AnimatorParams.Melee);
