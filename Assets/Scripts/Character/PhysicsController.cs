@@ -48,7 +48,7 @@ namespace HackedDesign
         private int jumpPhase;
         private float coyoteCounter, jumpBufferCounter;
         private bool isJumping;
-        private float wallDirectionX; // FIXME: We don't need this anymore
+        private float wallDirectionX;
         private float movementSpeed = 0;
 
         private bool currentlyClimbingLedge = false;
@@ -127,10 +127,10 @@ namespace HackedDesign
             Stop();
             if (body.EnsureNotNull(this, nameof(body)))
             {
-                Debug.Log($"knockback called - direction: {direction.normalized}, amount: {amount}");
-                Debug.Log($"velocity BEFORE: {body.linearVelocity}");
+                //Debug.Log($"knockback called - direction: {direction.normalized}, amount: {amount}");
+                //Debug.Log($"velocity BEFORE: {body.linearVelocity}");
                 body.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
-                Debug.Log($"velocity AFTER AddForce: {body.linearVelocity}");
+                //Debug.Log($"velocity AFTER AddForce: {body.linearVelocity}");
             }
         }
         #endregion Knockback
@@ -193,10 +193,10 @@ namespace HackedDesign
 
             UpdateFalling();
 
-            if(CurrentlyKnockback)
-            {
-                Debug.Log($"In knockback - velocity: {body.linearVelocity}, position: {body.position}");
-            }
+            //if(CurrentlyKnockback)
+            //{
+            //    Debug.Log($"In knockback - velocity: {body.linearVelocity}, position: {body.position}");
+            //}
 
             // If we're going through a currentlyKnockback, do nothing else
             // If we're climbing a ledge, do nothing else
@@ -382,9 +382,10 @@ namespace HackedDesign
 
             ContactNormal = validHitCount > 0 ? (summedNormal / validHitCount).normalized : Vector2.zero;
             // If we fly, we're always touching the ground for simplicities sake
-            OnGround = settings.fly ? true : ContactNormal.y >= 0.5f;
+            OnGround = settings != null && settings.fly || ContactNormal.y >= 0.5f;
             // If we fly, we're never wall climbing for simplicities sake
-            OnWall = wallStick && (settings.fly ? false : Mathf.Abs(ContactNormal.x) >= 0.75f); 
+            OnWall = wallStick && ((settings == null || !settings.fly) && Mathf.Abs(ContactNormal.x) >= 0.75f);
+            wallDirectionX = OnWall ? Mathf.Sign(ContactNormal.x) : 0f;
         }
         #endregion Movement
 

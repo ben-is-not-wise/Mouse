@@ -27,7 +27,7 @@ namespace HackedDesign
 
             var x = transform.position.x - other.x;
 
-            glassBreakEffect.transform.right = x > 0 ? Vector3.right : Vector3.left;
+            glassBreakEffect.transform.rotation = Quaternion.Euler(0f, x > 0 ? 0f : 180f, 0f);
 
             glassBreakEffect.Play();
             spriteRenderer.enabled = false;

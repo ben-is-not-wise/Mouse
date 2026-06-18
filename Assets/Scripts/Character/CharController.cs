@@ -273,6 +273,7 @@ namespace HackedDesign
             if(IsDead)
             {
                 Body.FixedMovement(0, 0, false, false, 0);
+                return;
             }
 
             if (!knockback)
@@ -430,19 +431,21 @@ namespace HackedDesign
         {
             if (Body != null && Body.OnWall)
             {
-                transform.right = Body.ContactNormal.x < 0 ? Vector3.right : Vector3.left;
+                SetFacingDirection(Body.ContactNormal.x < 0 ? 1f : -1f);
                 return;
             }
 
             if (Mathf.Abs(movementDirection) >= Mathf.Epsilon)
             {
-                transform.right = new Vector3(movementDirection, 0, 0);
+                SetFacingDirection(movementDirection);
             }
             else if (Mathf.Abs(facingDirection) >= Mathf.Epsilon)
             {
-                transform.right = new Vector3(facingDirection, 0, 0);
+                SetFacingDirection(facingDirection);
             }
         }
+
+        private void SetFacingDirection(float sign) => transform.rotation = Quaternion.Euler(0f, sign < 0f ? 180f : 0f, 0f);
 
         #endregion Animation
 

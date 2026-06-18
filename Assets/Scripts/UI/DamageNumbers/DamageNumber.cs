@@ -22,7 +22,7 @@ namespace HackedDesign.UI.DamageNumbers
             this.number = number;
             text.text = number.ToString();
             this.transform.position = start;
-            rb.AddForce(Random.onUnitCircle * (number/10), ForceMode2D.Impulse);
+            rb.AddForce(Random.onUnitCircle * (number/20), ForceMode2D.Impulse);
             this.gameObject.SetActive(true);
             lifetimeCoroutine = StartCoroutine(End());
         }

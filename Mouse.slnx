@@ -3,7 +3,6 @@
   <Project Path="EPO.csproj" />
   <Project Path="DunGen.Editor.csproj" />
   <Project Path="DunGen.csproj" />
-  <Project Path="EPODemo.csproj" />
   <Project Path="EPOUtilities.csproj" />
   <Project Path="EPOEditor.csproj" />
   <Project Path="Mouse.Extensions.csproj" />
