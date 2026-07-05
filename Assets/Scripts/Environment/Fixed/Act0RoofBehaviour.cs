@@ -23,9 +23,10 @@ namespace HackedDesign
             Phase1();
         }
 
-        public void Stop() 
+        public void Stop()
         {
             DialogManager.Instance.HideDialog();
+            Game.Instance.FullScreenFX.Hide();
         }
 
         private void Phase1()
@@ -63,7 +64,7 @@ namespace HackedDesign
 
         private void Phase2DialogOver()
         {
-            Phase3();   
+            Game.Instance.FullScreenFX.FadeToBlack(new UnityAction(Phase3));
         }
 
         private void Phase3()
@@ -74,7 +75,7 @@ namespace HackedDesign
             phase3.SetActive(true);
             phase4.SetActive(false);
             phase5.SetActive(false);
-            Game.Instance.Player.Character.SetStateSleeping();
+            //Game.Instance.Player.Character.SetStateSleeping();
             Game.Instance.Player.Character.Animate();
             DialogManager.Instance.ShowDialog("intro_roof3", new UnityAction(Phase3DialogOver));
         }
@@ -91,8 +92,9 @@ namespace HackedDesign
             phase3.SetActive(false);
             phase4.SetActive(true);
             phase5.SetActive(false);
+            Game.Instance.FullScreenFX.FadeOut();
             Game.Instance.Player.Character.ExecuteCommand(new FacingCommand(0, -1f));
-            Game.Instance.Player.Character.SetStateIdle();
+            //Game.Instance.Player.Character.SetStateIdle();
             Game.Instance.Player.Character.Animate();
             DialogManager.Instance.ShowDialog("intro_roof4", new UnityAction(Phase4DialogOver));
             Debug.Log("phase 4");

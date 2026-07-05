@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 1966604536625893079}
   - component: {fileID: 7146917785117139825}
   - component: {fileID: 8383627098976381556}
+  - component: {fileID: 6642574457438703595}
   m_Layer: 8
   m_Name: Security MW
   m_TagString: Enemy
@@ -78,7 +79,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6354225801631774783
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -135,6 +136,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!114 &-5006827703715512327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,6 +153,8 @@ MonoBehaviour:
   characterStatusIcon: {fileID: 446768961055263707}
   aimPivot: {fileID: 4923303347849868303}
   enemyType: 1
+  useUtilityBrain: 1
+  brainSettings: {fileID: 11400000, guid: ff692876211224043822ca17803d930e, type: 2}
   lineOfSightMask:
     serializedVersion: 2
     m_Bits: 200
@@ -399,6 +403,22 @@ MonoBehaviour:
       m_Calls: []
   os: {fileID: 4081725381104033010}
   label: Security Guard
+  repeatable: 1
+  gameFlag: 
+  interactionType: 0
+--- !u!114 &6642574457438703595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5781068085863188074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates: []
 --- !u!1001 &2898089743731811619
 PrefabInstance:
   m_ObjectHideFlags: 0

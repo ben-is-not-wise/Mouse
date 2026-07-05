@@ -26,6 +26,8 @@ namespace HackedDesign
             Debug.Log("load tut state");
             level.RainOn();
             player.Reset();
+            level.Reset();
+            player.Teleport(level.GetLevelPlayerSpawnLocation() + Vector3.up);
             level.SpawnEnemies(20);
         }
 

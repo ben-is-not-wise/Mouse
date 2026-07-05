@@ -16,7 +16,9 @@ namespace HackedDesign
         //public List<MissionData> availableMissions = new();
         private MissionData currentMission;
 
+
         public MissionData CurrentMission { get => currentMission; private set => currentMission = value; }
+        public bool FinishedTutorial { get; set; }
 
         public void Reset()
         {
@@ -47,8 +49,8 @@ namespace HackedDesign
         }*/
     }
 
-    
 
+    [System.Serializable]
     public class MissionData
     {
         public int seed;

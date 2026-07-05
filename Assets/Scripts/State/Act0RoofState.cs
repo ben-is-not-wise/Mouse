@@ -22,8 +22,10 @@ namespace HackedDesign
 
         public void Begin()
         {
-            var cutscene = level.ShowCutscene(Cutscenes.Rooftop1, true, 0, 25, 1, true, true, player);
-            player.Teleport(level.GetLevelPlayerSpawnLocation() + Vector3.up);
+            var cutscene = level.ShowCutscene(Cutscenes.Rooftop1, true, 0, 25, 0, true, true, player);
+            level.Reset();
+            player.Character.ExecuteCommand(new OutfitSwapCommand("PD"));
+            player.Teleport(level.GetLevelPlayerSpawnLocation());
 
             cutscene.Play();
         }

@@ -28,7 +28,7 @@ namespace HackedDesign
         public void Begin()
         {
             
-            level.Reset();
+            level.Clear();
             level.ShowCutscene("Hotdog Stand", false, true, player);
             player.Character.ExecuteCommand(new FacingCommand(0, 1f));
             player.Character.SetStateSitting();

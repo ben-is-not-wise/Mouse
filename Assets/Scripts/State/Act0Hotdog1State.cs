@@ -23,7 +23,7 @@ namespace HackedDesign
 
         public void Begin()
         {
-            level.Reset();
+            level.Clear();
             //level.ShowNamedRoom(NamedLevels.MouseStartingRoom, true, true, player);
             player.Character.Shadow.enabled = false;
             player.Character.SetStateIdle();

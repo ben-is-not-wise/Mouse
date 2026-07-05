@@ -16,7 +16,10 @@ namespace HackedDesign
 
         void RainOn();
         void RainOff();
+        void Clear();
+
         void Reset();
+
         ICutscene ShowCutscene(string name, bool cityBg, bool rain, IPlayerController player);
         void SpawnEnemies(int count);
         ICutscene ShowCutscene(string name, bool randomLevel, int level, int length, int difficulty, bool cityBg, bool rain, IPlayerController player);
@@ -60,10 +63,10 @@ namespace HackedDesign
 
         void Start()
         {
-            Reset();
+            Clear();
         }
 
-        public void Reset()
+        public void Clear()
         {
             LevelComplete = false;
             if (this.namedRoom)
@@ -89,12 +92,17 @@ namespace HackedDesign
             }
         }
 
+        public void Reset()
+        {
+            enemyManager.Reset();
+        }
+
         public void RainOff() => this.rain.gameObject.SetActive(false);
         public void RainOn() => this.rain.gameObject.SetActive(true);
 
         public ICutscene ShowCutscene(string name, bool randomLevel, int level, int length, int difficulty, bool cityBg, bool rain, IPlayerController player)
         {
-            Reset();
+            Clear();
             Random.InitState(level);
 
             if (cityBg)
@@ -137,7 +145,7 @@ namespace HackedDesign
 
         public ICutscene ShowCutscene(string name, bool cityBg, bool rain, IPlayerController player)
         {
-            Reset();
+            Clear();
             Random.InitState(1);
             
 
@@ -264,7 +272,12 @@ namespace HackedDesign
                     return;
                 }
 
-                var prop = Instantiate(locations[i].GetRandomProp(), locations[i].transform.position, Quaternion.identity, propsParent);
+                var propPrefab = locations[i].GetRandomProp();
+
+                if (propPrefab != null) 
+                {
+                    Instantiate(propPrefab, locations[i].transform.position, Quaternion.identity, propsParent);
+                }
             }
         }
 
@@ -279,7 +292,12 @@ namespace HackedDesign
                     return;
                 }
 
-                var trap = Instantiate(locations[i].GetRandomTrap(), locations[i].transform.position, Quaternion.identity, propsParent);
+                var trapPrefab = locations[i].GetRandomTrap();
+
+                if (trapPrefab != null) 
+                {
+                    Instantiate(trapPrefab, locations[i].transform.position, Quaternion.identity, propsParent);
+                }
             }
         }
 
@@ -287,6 +305,16 @@ namespace HackedDesign
         {
             enemyManager.Reset();
             var spawns = GetSpawnLocationsOnLevel();
+
+            var mustSpawnLocations = spawns.Where(s => s.MustSpawn).ToList();
+
+            Debug.Log("Spawning required " + Mathf.Min(count, mustSpawnLocations.Count) + " enemies");
+            for (int i = 0; i < Mathf.Min(count, mustSpawnLocations.Count); i++)
+            {
+                enemyManager.Spawn(mustSpawnLocations[i]);
+            }
+
+            spawns = spawns.Where(s => !s.MustSpawn).ToList();
 
             Debug.Log("Spawning " + Mathf.Min(count, spawns.Count) + " enemies");
 
@@ -296,16 +324,8 @@ namespace HackedDesign
             }
         }
 
-
-
-        private float BuildingHeight(int difficulty)
-        {
-            return Random.Range(-2, 2) * difficulty;
-        }
-        private float BuildingDistance(int difficulty, float xPosition)
-        {
-            return Random.Range(2f + (xPosition / 200), 6f + (xPosition / 200))  * difficulty;
-        }
+        private float BuildingHeight(int difficulty) => Random.Range(-2, 2) * difficulty;
+        private float BuildingDistance(int difficulty, float xPosition) => 1 + Random.Range(2f + (xPosition / 200), 6f + (xPosition / 200)) * difficulty;
 
         public Vector3 GetLevelPlayerSpawnLocation()
         {
@@ -314,8 +334,8 @@ namespace HackedDesign
             return spawn != null ? spawn.transform.position : Vector3.zero;
         }
 
-        public List<Spawn> GetSpawnLocationsOnLevel() => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(_ => Random.value).ToList();
-        public List<Spawn> GetSpawnLocationsOnLevel(EnemyType type) => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).Where(x => x.CanSpawnEnemy(type)).OrderBy(_ => Random.value).ToList();
+        public List<Spawn> GetSpawnLocationsOnLevel() => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude).OrderBy(_ => Random.value).ToList();
+        public List<Spawn> GetSpawnLocationsOnLevel(EnemyType type) => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude).Where(x => x.CanSpawnEnemy(type)).OrderBy(_ => Random.value).ToList();
 
         //public List<Spawn> GetPropSpawnLocationsOnLevel() => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(_ => Random.value).ToList();
     }

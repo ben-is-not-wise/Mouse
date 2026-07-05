@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.TextCore.Text;
 using UnityEngine.U2D;
+using UnityEngine.U2D.Animation;
 
 namespace HackedDesign
 {
@@ -25,8 +26,12 @@ namespace HackedDesign
         [SerializeField] private Transform head;
         [SerializeField] private Ghost ghost;
         [SerializeField] private ShadowCaster2D shadow;
+        [SerializeField] private SpriteLibrary? spriteLibrary = null;
         [Header("Settings")]
         [SerializeField] private CharacterSettings? settings = null;
+        [SerializeField] private List<Outfit> wardrobe = new();
+
+        private SpriteResolver[] spriteResolvers = System.Array.Empty<SpriteResolver>();
         
         #region State
         private ICharacterState currentState;
@@ -66,11 +71,17 @@ namespace HackedDesign
 
         public bool JumpHoldFlag { get; set; }
         public bool IsWalking { get; private set; } = false;
+
+        public bool CanRoll { get; private set; } = true;
         public bool GhostToggle { get; private set; } = false;
 
         public bool IsPlayer => this.gameObject.CompareTag(Tags.Player);
 
         public FXType HitFXType => settings != null ? settings.HitFX : FXType.EnvHit;
+
+        public float MaxJumpReach => body != null ? body.EstimatedJumpDistance(settings != null ? settings.RunSpeed : 0f) : 0f;
+        public float JumpApexHeight => body != null ? body.JumpApexHeight : 0f;
+        public bool CanReachJump(float dx, float dy) => body != null && body.CanReach(dx, dy, settings != null ? settings.RunSpeed : 0f);
 
         #endregion Properties
 
@@ -113,6 +124,8 @@ namespace HackedDesign
             this.AutoBind(ref body);
             this.AutoBind(ref collider);
             this.AutoBind(ref shadow);
+            this.AutoBind(ref spriteLibrary);
+            spriteResolvers = GetComponentsInChildren<SpriteResolver>(includeInactive: true);
             if (head == null)
             {
                 head = transform;
@@ -125,6 +138,28 @@ namespace HackedDesign
         #region Commands
         public void SetCrouch(bool flag) => IsCrouched = flag;
 
+        public void SetOutfit(string name)
+        {
+            if (!spriteLibrary.EnsureNotNull(this, nameof(spriteLibrary)))
+            {
+                return;
+            }
+
+            var entry = wardrobe.Find(c => c.Name == name);
+            if (entry == null || entry.Library == null)
+            {
+                Debug.LogWarning($"No outfit named '{name}' in wardrobe", this);
+                return;
+            }
+
+            spriteLibrary.spriteLibraryAsset = entry.Library;
+
+            foreach (var resolver in spriteResolvers)
+            {
+                resolver.ResolveSpriteToSpriteRenderer();
+            }
+        }
+
         public void SetMovement(float inputDirection, float inputClimb)
         {
             InputDirection = inputDirection;
@@ -136,6 +171,8 @@ namespace HackedDesign
 
         public void SetWalk(bool flag) => IsWalking = flag;
         public void WalkToggle() => IsWalking = !IsWalking;
+
+        public void SetCanRoll(bool flag) => CanRoll = flag;
         public void SetAim(bool flag) => Aiming = flag;
 
         public void ApplyKnockback(Vector3 direction) => ApplyKnockback(direction, Settings.EnsureNotNull(this, nameof(Settings)) ? Settings.KnockbackAmount : 0);
@@ -314,7 +351,7 @@ namespace HackedDesign
                 onWall = Body != null && Body.OnWall,
                 velocityY = Body == null ? 0 : Body.VelocityY,
                 movementMagnitude = Mathf.Abs(DesiredMovement),
-                rollOnLand = Body != null && Body.LastFallTime > 1f,
+                rollOnLand = Body != null && CanRoll && Body.LastFallTime > 1f,
                 aiming = Aiming,
                 isClimbingLedge = Body != null && Body.CurrentlyClimbingLedge,
                 knockback = knockback
@@ -340,7 +377,7 @@ namespace HackedDesign
 
             return vectorToPlayer.sqrMagnitude > (maxVisualRange * maxVisualRange)
                 ? null
-                : Physics2D.Raycast(position, vectorToPlayer.normalized, Settings != null ? Settings.ShootDistance : 0, lineOfSightMask);
+                : Physics2D.Raycast(position, vectorToPlayer.normalized, maxVisualRange, lineOfSightMask);
         }
 
         #endregion Update

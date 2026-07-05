@@ -13,6 +13,7 @@
         CanineDrone,
         FlyingDrone,
         FanDrone,
-        ShieldDrone
+        ShieldDrone,
+        Helicopter
     }
 }

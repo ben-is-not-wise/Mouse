@@ -16,6 +16,8 @@ namespace HackedDesign
         public Vector3 lastKnownPlayerPosition;
         public bool wallInFront;
         public bool dropInFront;
+        public float groundDistance;
+        public LayerMask movementMask;
         public int bullets;
         public bool flying;
         public EnemySettings settings;

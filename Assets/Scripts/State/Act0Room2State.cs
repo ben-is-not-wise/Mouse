@@ -23,7 +23,7 @@ namespace HackedDesign
 
         public void Begin()
         {
-            level.Reset();
+            level.Clear();
             level.ShowCutscene(Cutscenes.MouseStartingRoom2, true, true, player);
             player.Character.Shadow.enabled = false;
             player.Character.SetStateIdle();

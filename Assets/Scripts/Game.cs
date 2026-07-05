@@ -64,6 +64,7 @@ namespace HackedDesign
         [SerializeField] private ActPresenter? act1Presenter = null;
         [SerializeField] private ActPresenter? act2Presenter = null;
         [SerializeField] private ActPresenter? act3Presenter = null;
+        [field: SerializeField, NotNull] public FullScreenFXPresenter FullScreenFX { get; private set; } = null!;
 
         [Header("Data")]
         [field: SerializeField, NotNull] public GameData GameData { get; private set; } = new();
@@ -172,6 +173,7 @@ namespace HackedDesign
             act1Presenter.HideIfValid(this, nameof(act1Presenter));
             act2Presenter.HideIfValid(this, nameof(act2Presenter));
             act3Presenter.HideIfValid(this, nameof(act3Presenter));
+            FullScreenFX.HideIfValid(this, nameof(FullScreenFX));
         }
     }
 }

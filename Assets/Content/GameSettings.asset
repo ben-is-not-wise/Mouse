@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   skipIntro: 1
-  startPistol: 1
+  startPistol: 0
   infiniteMomentum: 0
   fallDeathHeight: 27
   fallDamageHeight: 20

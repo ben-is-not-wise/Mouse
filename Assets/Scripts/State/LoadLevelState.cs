@@ -31,7 +31,7 @@ namespace HackedDesign
 
         private void LoadLevel()
         {
-            level.Reset();
+            level.Clear();
             level.Generate(Random.Range(1, 1000), 50, 1);
             level.RainOn();
         }

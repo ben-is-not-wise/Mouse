@@ -418,6 +418,41 @@ namespace HackedDesign
         #endregion Falling
 
         #region Jump
+        // Self-consistent projectile model for jump steering hints (e.g. gap-jumping).
+        // Uses defaultGravityScale so apex height resolves to jumpHeight; an estimate,
+        // not an exact landing predictor.
+        private float JumpGravity => Mathf.Abs(Physics2D.gravity.y) * Mathf.Max(settings != null ? settings.defaultGravityScale : 1f, 0.01f);
+        private float JumpLaunchSpeed => Mathf.Sqrt(2f * JumpGravity * (settings != null ? settings.jumpHeight : 0f));
+
+        // Peak height of a jump above the launch point.
+        public float JumpApexHeight => settings != null ? settings.jumpHeight : 0f;
+
+        // Max horizontal distance over level ground at the given speed. Used to bound a
+        // landing search; CanReach does the height-aware test.
+        public float EstimatedJumpDistance(float horizontalSpeed)
+        {
+            if (settings == null || horizontalSpeed <= 0f)
+            {
+                return 0f;
+            }
+
+            return horizontalSpeed * (2f * JumpLaunchSpeed / JumpGravity);
+        }
+
+        // Can a jump from here clear a landing at relative offset (dx forward, dy up)?
+        // dy may be negative (lower) or positive (higher). Tests the jump arc at dx.
+        public bool CanReach(float dx, float dy, float horizontalSpeed)
+        {
+            if (settings == null || horizontalSpeed <= 0f || dx <= 0f)
+            {
+                return false;
+            }
+
+            float t = dx / horizontalSpeed;
+            float yArc = (JumpLaunchSpeed * t) - (0.5f * JumpGravity * t * t);
+            return yArc >= dy;
+        }
+
         private Vector2 CalcJumpVelocity(Vector2 currentVelocity)
         {
             if ((coyoteCounter > 0 || (jumpPhase < (settings != null ? settings.maxAirJumps : 0) && isJumping)) && !queuedJump)
