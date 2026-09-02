@@ -29,13 +29,12 @@ namespace HackedDesign
 
         public void Perform(IAi ai, AiContext ctx)
         {
-            if (Game.Instance.Player.Character.IsDead)
+            if (ctx.playerIsDead)
             {
                 return;
             }
 
-            var playerPosition = Game.Instance.Player.transform.position;
-            float distance = (playerPosition - ctx.position).magnitude;
+            float distance = (ctx.playerPosition - ctx.position).magnitude;
 
             if (!stopped && distance <= ArrivalRange)
             {
@@ -52,7 +51,7 @@ namespace HackedDesign
                 return;
             }
 
-            steering.MoveToward(ai, ctx, playerPosition, ctx.settings.CanJumpGaps);
+            steering.MoveToward(ai, ctx, ctx.playerPosition, ctx.settings.CanJumpGaps);
         }
     }
 }

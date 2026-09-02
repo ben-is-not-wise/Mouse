@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d44aecb7006a927499a6bd6f35d152c4, type: 3}
   m_Name: 44 Magnum
   m_EditorClassIdentifier: 
-  weaponType: 1
+  id: 
+  displayName: 
   icon: {fileID: 21300000, guid: a9d0537767444214aa95e2984e6a4c20, type: 3}
+  description: 
+  weaponType: 1
   minKineticLevel: 0
   longDescription: .44 Magnum
   minShootDamage: 99
   maxShootDamage: 400
   minMeleeDamage: 33
   maxMeleeDamage: 125
-  projectileForce: 13
+  projectileForce: 17

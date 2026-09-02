@@ -16,10 +16,12 @@ namespace HackedDesign
 
         private static void CheckLevelComplete()
         {
-            //if (Level.Instance.LevelComplete)
-            //{
+            //FIXME: The current state should locate this object and bind to an event,
+            // instead of using this singleton reference
+            if (Game.Instance.CurrentState.LevelComplete)
+            {
                 Game.Instance.SetStateLevelEnd();
-            //}
+            }
         }
     }
 }

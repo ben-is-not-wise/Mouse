@@ -7,11 +7,11 @@ namespace HackedDesign.UI
         [SerializeField] private UnityEngine.UI.Text traceLabel;
         [SerializeField] private UnityEngine.UI.Slider traceSlider;
 
-        public override void Repaint()
+        public void Repaint(CountdownTimer timer)
         {
-            traceLabel.text = Game.Instance.LevelTimer.Timer.Time.ToString("N0");
-            traceSlider.maxValue = Game.Instance.LevelTimer.Timer.InitialTime;
-            traceSlider.value = Game.Instance.LevelTimer.Timer.Time;
+            traceLabel.text = timer.Time.ToString("N0");
+            traceSlider.maxValue = timer.InitialTime;
+            traceSlider.value = timer.Time;
         }
     }
 }

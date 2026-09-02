@@ -1,58 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HackedDesign
 {
-    public class LevelEndState : IState
+    public class LevelEndState : AbstractState
     {
-        private readonly IPlayerController player;
+        private readonly IGame game;
 
-        public bool PlayerActionAllowed => false;
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
-        public bool Battle => false;
-
-        public LevelEndState(IPlayerController player)
+        public LevelEndState(IGame game)
         {
-            this.player = player;
+            this.game = game;
         }
 
-        public void Begin()
+        public override void Begin()
         {
-            player.Stop();
-            player.Character.SetStateIdle();
+            game.Player.Stop();
+            game.Player.Character.SetStateIdle();
         }
 
-        public void End()
+        public override void Update()
         {
-            
-        }
-
-        public void FixedUpdate()
-        {
-            
-        }
-
-        public void LateUpdate()
-        {
-            
-        }
-
-        public void Menu()
-        {
-            
-        }
-
-        public void Select()
-        {
-            
-        }
-
-        public void Update()
-        {
-            player.UpdateIdleBehaviour();
+            game.Player.UpdateIdleBehaviour();
         }
     }
 }

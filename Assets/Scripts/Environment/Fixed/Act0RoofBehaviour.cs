@@ -1,135 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.Events;
-
 namespace HackedDesign
 {
-    public class Act0RoofBehaviour: MonoBehaviour, ICutscene
+    public class Act0RoofBehaviour : PhasedCutsceneBehaviour
     {
-        [SerializeField] private GameObject phase1;
-        [SerializeField] private GameObject phase2;
-        [SerializeField] private GameObject phase3;
-        [SerializeField] private GameObject phase4;
-        [SerializeField] private GameObject phase5;
-
-        public void ExitRoomInteract() => Game.Instance.SetStateAct0Roof();
-
-        public void Play() 
+        public override void Stop(IGame game)
         {
-            Phase1();
+            game.DialogManager.HideDialog();
+            base.Stop(game);
         }
 
-        public void Stop()
+        protected override void OnPhaseDialogOver(int index)
         {
-            DialogManager.Instance.HideDialog();
-            Game.Instance.FullScreenFX.Hide();
+            // Phase 3 (index 2) is preceded by a fade-to-black.
+            if (index == 1)
+            {
+                FadeToBlackThenGoToPhase(2);
+                return;
+            }
+
+            base.OnPhaseDialogOver(index);
         }
 
-        private void Phase1()
+        protected override void OnCutsceneComplete()
         {
-            Debug.Log("Phase 1");
-            Game.Instance.Player.Character.ExecuteCommand(new FacingCommand(0, 1f));
-            Game.Instance.Player.Character.SetStateSitting();
-            Game.Instance.Player.Character.Animate();
-            phase1.SetActive(true);
-            phase2.SetActive(false);
-            phase3.SetActive(false);
-            phase4.SetActive(false);
-            phase5.SetActive(false);
-            DialogManager.Instance.ShowDialog("intro_roof1", new UnityAction(Phase1DialogOver));
+            Stop(game);
+            game.Player.Reset();
+            game.SetStateAct0LoadTutorialLevel();
         }
 
-        private void Phase1DialogOver()
+        // Wire these into each phase's onEnter UnityEvent in the Inspector.
+
+        public void FaceUp() => game.Player.Character.ExecuteCommand(new FacingCommand(0, 1f));
+
+        public void FaceDown() => game.Player.Character.ExecuteCommand(new FacingCommand(0, -1f));
+
+        public void SetSitting()
         {
-            Phase2();
+            game.Player.Character.SetStateSitting();
+            game.Player.Character.Animate();
         }
 
-        private void Phase2()
+        public void SetIdle()
         {
-            Debug.Log("Phase 2");
-            Game.Instance.Player.Character.SetStateIdle();
-            Game.Instance.Player.Character.Animate();
-            phase1.SetActive(false);
-            phase2.SetActive(true);
-            phase3.SetActive(false);
-            phase4.SetActive(false);
-            phase5.SetActive(false);
-
-            DialogManager.Instance.ShowDialog("intro_roof2", new UnityAction(Phase2DialogOver));
+            game.Player.Character.SetStateIdle();
+            game.Player.Character.Animate();
         }
 
-        private void Phase2DialogOver()
-        {
-            Game.Instance.FullScreenFX.FadeToBlack(new UnityAction(Phase3));
-        }
-
-        private void Phase3()
-        {
-            Debug.Log("Phase 3");
-            phase1.SetActive(false);
-            phase2.SetActive(false);
-            phase3.SetActive(true);
-            phase4.SetActive(false);
-            phase5.SetActive(false);
-            //Game.Instance.Player.Character.SetStateSleeping();
-            Game.Instance.Player.Character.Animate();
-            DialogManager.Instance.ShowDialog("intro_roof3", new UnityAction(Phase3DialogOver));
-        }
-
-        private void Phase3DialogOver()
-        {
-            Phase4();
-        }
-
-        private void Phase4()
-        {
-            phase1.SetActive(false);
-            phase2.SetActive(false);
-            phase3.SetActive(false);
-            phase4.SetActive(true);
-            phase5.SetActive(false);
-            Game.Instance.FullScreenFX.FadeOut();
-            Game.Instance.Player.Character.ExecuteCommand(new FacingCommand(0, -1f));
-            //Game.Instance.Player.Character.SetStateIdle();
-            Game.Instance.Player.Character.Animate();
-            DialogManager.Instance.ShowDialog("intro_roof4", new UnityAction(Phase4DialogOver));
-            Debug.Log("phase 4");
-        }
-
-        private void Phase4DialogOver()
-        {
-            Debug.Log("phase 4 over");
-            Phase5();
-        }
-
-        private void Phase5()
-        {
-            Debug.Log("phase 5");
-
-            phase1.SetActive(false);
-            phase2.SetActive(false);
-            phase3.SetActive(false);
-            phase4.SetActive(false);
-            phase5.SetActive(true);
-            Game.Instance.Player.Character.SetStateIdle();
-            Game.Instance.Player.Character.Animate();
-            DialogManager.Instance.ShowDialog("intro_roof5", new UnityAction(Phase5DialogOver));
-        }
-
-        private void Phase5DialogOver()
-        {
-            phase1.SetActive(false);
-            phase2.SetActive(false);
-            phase3.SetActive(false);
-            phase4.SetActive(false);
-            phase5.SetActive(false);
-            Debug.Log("phase 5 over");
-            Game.Instance.Player.Reset();
-            Game.Instance.SetStateAct0LoadTutorialLevel();
-        }
+        public void Animate() => game.Player.Character.Animate();
     }
 }

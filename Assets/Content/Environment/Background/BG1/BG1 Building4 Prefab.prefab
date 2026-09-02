@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8005484695355993057}
+  - component: {fileID: 8366522750287956154}
   - component: {fileID: 6712475022309448057}
-  - component: {fileID: 588395871095160630}
   - component: {fileID: 1282598442820199570}
   m_Layer: 0
   m_Name: Building
@@ -35,9 +35,34 @@ Transform:
   - {fileID: 8104859945646824002}
   m_Father: {fileID: 5589939137609969937}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8366522750287956154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942828428361078739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e283ecf6994794a99e19004bb929bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6712475022309448057}
+  gridOffset: {x: 24, y: 24}
+  windowSize: {x: 64, y: 32}
+  windowGap: {x: 12, y: 12}
+  minInterval: 5
+  maxInterval: 32
+  flickerChance: 0.3
+  flickerProbability: 0.2
+  quickFlickChance: 0.1
+  keyTolerance: 0.304
+  buildingColor: {r: 0.31764704, g: 0.3960784, b: 0.5019608, a: 1}
+  windowColorA: {r: 0.2847656, g: 0.35507813, b: 0.45, a: 1}
+  windowColorB: {r: 0.5, g: 0.4254902, b: 0.2509804, a: 1}
 --- !u!212 &6712475022309448057
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -61,7 +86,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a80efc37df29c0c44a91848348154045, type: 2}
+  - {fileID: 2100000, guid: d0c5a3806e014b9595023bf70bf7899f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,20 +119,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &588395871095160630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5942828428361078739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e72ff7dcbcddd14794e0c9a5d80c064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minY: -4
-  maxY: 4
+  m_BlendShapeWeights: []
 --- !u!114 &1282598442820199570
 MonoBehaviour:
   m_ObjectHideFlags: 0

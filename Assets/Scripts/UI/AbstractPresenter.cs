@@ -11,8 +11,12 @@ namespace HackedDesign.UI
         {
             if (!gameObject.activeInHierarchy)
             {
-                EventSystem.current.GetComponent<InputSystemUIInputModule>()?.actionsAsset.Disable();
-                EventSystem.current.GetComponent<InputSystemUIInputModule>()?.actionsAsset.Enable();
+                if(EventSystem.current.TryGetComponent<InputSystemUIInputModule>(out var inputSystem))
+                {
+                    inputSystem.actionsAsset.Disable();
+                    inputSystem.actionsAsset.Enable();
+                }
+
                 gameObject.SetActive(true);
             }
         }
@@ -27,6 +31,6 @@ namespace HackedDesign.UI
 
         public void Toggle() => gameObject.SetActive(!gameObject.activeInHierarchy);
 
-        public abstract void Repaint();
+        public virtual void Repaint() { }
     }
 }

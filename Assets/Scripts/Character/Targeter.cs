@@ -1,6 +1,7 @@
 ﻿using HackedDesign.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace HackedDesign
 {
@@ -14,6 +15,12 @@ namespace HackedDesign
         [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Animator animator;
         [SerializeField] private TargetPresenter targetPresenter;
+        [SerializeField] private GameSettings gameSettings;
+        [SerializeField] private Image cursorImage;
+        [SerializeField] private Sprite defaultCursor;
+        [SerializeField] private Sprite talkCursor;
+        [SerializeField] private Sprite useCursor;
+        [SerializeField] private Sprite attackCursor;
 
         public UnityAction<Interactable> targetUpdateAction;
 
@@ -31,13 +38,31 @@ namespace HackedDesign
         {
             charExecute = GetComponent<ICharacterExecute>();
             targetUpdateAction += targetPresenter.Repaint;
+            targetUpdateAction += UpdateCursor;
         }
 
-        public bool IsTargetInRange => (pivot.position - currentTarget.transform.position).sqrMagnitude < (Game.Instance.GameSettings.InteractDistance * Game.Instance.GameSettings.InteractDistance);
+        private void UpdateCursor(Interactable interactable)
+        {
+            if (cursorImage == null)
+            {
+                return;
+            }
+
+            cursorImage.sprite = interactable == null ? defaultCursor : interactable.InteractionType switch
+            {
+                InteractionType.Attack => attackCursor,
+                InteractionType.Talk => talkCursor,
+                InteractionType.Use => useCursor,
+                _ => defaultCursor,
+            };
+        }
+
+        public bool GetIsTargetInRange(float interactDistance) => 
+            (pivot.position - currentTarget.transform.position).sqrMagnitude < (interactDistance * interactDistance);
 
         public void TriggerInteract()
         {
-            if (currentTarget && IsTargetInRange)
+            if (currentTarget && GetIsTargetInRange(gameSettings.InteractDistance))
             {
                 charExecute.ExecuteCommand(new InteractCommand());
                 currentTarget.TriggerInteract();

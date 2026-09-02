@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c380457e3f587438f5b2fb4474540e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.OperatingSystem
+  gameSettings: {fileID: 11400000, guid: 400c5ac5bba5bd643a0f35802dd6ca70, type: 2}
   healFactor: 0
   osHexList:
   - {fileID: 6154435672814790291}

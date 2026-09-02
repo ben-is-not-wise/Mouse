@@ -31,9 +31,26 @@ namespace HackedDesign
             {
                 var direction = (target - ctx.position).normalized;
                 float climb = HoverClimb(ctx);
-                // Pursue vertically toward the target, but force a climb when too close to the ground.
-                float vertical = climb > 0 ? climb : direction.y;
-                ai.Character.ExecuteCommand(new MoveCommand(direction.x, vertical));
+                float vertical;
+                if (ctx.wallInFront)
+                {
+                    // A building/wall blocks the horizontal path: climb over it.
+                    vertical = 1f;
+                }
+                else if (climb > 0)
+                {
+                    // Too close to the ground: force a climb before anything else.
+                    vertical = climb;
+                }
+                else
+                {
+                    // Pursue the target vertically, but never descend into solid ground
+                    // directly below. Only drop when there is open space (a gap) beneath us,
+                    // so we ride along rooftops until the terrain opens up.
+                    bool groundBelow = !float.IsInfinity(ctx.groundDistance);
+                    vertical = (groundBelow && direction.y < 0) ? Mathf.Max(climb, 0f) : direction.y;
+                }
+                ai.Character.ExecuteCommand(new MoveCommand(facing, vertical));
                 return;
             }
 

@@ -1,51 +1,25 @@
-using HackedDesign.UI;
-using UnityEngine;
-using UnityEngine.Events;
-
 namespace HackedDesign
 {
-    public class Act0RoofState : IState
+    public class Act0RoofState : AbstractState
     {
-        private readonly IPlayerController player;
-        private readonly ILevelManager level;
-        private readonly IDialogManager dialog;
+        private readonly IGame game;
 
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
-        public Act0RoofState(IPlayerController player, ILevelManager level, IDialogManager dialog)
+        public Act0RoofState(IGame game)
         {
-            this.player = player;
-            this.level = level;
-            this.dialog = dialog;
+            this.game = game;
         }
 
-        public void Begin()
+        public override void Begin()
         {
-            var cutscene = level.ShowCutscene(Cutscenes.Rooftop1, true, 0, 25, 0, true, true, player);
-            level.Reset();
-            player.Character.ExecuteCommand(new OutfitSwapCommand("PD"));
-            player.Teleport(level.GetLevelPlayerSpawnLocation());
+            var cutscene = game.Level.ShowCutscene(Cutscenes.Rooftop1, true, 0, 0, true, true, game.Player);
+            game.Level.Reset();
+            game.Player.Character.ExecuteCommand(new OutfitSwapCommand("PD"));
+            game.Player.Teleport(game.Level.GetLevelPlayerSpawnLocation());
 
-            cutscene.Play();
-        }
-
-        public void End() { }
-
-        public void Update() { }
-
-        public void FixedUpdate() { }
-
-        public void LateUpdate() { }
-
-        public void Menu()
-        {
-            //GameManager.Instance.SetStartMenu();
-        }
-
-        public void Select()
-        {
-
+            cutscene.Play(game);
         }
     }
 }

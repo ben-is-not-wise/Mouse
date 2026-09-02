@@ -10,6 +10,7 @@ namespace HackedDesign
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private bool breakable = true;
         [SerializeField] private bool playOnce = true;
+        [SerializeField] private GameSettings gameSettings;
         
         private bool hasPlayed = false;
 
@@ -44,7 +45,7 @@ namespace HackedDesign
 
             if(collision.gameObject.CompareTag(Tags.Player) && !(playOnce && hasPlayed))
             {
-                if (collision.relativeVelocity.magnitude > Game.Instance.GameSettings.ShatterMagnitude)
+                if (collision.relativeVelocity.magnitude > gameSettings.ShatterMagnitude)
                 {
                     Break(collision.gameObject.transform.position);
                 }

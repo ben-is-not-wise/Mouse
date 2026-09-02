@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4518868023518932259
 Transform:
   m_ObjectHideFlags: 0
@@ -52,8 +52,8 @@ MonoBehaviour:
   m_SelectionSources:
     rid: 4997499253389787235
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.17127073, g: 1, b: 0.99447507, a: 1}
+  m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: a7a61d46
@@ -72,8 +72,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0002501011, y: -0.000100016594, z: 0}
-    m_Extent: {x: 4.75045, y: 2.7508998, z: 0}
+    m_Center: {x: 0.040150046, y: -1.0072, z: 0}
+    m_Extent: {x: 2.24725, y: 1.3471, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -84,10 +84,10 @@ MonoBehaviour:
   m_ShapeLightFalloffSize: 0.75
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -4, y: -2, z: 0}
-  - {x: 4, y: -2, z: 0}
-  - {x: 4, y: 2, z: 0}
-  - {x: -4, y: 2, z: 0}
+  - {x: -1.4574435, y: -1.6033614, z: 0}
+  - {x: 1.5388072, y: -1.5728506, z: 0}
+  - {x: 1.4676144, y: -0.48153514, z: 0}
+  - {x: -1.2845501, y: -0.4103435, z: 0}
   references:
     version: 2
     RefIds:
@@ -100,7 +100,11 @@ MonoBehaviour:
         m_SelectedSource:
           rid: -2
         m_Provider2DCache:
-          rid: -2
+          rid: 4997499423134319423
+    - rid: 4997499423134319423
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []
 --- !u!1 &2605326013822489405
 GameObject:
   m_ObjectHideFlags: 0

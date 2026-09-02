@@ -35,6 +35,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a13376bfbbfd8884f8eef6608c74c67e, type: 2}
   - {fileID: 11400000, guid: 9b0f56487dedb6041851381a82169f6d, type: 2}
   - {fileID: 11400000, guid: 2297feb942ec50346a39e3ccaef56f59, type: 2}
+  startingWeapon: {fileID: 0}
+  defaultMelee: {fileID: 11400000, guid: 3e345b983de8811479ef9ed6e1f75cf2, type: 2}
+  startingInventory: []
+  startingHacks: []
+  startingUpgrades: []
   momentumAirLoss: 0
   baseMomentumFactor: 0
   attackMomentumLoss: 0
@@ -46,3 +51,6 @@ MonoBehaviour:
   knockbackAmount: 1
   knockbackTime: 0.2
   knockbackFreezeTime: 0.5
+  hearDistanceRunning: 3
+  hearDistanceWalking: 1
+  hearDistanceCrouched: 0.5

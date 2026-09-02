@@ -28,9 +28,19 @@ namespace HackedDesign
         void End();
 
         /// <summary>
+        /// Called by Game when this state is temporarily paused (e.g. by PausedState), without ending it
+        /// </summary>
+        void Suspend();
+
+        /// <summary>
+        /// Called by Game when this state resumes after being suspended, without re-running Begin()
+        /// </summary>
+        void Resume();
+
+        /// <summary>
         /// Allows a state to handle if the 'Menu' controller button is pressed by the player
         /// </summary>
-        void Menu();
+        void Pause();
 
         /// <summary>
         /// Allows a state to handle if the 'Select' controller button is pressed by the player
@@ -46,5 +56,10 @@ namespace HackedDesign
         /// Is the player considered in battle in this state
         /// </summary>
         bool Battle { get; }
+
+        /// <summary>
+        /// Does reaching the level exit in this state complete the level
+        /// </summary>
+        bool LevelComplete { get; }
     }
 }

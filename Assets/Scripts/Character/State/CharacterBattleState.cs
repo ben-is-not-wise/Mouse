@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    [TransitionsTo(typeof(CharacterIdleState), typeof(CharacterDeadState))]
     public class CharacterBattleState : ICharacterState
     {
         private readonly ICharacterExecute characterExecute;
@@ -65,10 +66,15 @@ namespace HackedDesign
 
         public void Attack(CharacterAttackContext ctx)
         {
-            if (!ctx.knockback && attackController.CanShoot && attackController.HasGun && ctx.aiming)
+            if (!ctx.knockback && ctx.aiming && attackController.CanShoot && attackController.HasGun)
             {
                 Debug.Log("ranged attack");
                 this.attackController.Shoot(ctx.target);
+            }
+            else if (!ctx.knockback && ctx.aiming && attackController.CanShoot && attackController.HasGrenade)
+            {
+                Debug.Log("grenade attack");
+                this.attackController.Throw(ctx.target);
             }
             else
             {

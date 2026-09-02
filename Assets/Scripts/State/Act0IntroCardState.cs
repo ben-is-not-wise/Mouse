@@ -1,53 +1,27 @@
 using HackedDesign.UI;
-using UnityEngine;
 
 namespace HackedDesign
 {
-    public class Act0IntroCardState : IState
+    [TransitionsTo(typeof(Act0Room1State))]
+    public class Act0IntroCardState : AbstractState
     {
-
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
         private readonly IGame game;
-        private readonly bool skipIntro;
         private readonly ActPresenter presenter;
 
-        public Act0IntroCardState(IGame game, ActPresenter presenter, bool skipIntro)
+        public Act0IntroCardState(IGame game, ActPresenter presenter)
         {
             this.game = game;
-            this.skipIntro = skipIntro;
             this.presenter = presenter;
             this.presenter.finishedEvent.AddListener(Continue);
         }
 
-        public void Begin()
-        {
-            presenter.Show();
-        }
+        public override void Begin() => presenter.Show();
 
-        private void Continue()
-        {
-            if (skipIntro)
-            {
-                game.SetStateLoadLevel();
-            }
-            else
-            {
-                game.SetStateAct0Room1();
-            }
-        }
+        private void Continue() => game.SetStateAct0Room1();
 
-        public void End() => presenter.Hide();
-
-        public void Update() { }
-
-        public void FixedUpdate() { }
-
-        public void LateUpdate() { }
-
-        public void Menu() { }
-
-        public void Select() { }
+        public override void End() => presenter.Hide();
     }
 }

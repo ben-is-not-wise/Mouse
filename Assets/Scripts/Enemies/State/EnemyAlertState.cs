@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    [TransitionsTo(typeof(EnemyIdleState), typeof(EnemySearchingState))]
     public class EnemyAlertState: IEnemyState
     {
         //private readonly EnemyController enemyController;
@@ -27,17 +28,16 @@ namespace HackedDesign
 
         public void UpdateBehaviour(AiContext ctx)
         {
-            if(Game.Instance.Player.Character.IsDead)
+            if(ctx.playerIsDead)
             {
                 Debug.Log("player is dead");
                 this.ai.CurrentState = new EnemyIdleState(this.ai);
                 return;
-                // FIXME: Go to a post game state
             }
 
             if (!ctx.settings.Stationary && ctx.canSeePlayer)
             {
-                this.ai.Character.ExecuteCommand(new FacingCommand(0, Game.Instance.Player.transform.position.x <= this.ai.Character.transform.position.x ? -1 : 1));
+                this.ai.Character.ExecuteCommand(new FacingCommand(0, ctx.playerPosition.x <= this.ai.Character.transform.position.x ? -1 : 1));
             }
 
             this.ai.Character.ExecuteCommand(new AimCommand(ctx.bullets > 0));
@@ -72,7 +72,7 @@ namespace HackedDesign
                 else
                 {
                     // If we're out of bullets, let's try and move toward the player
-                    var distanceToPlayer = this.ai.Character.transform.position - Game.Instance.Player.transform.position;
+                    var distanceToPlayer = this.ai.Character.transform.position - ctx.playerPosition;
 
                     if (distanceToPlayer.magnitude > 1.5f)
                     {

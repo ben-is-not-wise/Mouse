@@ -26,9 +26,13 @@ namespace HackedDesign
 
         private float pingTimer = 0;
 
+        private Transform playerTransform;
+
         public string Label { get => label; set => label = value; }
 
         public OperatingSystem OS => os;
+
+        public InteractionType InteractionType => interactionType;
 
         void Awake()
         {
@@ -93,6 +97,9 @@ namespace HackedDesign
                     case InteractionType.Use:
                         statusIcon.Interact();
                         break;
+                    case InteractionType.Exit:
+                        statusIcon.Exit();
+                        break;
                 }
             }
         }
@@ -105,6 +112,8 @@ namespace HackedDesign
 
         public void TriggerInteract()
         {
+            Debug.Log("Trigger Interact", this);
+
             if (!CanTrigger())
             {
                 return;
@@ -127,8 +136,6 @@ namespace HackedDesign
 
         private void Update()
         {
-
-
             if (pingTimer + 4 < Time.time)
             {
                 ping = false;
@@ -138,7 +145,7 @@ namespace HackedDesign
             {
                 outlinable.enabled = true;
 
-                if ((Game.Instance.Player.transform.position - this.transform.position).magnitude < 2.5f)
+                if (PlayerInRange())
                 {
                     //FDAC3D
                     ColorUtility.TryParseHtmlString("FDAC3D", out var color);
@@ -157,7 +164,7 @@ namespace HackedDesign
             else if (target)
             {
                 outlinable.enabled = true;
-                if ((Game.Instance.Player.transform.position - this.transform.position).magnitude < 2.5f)
+                if (PlayerInRange())
                 {
                     ColorUtility.TryParseHtmlString("#FDAC3D", out var color);
                     outlinable.OutlineParameters.Color = color;
@@ -206,6 +213,22 @@ namespace HackedDesign
             //outlinable.OutlineParameters.Color = Color.yellow;
         }
 
+        // FIXME: This polls the player's distance every frame to tint the outline, and lazily
+        // caches the player transform from the Game singleton. The cleaner approach is to
+        // self-generate a trigger CircleCollider2D (radius 2.5) on startup, on a child object
+        // whose layer the UI Physics2DRaycaster ignores, and flip a 'playerInRange' bool from
+        // OnTriggerEnter2D/OnTriggerExit2D forwarded off that child. That removes both the
+        // per-frame distance check and the Game.Instance reach, with no prefab edits.
+        private bool PlayerInRange()
+        {
+            if (playerTransform == null)
+            {
+                playerTransform = Game.Instance.Player.transform;
+            }
+
+            return (playerTransform.position - transform.position).magnitude < 2.5f;
+        }
+
         private bool CanTrigger() => repeatable || !touched;
         
     }
@@ -214,6 +237,8 @@ namespace HackedDesign
     {
         None,
         Talk,
-        Use
+        Use,
+        Attack,
+        Exit
     }
 }

@@ -41,6 +41,7 @@ namespace HackedDesign
         public Vector3 Pivot => pivot != null ? pivot.position : this.transform.position;
         public bool CanAttack => Time.time >= nextAttackTimer;
         public bool HasGun => OperatingSystem.CurrentWeapon.weaponType == WeaponType.Gun;
+        public bool HasGrenade => OperatingSystem.CurrentWeapon.weaponType == WeaponType.Grenade;
         public bool CanShoot => OperatingSystem.HasAmmo;
         public bool IsAnimatingAttack => animator.EnsureNotNull(this, nameof(animator)) && animator.GetCurrentAnimatorStateInfo(0).IsTag(AttackAnimTag);
 
@@ -186,15 +187,109 @@ namespace HackedDesign
                 AlertNearbyEnemies();
             }
 
-            var start = barrel != null ? barrel.position : this.transform.position;
+            var start = Pivot;
 
             var dir = (target - start).normalized;
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, OperatingSystem.CurrentWeapon.projectileForce);
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, OperatingSystem.CurrentWeapon.projectileForce, owner: character);
 
             OperatingSystem.DecreaseAmmo();
 
             Debug.DrawRay(Pivot, target - Pivot, Color.red, 0.3f);
+        }
+
+        public void Throw(Vector3 target)
+        {
+            if (!CanAttack || IsAnimatingAttack)
+            {
+                return;
+            }
+
+            if (character.Knockback)
+            {
+                UpdateNextAttackTimer();
+                return;
+            }
+
+            StartCoroutine(ThrowAnticipate(target));
+        }
+
+        private IEnumerator ThrowAnticipate(Vector3 target)
+        {
+            Animator.SetTrigger(AnimatorParams.ShootAnticipate);
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < CalcAnticipateDelay())
+            {
+                if (character.Knockback)
+                {
+                    Animator.ResetTrigger(AnimatorParams.ShootAnticipate);
+                    UpdateNextAttackTimer();
+                    yield break;
+                }
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            ThrowExecute(target);
+        }
+
+        private void ThrowExecute(Vector3 target)
+        {
+            UpdateNextAttackTimer();
+
+            if (!character.CanAttack || character.Knockback)
+            {
+                return;
+            }
+
+            Animator.SetTrigger(AnimatorParams.Shoot);
+
+            if (isPlayer)
+            {
+                CameraShake.Instance.Shake(ShootShakeIntensity, ShootShakeTime);
+                AlertNearbyEnemies();
+            }
+
+            var start = Pivot;
+            float speed = OperatingSystem.CurrentWeapon.projectileForce;
+
+            var velocity = SolveArc(start, target, speed);
+
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Grenade, start, (Vector3)velocity.normalized, OperatingSystem.CurrentWeapon.RandomShootDamage, velocity.magnitude, gravity: true, owner: character);
+
+            OperatingSystem.DecreaseAmmo();
+        }
+
+        // Launch angle for grenades, measured above horizontal.
+        private const float LaunchAngleDegrees = 20f;
+
+        // Ballistic launch velocity at a fixed angle, solving for the speed that lands on the
+        // target. Clamps to maxSpeed (undershoots if out of range); lobs at maxSpeed when the
+        // target sits above what this angle can reach.
+        private static Vector2 SolveArc(Vector2 from, Vector2 to, float maxSpeed)
+        {
+            float g = Mathf.Abs(Physics2D.gravity.y);
+            float dx = to.x - from.x;
+            float dy = to.y - from.y;
+            float dir = dx < 0 ? -1f : 1f;
+            float range = Mathf.Abs(dx);
+
+            float theta = LaunchAngleDegrees * Mathf.Deg2Rad;
+            float cos = Mathf.Cos(theta);
+            float sin = Mathf.Sin(theta);
+            float denom = range * Mathf.Tan(theta) - dy;
+
+            if (g > 0f && cos > 0f && denom > 0f)
+            {
+                float speed = Mathf.Sqrt(g * range * range / (2f * cos * cos * denom));
+                speed = Mathf.Min(speed, maxSpeed);
+                return new Vector2(dir * speed * cos, speed * sin);
+            }
+
+            return new Vector2(dir * maxSpeed * cos, maxSpeed * sin);
         }
 
         private void AlertNearbyEnemies()
@@ -227,14 +322,14 @@ namespace HackedDesign
 
             if (hitTransform.TryGetComponent<CharController>(out var targetChar))
             {
-                if(!targetChar.IsDead)
+                if (!targetChar.IsDead)
                 {
                     var damage = OperatingSystem.CurrentWeapon.RandomMeleeDamage;
                     targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - Pivot, true);
                     DamageNumberPool.Instance.Spawn(damage, hitPoint);
+
+                    FXPool.Instance.Spawn(FXType.Blood, hitPoint, (Vector3)hitPoint - Pivot);
                 }
-                
-                FXPool.Instance.Spawn(FXType.Blood, hitPoint, (Vector3)hitPoint - Pivot);
 
                 return;
             }

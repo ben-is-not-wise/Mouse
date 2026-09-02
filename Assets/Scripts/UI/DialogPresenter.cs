@@ -28,6 +28,12 @@ namespace HackedDesign.UI
             if (dialogManager.CurrentDialog != null && dialogManager.CurrentDialog[currentPage] != null)
             {
                 var page = dialogManager.CurrentDialog[currentPage];
+
+                if(!string.IsNullOrWhiteSpace(page.SetFlag))
+                {
+                    Game.Instance.GameData.AddFlag(page.SetFlag);
+                }
+
                 dialogText.text = page.Text;
                 dialogAvatar.sprite = dialogManager.GetSpeakerSprite(page);
                 nameText.text = page.Speakertitle;
@@ -53,7 +59,6 @@ namespace HackedDesign.UI
                 currentPage = 0;
                 Hide();
                 finishedEvent.Invoke();
-                
             }
             else
             {

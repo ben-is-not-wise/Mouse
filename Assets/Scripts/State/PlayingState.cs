@@ -3,73 +3,65 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class PlayingState : IState
+    [TransitionsTo(typeof(PausedState), typeof(OSState))]
+    public class PlayingState : AbstractState
     {
         private readonly IGame game;
-        private readonly IPlayerController player;
-        private readonly IPresenter actionBar;
-        private readonly IPresenter traceBar;
-        private readonly IEnemyManager enemyManager;
-        private readonly IMissionTimer timer;
-        private readonly bool debug;
 
-        public bool PlayerActionAllowed => true;
-        public bool Battle => true;
+        public override bool PlayerActionAllowed => true;
+        public override bool Battle => true;
+        public override bool LevelComplete => true;
 
-        public PlayingState(IGame game, IPlayerController player, IEnemyManager enemyManager, IMissionTimer timer, IPresenter actionBar, IPresenter traceBar, bool debug = false)
+        public PlayingState(IGame game)
         {
             this.game = game;
-            this.player = player;
-            this.enemyManager = enemyManager;
-            this.timer = timer;
-            this.actionBar = actionBar;
-            this.traceBar = traceBar;
-            this.debug = debug;
         }
 
-        public void Begin()
+        public override void Begin()
         {
-            timer.Timer.OnTimerStop += TimeOut;
+            game.LevelTimer.Timer.OnTimerStop += TimeOut;
             Debug.Log("Set start battle");
-            player.Character.SetStateBattle();
-            actionBar.Show();
-            traceBar.Show();
-            //UnityEngine.Cursor.visible = false;
+            game.Player.Character.SetOutfit("Street");
+            game.Player.Character.ExecuteCommand(new RollToggleCommand(false));
+            game.Player.Character.SetStateBattle();
+            game.UI.ActionBar.Show();
+            game.UI.Trace.Show();
         }
 
-        public void End()
+        public override void End()
         {
-            timer.Timer.OnTimerStop -= TimeOut;
-            player.Stop();
-            traceBar.Hide();
-            actionBar.Hide();
-            //UnityEngine.Cursor.visible = true;
+            game.LevelTimer.Timer.OnTimerStop -= TimeOut;
+            game.Player.Stop();
+            game.EnemyManager.StopAll();
+            game.UI.ActionBar.Hide();
+            game.UI.Trace.Hide();
+            
         }
 
         private void TimeOut() => Debug.Log("Timeout");
 
-        public void Update()
+        public override void Update()
         {
-            timer.Timer.Tick(Time.deltaTime);
-            player.UpdateBattleBehaviour();
-            enemyManager.UpdateAllBehaviour();
+            game.LevelTimer.Timer.Tick(Time.deltaTime);
+            game.Player.UpdateBattleBehaviour();
+            game.EnemyManager.UpdateAllBehaviour();
         }
 
-        public void FixedUpdate()
+        public override void FixedUpdate()
         {
-            player.FixedUpdateBehaviour();
-            enemyManager.UpdateAllFixedBehaviour();
+            game.Player.FixedUpdateBehaviour();
+            game.EnemyManager.UpdateAllFixedBehaviour(game.Player);
         }
 
-        public void LateUpdate()
+        public override void LateUpdate()
         {
-            player.LateUpdateBehaviour();
-            enemyManager.UpdateAllLateBehaviour();
-            traceBar.Repaint();
+            game.Player.LateUpdateBehaviour();
+            game.EnemyManager.UpdateAllLateBehaviour();
+            game.UI.Trace.Repaint(game.LevelTimer.Timer);
         }
 
-        public void Menu() => game.SetStatePaused();
+        public override void Pause() => game.SetStatePaused();
 
-        public void Select() => game.SetStateOS();
+        public override void Select() => game.SetStateOS();
     }
 }

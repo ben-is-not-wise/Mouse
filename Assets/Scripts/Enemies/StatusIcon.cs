@@ -12,6 +12,8 @@ namespace HackedDesign
         [SerializeField] private Sprite? pickupSprite;
         [SerializeField] private Sprite? talkSprite;
         [SerializeField] private Sprite? interactSprite;
+
+        [SerializeField] private Sprite? exitSprite;
         [SerializeField] private bool showDefault = false;
 
         void Awake()
@@ -31,6 +33,8 @@ namespace HackedDesign
         public void Talk() => sprite!.sprite = talkSprite;
 
         public void Interact() => sprite!.sprite = interactSprite;
+
+        public void Exit() => sprite!.sprite = exitSprite;
 
         public void Alert() => sprite!.sprite = alertSprite;
 

@@ -7,7 +7,6 @@ namespace HackedDesign
     public class Cursor : MonoBehaviour
     {
         //[SerializeField] private HoverPresenter hoverPresenter;
-        [SerializeField] Text nametagLabel;
         [SerializeField] private CanvasScaler canvas;
         [SerializeField] private Camera uiCamera;
         [SerializeField] private PlayerInput playerInput = null;
@@ -20,12 +19,10 @@ namespace HackedDesign
         void Awake()
         {
             canvas = GetComponentInParent<CanvasScaler>();
-            uiCrosshair = GetComponent<RectTransform>();
             mousePosAction = playerInput.actions["Mouse Position"];
-            //UnityEngine.Cursor.visible = false;
+            UnityEngine.Cursor.visible = false;
             screenWidth = (int)canvas.referenceResolution.x;
             screenHeight = (int)canvas.referenceResolution.y;
-            nametagLabel.text = "";
         }
 
         void OnApplicationQuit()

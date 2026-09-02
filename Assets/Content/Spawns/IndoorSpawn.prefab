@@ -44,10 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33844105b86de9c469121f8ad4456a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: -5006827703715512327, guid: b46e0cf7cdd5ab34989fe7a6343c765e, type: 3}
-  - {fileID: -5006827703715512327, guid: bb491781072ee4c42b9595f60ad2fd13, type: 3}
-  - {fileID: 7329100333877127978, guid: 54a4d856328055545b3eee0081496b4c, type: 3}
+  difficultyLevels:
+  - {fileID: 11400000, guid: fb2884c7c2a15ab45aee89ad0ef4ea51, type: 2}
   traps:
   - {fileID: 7235826455370351959, guid: dfae0faeb6a9bd647a1d5bad643a9e1c, type: 3}
   props:
@@ -60,3 +58,4 @@ MonoBehaviour:
   - {fileID: 2123160512373512669, guid: 4aedb7f637ef378438983e76f971e9f2, type: 3}
   - {fileID: 236195300935687611, guid: 0a88a67d99da12045990998b598c24c1, type: 3}
   - {fileID: 236195300935687611, guid: f18f77128be70ac4a8c2b842efca6980, type: 3}
+  mustSpawn: 0

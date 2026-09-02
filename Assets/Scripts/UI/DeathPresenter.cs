@@ -1,32 +1,14 @@
-﻿using HackedDesign.UI;
 using System;
-using UnityEngine;
 
 namespace HackedDesign.UI
 {
     public class DeathPresenter : AbstractPresenter
     {
-        public override void Repaint()
-        {
+        public event Action Restart;
+        public event Action Exit;
 
-        }
+        public void RestartClick() => Restart?.Invoke();
 
-        public void RestartClick()
-        {
-            if(Game.Instance.GameData.FinishedTutorial)
-            {
-                Game.Instance.SetStateLoadLevel();
-            }
-            else
-            {
-                Game.Instance.SetStateAct0LoadTutorialLevel();
-            }
-            
-        }
-
-        public void ExitClick()
-        {
-            Game.Instance.SetStateMainMenu();
-        }
+        public void ExitClick() => Exit?.Invoke();
     }
 }

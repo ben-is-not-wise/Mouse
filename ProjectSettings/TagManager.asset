@@ -12,6 +12,7 @@ TagManager:
   - Elevator
   - PropSpawn
   - TripLaser
+  - DoorUp
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Obstacle
   - Glass
   - Elevator
-  - 
+  - Ladder
   - 
   - 
   - 
@@ -75,3 +76,4 @@ TagManager:
     locked: 0
   m_RenderingLayers:
   - Default
+  m_MigratedRenderPipelines: []

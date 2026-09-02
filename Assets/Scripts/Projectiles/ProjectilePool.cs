@@ -46,18 +46,18 @@ namespace HackedDesign
         }
 
         // Spawn by projectile type
-        public Projectile Spawn(Projectile.ProjectileType type, Vector3 position, Vector3 direction, int damage, float force = 0f)
+        public Projectile Spawn(Projectile.ProjectileType type, Vector3 position, Vector3 direction, int damage, float force = 0f, bool gravity = false, CharController owner = null)
         {
             if (!prefabByType.TryGetValue(type, out Projectile prefab))
             {
                 return null;
             }
 
-            return Spawn(prefab, position, direction, damage, force);
+            return Spawn(prefab, position, direction, damage, force, gravity, owner);
         }
 
         // Spawn by prefab reference
-        public Projectile Spawn(Projectile prefab, Vector3 position, Vector3 direction, int damage, float force = 0f)
+        public Projectile Spawn(Projectile prefab, Vector3 position, Vector3 direction, int damage, float force = 0f, bool gravity = false, CharController owner = null)
         {
             if (prefab == null)
             {
@@ -81,7 +81,7 @@ namespace HackedDesign
 
             instance.gameObject.SetActive(true);
 
-            instance.Launch(position, (Vector2)direction.normalized, force, damage);
+            instance.Launch(position, (Vector2)direction.normalized, force, damage, gravity, owner);
 
             return instance;
         }

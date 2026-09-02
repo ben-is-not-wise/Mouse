@@ -1,55 +1,35 @@
-using HackedDesign.UI;
-using UnityEngine;
-
 namespace HackedDesign
 {
-    public class MissionSelectState : IState
+    [TransitionsTo(typeof(IntermissionState), typeof(LoadLevelState))]
+    public class MissionSelectState : AbstractState
     {
-        private readonly IPresenter missionSelectPresenter;
-        
-        public bool PlayerActionAllowed => true;
-        public bool Battle => true;
+        private readonly IGame game;
 
+        public override bool PlayerActionAllowed => true;
+        public override bool Battle => true;
 
-        public MissionSelectState(IPresenter missionSelectPresenter)
+        public MissionSelectState(IGame game)
         {
-            this.missionSelectPresenter = missionSelectPresenter;
+            this.game = game;
         }
 
-        public void Begin()
+        public override void Begin()
         {
-            missionSelectPresenter.Show();
-            missionSelectPresenter.Repaint();
-            //GameObject.FindGameObjectWithTag("Respawn").transform.position = player.transform.position; // FIXME:
+            game.UI.Mission.Select += OnSelect;
+            game.UI.Mission.Continue += OnContinue;
+            game.UI.Mission.Show();
+            game.UI.Mission.Repaint(game.GameData);
         }
 
-        public void End()
+        public override void End()
         {
-            missionSelectPresenter.Hide();
+            game.UI.Mission.Select -= OnSelect;
+            game.UI.Mission.Continue -= OnContinue;
+            game.UI.Mission.Hide();
         }
 
-        public void Update()
-        {
- 
-        }
+        private void OnSelect() => game.SetStateIntermission();
 
-        public void FixedUpdate()
-        {
-        }
-
-        public void LateUpdate()
-        {
-            
-        }
-
-        public void Menu()
-        {
-            
-        }
-
-        public void Select()
-        {
-
-        }
+        private void OnContinue() => game.SetStateLoadLevel();
     }
 }

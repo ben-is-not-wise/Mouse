@@ -4,6 +4,12 @@ namespace HackedDesign
 {
     public class RollCommand: ICharacterCommand
     {
-        public void Execute(CharController controller) => controller.Roll();
+        public void Execute(CharController controller)
+        {
+            if (controller.CanRoll)
+            {
+                controller.Roll();
+            }
+        }
     }
 }

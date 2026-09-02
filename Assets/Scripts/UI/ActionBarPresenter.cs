@@ -17,6 +17,9 @@ namespace HackedDesign.UI
         [SerializeField] private Slider preallocatedSlider;
         [SerializeField] private RectTransform attackPanel;
         [SerializeField] private RectTransform gunPanel;
+        [SerializeField] private RectTransform meleePanel;
+        [SerializeField] private RectTransform grenadePanel;
+
         [SerializeField] private Text ammoText;
 
         [SerializeField] private List<Button> buttonList = new List<Button>(6);
@@ -38,10 +41,26 @@ namespace HackedDesign.UI
 
         private void RepaintWeapon()
         {
+
+            meleePanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Unarmed);
             gunPanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Gun);
+            grenadePanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Grenade);
+
+            if (os.CurrentWeapon.weaponType == WeaponType.Unarmed)
+            {
+                
+            }
+
+            
+
             if (os.CurrentWeapon.weaponType == WeaponType.Gun)
             {
                 ammoText.text = os.Ammo.ToString();
+            }
+
+            if(os.CurrentWeapon.weaponType == WeaponType.Grenade)
+            {
+
             }
         }
 
@@ -53,29 +72,39 @@ namespace HackedDesign.UI
 
         private void RepaintHacks()
         {
-            for (int i = 0; i < buttonList.Count; i++)
+            if (!os.Enabled)
             {
-                if (os.ActiveHacks.Count > i)
+                for (int i = 0; i < buttonList.Count; i++)
                 {
-                    Hack hack = os.ActiveHacks[i];
-                    var text = buttonList[i].gameObject.GetComponentInChildren<Text>();
-                    if (text != null)
+                    buttonList[i].gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < buttonList.Count; i++)
+                {
+                    if (os.ActiveHacks.Count > i)
                     {
-                        text.text = hack.shortName ?? hack.name;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Action button has no text component");
-                    }
+                        Hack hack = os.ActiveHacks[i];
+                        var text = buttonList[i].gameObject.GetComponentInChildren<Text>();
+                        if (text != null)
+                        {
+                            text.text = hack.shortName ?? hack.name;
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Action button has no text component");
+                        }
 
-                    var img = imageList[i];
-                    if (img != null)
-                    {
-                        img.sprite = hack.buttonIcon;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Action button has no image component");
+                        var img = imageList[i];
+                        if (img != null)
+                        {
+                            img.sprite = hack.buttonIcon;
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Action button has no image component");
+                        }
                     }
                 }
             }
@@ -83,11 +112,26 @@ namespace HackedDesign.UI
 
         private void RepaintMomentum()
         {
+            if (!os.Enabled)
+            {
+                energySlider.value = 0;
+                preallocatedSlider.value = 0;
+                preallocatedSlider.gameObject.SetActive(false);
+                energySlider.gameObject.SetActive(false);
+                energyText.gameObject.SetActive(false);
+                energyText.text = "";
+                return;
+            }
+
+            preallocatedSlider.gameObject.SetActive(true);
+            energySlider.gameObject.SetActive(true);
+            energyText.gameObject.SetActive(true);
             preallocatedSlider.maxValue = os.MaxMomentum;
             preallocatedSlider.value = os.PreallocatedEnergy;
             energySlider.maxValue = os.MaxMomentum;
             energySlider.value = os.Momentum;
             energyText.text = (os.Momentum * 10).ToString("N0");
+            
         }
 
         public void Action1Click()

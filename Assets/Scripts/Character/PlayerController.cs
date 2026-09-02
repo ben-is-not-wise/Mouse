@@ -7,6 +7,7 @@ namespace HackedDesign
 {
     public interface IPlayerController
     {
+        Transform Transform { get; }
         CharController Character { get; set; }
         void Stop();
         void FixedUpdateBehaviour();
@@ -28,6 +29,8 @@ namespace HackedDesign
         [field: SerializeField, NotNull] public CharController Character { get; set; } = null!;
         [field: SerializeField, NotNull] private Targeter Targeter { get; set; } = null!;
         [field: SerializeField, NotNull] private Transform AimPivot { get; set; } = null!;
+
+        public Transform Transform { get => this.transform; }
 
         private const float DefaultTimeScale = 1f;
         private const string GamepadControlMethod = "Gamepad";
@@ -51,6 +54,11 @@ namespace HackedDesign
         private InputAction? hackAction = null;
         private InputAction? action1Action = null;
 
+        private InputAction? prevWeaponAction = null;
+        private InputAction? nextWeaponAction = null;
+        private InputAction? prevHackAction = null;
+        private InputAction? nextHackAction = null;
+
         void Awake()
         {
             Character.Require(nameof(Character));
@@ -70,6 +78,10 @@ namespace HackedDesign
             menuAction!.performed -= MenuEvent;
             interactAction!.performed -= InteractEvent;
             action1Action!.performed -= Action1Event;
+            prevWeaponAction!.performed -= PrevWeaponEvent;
+            nextWeaponAction!.performed -= NextWeaponEvent;
+            prevHackAction!.performed -= PrevHackEvent;
+            nextHackAction!.performed -= NextHackEvent;
         }
 
         private void BindInputs()
@@ -89,11 +101,19 @@ namespace HackedDesign
             selectAction = PlayerInput.actions["OperatingSystem"];
             hackAction = PlayerInput.actions["Hack"];
             action1Action = PlayerInput.actions["Action 1"];
+            prevWeaponAction = PlayerInput.actions["Prev Weapon"];
+            nextWeaponAction = PlayerInput.actions["Next Weapon"];
+            prevHackAction = PlayerInput.actions["Prev Hack"];
+            nextHackAction = PlayerInput.actions["Next Hack"];
 
             selectAction.performed += SelectEvent;
             menuAction.performed += MenuEvent;
             interactAction.performed += InteractEvent;
             action1Action.performed += Action1Event;
+            prevWeaponAction.performed += PrevWeaponEvent;
+            nextWeaponAction.performed += NextWeaponEvent;
+            prevHackAction.performed += PrevHackEvent;
+            nextHackAction.performed += NextHackEvent;
         }
 
         void Start() => Reset();
@@ -107,7 +127,7 @@ namespace HackedDesign
 
         public void Stop() => Character!.ExecuteCommand(new StopCommand());
 
-        public void MenuEvent(InputAction.CallbackContext context) => Game.CurrentState.Menu();
+        public void MenuEvent(InputAction.CallbackContext context) => Game.CurrentState.Pause();
 
         public void SelectEvent(InputAction.CallbackContext context) => Game.CurrentState.Select();
 
@@ -118,6 +138,42 @@ namespace HackedDesign
             timeToggle = !timeToggle;
             Time.timeScale = timeToggle ? Character.Settings!.TimeSlowSpeed : DefaultTimeScale;
             Character.ExecuteCommand(new GhostToggleCommand());
+        }
+
+        public void PrevWeaponEvent(InputAction.CallbackContext context)
+        {
+            if (context.ReadValue<float>() == 0)
+            {
+                return;
+            }
+            Character.OperatingSystem.PrevWeapon();
+        }
+
+        public void NextWeaponEvent(InputAction.CallbackContext context)
+        {
+            if (context.ReadValue<float>() == 0)
+            {
+                return;
+            }
+            Character.OperatingSystem.NextWeapon();
+        }
+
+        public void PrevHackEvent(InputAction.CallbackContext context)
+        {
+            if (context.ReadValue<float>() == 0)
+            {
+                return;
+            }
+            Character.OperatingSystem.PrevHack();
+        }
+
+        public void NextHackEvent(InputAction.CallbackContext context)
+        {
+            if (context.ReadValue<float>() == 0)
+            {
+                return;
+            }
+            Character.OperatingSystem.NextHack();
         }
 
         public void Die()
@@ -157,10 +213,9 @@ namespace HackedDesign
 
             UpdateCrouchToggle();
             UpdateWalkToggle();
-            UpdateHackMode();
 
             Character.ExecuteCommand(new CrouchCommand(crouchToggle || crouchAction!.IsPressed()));
-            Character.OperatingSystem.UpdateBehaviour();
+            Character.OperatingSystem.UpdateBehaviour(hackAction!.IsPressed());
 
             UpdateAimLine();
 
@@ -201,14 +256,9 @@ namespace HackedDesign
             Character.ExecuteCommand(new MoveCommand(movement, climb));
         }
 
-        private void UpdateHackMode()
-        {
-            //Game.Instance.HackMode = hackAction.IsPressed();
-        }
-
         public void Teleport(Vector3 position) => transform.position = position;
 
-        private void SetStartingWeapon() => Character.OperatingSystem.SetWeapon(Character.OperatingSystem.GetWeaponSlotByName(Game.Instance.GameSettings.StartPistol ? "357 Magnum" : "Unarmed"));
+        private void SetStartingWeapon() => Character.OperatingSystem.SelectWeapon(Game.GameSettings.StartPistol ? WeaponSlotId.Primary : WeaponSlotId.Melee);
 
         private void UpdateCrouchToggle()
         {

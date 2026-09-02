@@ -1,18 +1,13 @@
-using HackedDesign.UI;
-using System.Linq;
-using UnityEngine;
-
 namespace HackedDesign
 {
-    public class Act0Hotdog1State : IState
+    public class Act0Hotdog1State : AbstractState
     {
         private readonly IPlayerController player;
         private readonly ILevelManager level;
         private readonly IDialogManager dialog;
 
-        public bool PlayerActionAllowed => true;
-        public bool Battle => false;
-
+        public override bool PlayerActionAllowed => true;
+        public override bool Battle => false;
 
         public Act0Hotdog1State(IPlayerController player, ILevelManager level, IDialogManager dialog)
         {
@@ -21,36 +16,26 @@ namespace HackedDesign
             this.dialog = dialog;
         }
 
-        public void Begin()
+        public override void Begin()
         {
             level.Clear();
             //level.ShowNamedRoom(NamedLevels.MouseStartingRoom, true, true, player);
-            player.Character.Shadow.enabled = false;
+            //player.Character.Shadow.enabled = false;
             player.Character.SetStateIdle();
             dialog.ShowDialog("intro_room1", Dialog1End);
         }
 
-        public void End() => player.Character.Shadow.enabled = true;
+        //public override void End() => player.Character.Shadow.enabled = true;
 
         public void Dialog1End()
         {
 
         }
 
-        public void Update() => player.UpdateIdleBehaviour();
+        public override void Update() => player.UpdateIdleBehaviour();
 
-        public void FixedUpdate() => player.FixedUpdateBehaviour();
+        public override void FixedUpdate() => player.FixedUpdateBehaviour();
 
-        public void LateUpdate() => player.LateUpdateBehaviour();
-
-        public void Menu()
-        {
-            //GameManager.Instance.SetStartMenu();
-        }
-
-        public void Select()
-        {
-
-        }
+        public override void LateUpdate() => player.LateUpdateBehaviour();
     }
 }

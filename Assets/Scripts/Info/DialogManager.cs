@@ -29,10 +29,12 @@ namespace HackedDesign
     public class DialogManager: AutoSingleton<DialogManager>, IDialogManager
     {
         [SerializeField] private DialogPresenter presenter;
+        [SerializeField] private PausePresenter messagePresenter;
         [SerializeField] private List<Speaker> speakers;
-        [SerializeField] private Dictionary<string, List<DialogLine>> dialog = new();
+        private Dictionary<string, List<DialogLine>> dialog = new();
 
         public List<DialogLine> CurrentDialog { get; set; }
+        public List<DialogLine> CurrentMessages { get; set; }
         public List<Speaker> Speakers { get => speakers; set => speakers = value; }
 
         private UnityAction dialogOverCallback;
@@ -48,6 +50,12 @@ namespace HackedDesign
         public Sprite GetSpeakerSprite(DialogLine page) => GetSpeakerSprite(page.Speaker, page.Emotion);
 
         public Sprite GetSpeakerSprite(string name, string emotion) => speakers.FirstOrDefault(x => x.name == name).GetEmotion(emotion);
+
+        public void SetMessages(string name)
+        { 
+            Debug.Log("Set Messages", this);
+            SetMessagesByName(name);
+        }
 
         public void ShowDialog(string name) => ShowDialog(name, null);
 
@@ -94,6 +102,8 @@ namespace HackedDesign
 
             foreach (DialogLine record in records)
             {
+                record.Text = ExpandColorMarkup(record.Text);
+
                 if(!dialog.ContainsKey(record.Sequence))
                 {
                     dialog.Add(record.Sequence, new List<DialogLine>());
@@ -102,7 +112,35 @@ namespace HackedDesign
                 dialog[record.Sequence].Add(record);
             }
         }
+
+        private static string ExpandColorMarkup(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            var sb = new StringBuilder();
+            bool open = false;
+            foreach (char c in text)
+            {
+                if (c == '*')
+                {
+                    sb.Append(open ? "</color>" : "<color=\"#999999\">");
+                    open = !open;
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
         #endregion Load
+
+        private void GetDialogTitlesByName(string name) => dialog.Select(d => d.Key == name);
+
+        private void SetMessagesByName(string name) => CurrentMessages = dialog[name];
 
         private void SetDialogByName(string name) => CurrentDialog = dialog[name];
 

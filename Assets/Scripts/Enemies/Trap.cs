@@ -24,29 +24,29 @@ namespace HackedDesign
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag(Tags.Player))
+            if (other.CompareTag(Tags.Player) && other.TryGetComponent<PlayerController>(out var player))
             {
                 var hit = collider2D.ClosestPoint(other.transform.position);
-                AttackPlayer(hit);
+                AttackPlayer(hit, player.Character);
             }
         }
 
-        private void AttackPlayer(Vector2 hit)
+        private void AttackPlayer(Vector2 hit, CharController character)
         {
             AnimateAttack();
 
             switch (damageType)
             {
                 case DamageType.Damage:
-                    Game.Instance.Player.Character.ApplyKnockback(Vector2.up);
+                    character.ApplyKnockback(Vector2.up);
                     var damage = Random.Range(minAmount, maxAmount);
                     var hitPoint = hit + Vector2.up * 0.5f;
-                    Game.Instance.Player.Character.TakeDamage(damage, hitPoint, Vector2.up, false);
+                    character.TakeDamage(damage, hitPoint, Vector2.up, false);
                     DamageNumberPool.Instance.Spawn(damage, hitPoint);
                     break;
                 case DamageType.Momentum:
-                    Game.Instance.Player.Character.ApplyKnockback(Vector2.up);
-                    Game.Instance.Player.Character.TakeMomentumHit(Random.Range(minAmount, maxAmount), hit, Vector2.up);
+                    character.ApplyKnockback(Vector2.up);
+                    character.TakeMomentumHit(Random.Range(minAmount, maxAmount), hit, Vector2.up);
                     break;
             }
         }

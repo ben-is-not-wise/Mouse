@@ -3,52 +3,53 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class PausedState : IState
+    [TransitionsTo(typeof(MainMenuState))]
+    public class PausedState : AbstractState
     {
-        private readonly IPresenter pauseMenu;
-        
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
+        private readonly IGame game;
+        private readonly PausePresenter pauseMenu;
+        private readonly PausePresenter.PauseState startingState;
+
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
 
-        public PausedState(IPresenter pauseMenu)
+        private float prevTimeScale = 0;
+
+        public PausedState(IGame game, PausePresenter pauseMenu)
         {
-            this.pauseMenu = pauseMenu;     
+            this.game = game;
+            this.pauseMenu = pauseMenu;
+            this.startingState = PausePresenter.PauseState.None;
         }
 
-        public void Begin()
+        public PausedState(IGame game, PausePresenter pauseMenu, PausePresenter.PauseState startingState)
         {
+            this.game = game;
+            this.pauseMenu = pauseMenu;
+            this.startingState = startingState;
+        }
+
+        public override void Begin()
+        {
+            pauseMenu.Continue += OnContinue;
+            pauseMenu.Exit += OnExit;
             pauseMenu.Show();
+            pauseMenu.Repaint(startingState);
+            prevTimeScale = Time.timeScale;
+            Time.timeScale = 0;
         }
 
-        public void End()
+        public override void End()
         {
+            pauseMenu.Continue -= OnContinue;
+            pauseMenu.Exit -= OnExit;
             pauseMenu.Hide();
+            Time.timeScale = prevTimeScale;
         }
 
-        public void Update()
-        {
+        private void OnContinue() => game.ResumeFromPause();
 
-  
-        }
-
-        public void FixedUpdate()
-        {
-
-        }
-
-        public void LateUpdate()
-        {
-            
-        }
-
-        public void Menu()
-        {
-        }
-
-        public void Select()
-        {
-
-        }
+        private void OnExit() => game.SetStateMainMenu();
     }
 }

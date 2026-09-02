@@ -1,6 +1,4 @@
 
-using DunGen;
-using log4net.Core;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,10 +7,10 @@ namespace HackedDesign
 {
     public interface ILevelManager
     {
-        void Generate(int level, int length, int difficulty);
+        void Generate(int level, int difficulty);
         Vector3 GetLevelPlayerSpawnLocation();
         List<Spawn> GetSpawnLocationsOnLevel();
-        List<Spawn> GetSpawnLocationsOnLevel(EnemyType type);
+        List<Spawn> GetSpawnLocationsOnLevel(EnemyType type, int difficulty);
 
         void RainOn();
         void RainOff();
@@ -22,7 +20,7 @@ namespace HackedDesign
 
         ICutscene ShowCutscene(string name, bool cityBg, bool rain, IPlayerController player);
         void SpawnEnemies(int count);
-        ICutscene ShowCutscene(string name, bool randomLevel, int level, int length, int difficulty, bool cityBg, bool rain, IPlayerController player);
+        ICutscene ShowCutscene(string name, bool randomLevel, int level, int difficulty, bool cityBg, bool rain, IPlayerController player);
     }
     public class Level : AutoSingleton<Level>, ILevelManager
     {
@@ -31,9 +29,6 @@ namespace HackedDesign
         [SerializeField] Transform sky;
         [SerializeField] Transform smog;
         [SerializeField] Transform rain;
-        [SerializeField] List<RuntimeDungeon> backgroundLevels;
-        [Header("Dungeon")]
-        [SerializeField] RuntimeDungeon runtimeDungeon;
         [Header("Prefabs")]
         [SerializeField] List<Transform> namedRooms;
         [SerializeField] List<GameObject> namedRoomPrefabs;
@@ -50,14 +45,13 @@ namespace HackedDesign
         [Header("Buildings")]
         [SerializeField] Transform parent;
         [SerializeField] Transform propsParent;
-        [SerializeField] List<GameObject> startBuildings = new List<GameObject>();
-        [SerializeField] List<GameObject> midBuildings = new List<GameObject>();
-        [SerializeField] List<GameObject> endBuildings = new List<GameObject>();
+        [SerializeField] List<BuildingSet> buildingSets = new List<BuildingSet>();
         [Header("Settings")]
         [SerializeField] int propCount = 50;
 
         private GameObject namedRoom;
         private GameObject levelStart;
+        private int currentDifficulty;
 
         public bool LevelComplete { get; set; }
 
@@ -100,10 +94,11 @@ namespace HackedDesign
         public void RainOff() => this.rain.gameObject.SetActive(false);
         public void RainOn() => this.rain.gameObject.SetActive(true);
 
-        public ICutscene ShowCutscene(string name, bool randomLevel, int level, int length, int difficulty, bool cityBg, bool rain, IPlayerController player)
+        public ICutscene ShowCutscene(string name, bool randomLevel, int level, int difficulty, bool cityBg, bool rain, IPlayerController player)
         {
             Clear();
             Random.InitState(level);
+            this.currentDifficulty = difficulty;
 
             if (cityBg)
             {
@@ -113,34 +108,38 @@ namespace HackedDesign
             }
 
             var room = namedRoomPrefabs.First(x => x.name == name);
-            this.namedRoom = Instantiate(room, this.transform);
+            this.namedRoom = Instantiate(room, parent);
             this.namedRoom.SetActive(true);
 
             var buildingX = this.namedRoom.GetWorldBounds().max.x;
 
-            for (int i = 1; i <= length; i++)
-            {
-                buildingX = SpawnBuilding(midBuildings[Random.Range(0, midBuildings.Count)], buildingX, difficulty);
-            }
+            var buildingSet = GetBuildingSet(difficulty);
 
-            SpawnBuilding(endBuildings[Random.Range(0, endBuildings.Count)], buildingX, difficulty);
+            if (buildingSet != null)
+            {
+                var length = buildingSet.GetRandomLength();
+                for (int i = 1; i <= length; i++)
+                {
+                    buildingX = SpawnBuilding(buildingSet.GetRandomMidBuilding(), buildingX, difficulty);
+                }
+
+                SpawnBuilding(buildingSet.GetRandomEndBuilding(), buildingX, difficulty);
+            }
 
             ClearProps();
-            SpawnProps(propCount);
-            SpawnTraps(5 * difficulty);
+            //SpawnProps(propCount);
+            //SpawnTraps(5 * difficulty);
 
 
-            var spawn = this.namedRoom.transform.Find("Spawn");
-            if (spawn)
-            {
-                player.Teleport(this.namedRoom.transform.Find("Spawn").transform.position);
-            }
+            //var spawn = this.namedRoom.transform.Find("Spawn");
+            //if (spawn)
+            //{
+            //    player.Teleport(this.namedRoom.transform.Find("Spawn").transform.position);
+            //}
 
             this.rain.gameObject.SetActive(rain);
 
             return this.namedRoom.GetComponent<ICutscene>();
-
-
         }
 
         public ICutscene ShowCutscene(string name, bool cityBg, bool rain, IPlayerController player)
@@ -190,9 +189,10 @@ namespace HackedDesign
             return this.namedRoom.GetComponent<ICutscene>();
         }
 
-        public void Generate(int level, int length, int difficulty)
+        public void Generate(int level, int difficulty)
         {
             Random.InitState(level);
+            this.currentDifficulty = difficulty;
             //Random.seed = level;
 
             SpawnBG1();
@@ -212,20 +212,24 @@ namespace HackedDesign
             //    }
             //});
 
-            var buildingX = SpawnBuilding(startBuildings[Random.Range(0, startBuildings.Count)], 0, difficulty);
+            var buildingSet = GetBuildingSet(difficulty);
 
-            for (int i = 1; i <= length; i++)
+            if (buildingSet != null)
             {
-                buildingX = SpawnBuilding(midBuildings[Random.Range(0, midBuildings.Count)], buildingX, difficulty);
+                var buildingX = SpawnBuilding(buildingSet.GetRandomStartBuilding(), 0, difficulty);
+
+                var length = buildingSet.GetRandomLength();
+                for (int i = 1; i <= length; i++)
+                {
+                    buildingX = SpawnBuilding(buildingSet.GetRandomMidBuilding(), buildingX, difficulty);
+                }
+
+                SpawnBuilding(buildingSet.GetRandomEndBuilding(), buildingX, difficulty);
             }
 
-            SpawnBuilding(endBuildings[Random.Range(0, endBuildings.Count)], buildingX, difficulty);
-
             ClearProps();
-            SpawnProps(propCount);
-            SpawnTraps(5 * difficulty);
-
-            //ElevatorManager.Instance.Refresh();
+            //SpawnProps(propCount);
+            //SpawnTraps(5 * difficulty);
         }
 
         private void SpawnBG1() => SpawnBG(bg1Prefabs, bg1Parent);
@@ -245,9 +249,28 @@ namespace HackedDesign
             }
         }
 
+        private BuildingSet GetBuildingSet(int difficulty) => buildingSets.Count == 0 ? null : buildingSets[Mathf.Clamp(difficulty, 0, buildingSets.Count - 1)];
+
         private float SpawnBuilding(GameObject prefab, float xPosition, int difficulty)
         {
-            var building = Instantiate(prefab, new Vector3(xPosition + BuildingDistance(difficulty, xPosition), BuildingHeight(difficulty), 0), Quaternion.identity, parent);
+            if (prefab == null)
+            {
+                return xPosition;
+            }
+
+            var position = new Vector3(Mathf.Round(xPosition + BuildingDistance(difficulty, xPosition)), Mathf.Round(BuildingHeight(difficulty)), 0);
+            var building = Instantiate(prefab, position, Quaternion.identity, parent);
+
+            // BuildingDistance is a gap measured from xPosition to this building's pivot, but
+            // the pivot isn't necessarily at the sprite's left edge - if the sprite extends
+            // further left than its pivot, it can still overlap the previous building despite
+            // a "correct" gap. Nudge it right by however much it actually overlaps.
+            var overlap = xPosition - building.GetWorldBounds().min.x;
+            if (overlap > 0)
+            {
+                building.transform.position += new Vector3(Mathf.Round(overlap), 0, 0);
+            }
+
             return building.GetWorldBounds().max.x;
         }
 
@@ -304,14 +327,22 @@ namespace HackedDesign
         public void SpawnEnemies(int count)
         {
             enemyManager.Reset();
+
             var spawns = GetSpawnLocationsOnLevel();
+
+            var chaseSpawnLocation = spawns.FirstOrDefault(s => s.ChaseSpawn);
+
+            if(chaseSpawnLocation != null)
+            {
+                enemyManager.SpawnChase(chaseSpawnLocation, currentDifficulty);
+            }
 
             var mustSpawnLocations = spawns.Where(s => s.MustSpawn).ToList();
 
             Debug.Log("Spawning required " + Mathf.Min(count, mustSpawnLocations.Count) + " enemies");
             for (int i = 0; i < Mathf.Min(count, mustSpawnLocations.Count); i++)
             {
-                enemyManager.Spawn(mustSpawnLocations[i]);
+                enemyManager.SpawnRandom(mustSpawnLocations[i], currentDifficulty);
             }
 
             spawns = spawns.Where(s => !s.MustSpawn).ToList();
@@ -320,12 +351,12 @@ namespace HackedDesign
 
             for (int i = 0; i < Mathf.Min(count, spawns.Count); i++)
             {
-                enemyManager.Spawn(spawns[i]);
+                enemyManager.SpawnRandom(spawns[i], currentDifficulty);
             }
         }
 
         private float BuildingHeight(int difficulty) => Random.Range(-2, 2) * difficulty;
-        private float BuildingDistance(int difficulty, float xPosition) => 1 + Random.Range(2f + (xPosition / 200), 6f + (xPosition / 200)) * difficulty;
+        private float BuildingDistance(int difficulty, float xPosition) => Random.Range(2f + (xPosition / 300), 8f + (xPosition / 300)) * Mathf.Max(difficulty, 1) + 1;
 
         public Vector3 GetLevelPlayerSpawnLocation()
         {
@@ -335,7 +366,7 @@ namespace HackedDesign
         }
 
         public List<Spawn> GetSpawnLocationsOnLevel() => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude).OrderBy(_ => Random.value).ToList();
-        public List<Spawn> GetSpawnLocationsOnLevel(EnemyType type) => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude).Where(x => x.CanSpawnEnemy(type)).OrderBy(_ => Random.value).ToList();
+        public List<Spawn> GetSpawnLocationsOnLevel(EnemyType type, int difficulty) => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude).Where(x => x.CanSpawnEnemy(type, difficulty)).OrderBy(_ => Random.value).ToList();
 
         //public List<Spawn> GetPropSpawnLocationsOnLevel() => FindObjectsByType<Spawn>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).OrderBy(_ => Random.value).ToList();
     }

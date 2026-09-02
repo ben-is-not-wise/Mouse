@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d71cf1787dfb5b47a173fae95c97f93, type: 3}
+  m_Name: PoliceCharacterSettings
+  m_EditorClassIdentifier: 
+  attackRate: 0.5
+  walkSpeed: 2.5
+  runSpeed: 5
+  crouchSpeed: 2
+  shootDistance: 20
+  meleeDistance: 1.5
+  interactDistance: 1
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 136
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 0
+  alertRadius: 20
+  startingHealth: 100
+  startingAmmo: 0
+  infiniteAmmo: 0
+  infiniteHealth: 0
+  weaponSettings:
+  - {fileID: 11400000, guid: 3e345b983de8811479ef9ed6e1f75cf2, type: 2}
+  - {fileID: 11400000, guid: a13376bfbbfd8884f8eef6608c74c67e, type: 2}
+  - {fileID: 11400000, guid: 9b0f56487dedb6041851381a82169f6d, type: 2}
+  - {fileID: 11400000, guid: 2297feb942ec50346a39e3ccaef56f59, type: 2}
+  startingWeapon: {fileID: 11400000, guid: a13376bfbbfd8884f8eef6608c74c67e, type: 2}
+  defaultMelee: {fileID: 11400000, guid: 3e345b983de8811479ef9ed6e1f75cf2, type: 2}
+  startingInventory: []
+  startingHacks: []
+  startingUpgrades: []
+  momentumAirLoss: 0
+  baseMomentumFactor: 0
+  attackMomentumLoss: 0
+  minMomentum: 0
+  maxMomentum: 5
+  hitfx: 0
+  timeSlowSpeed: 0.5
+  anticipateDelay: 0.5
+  knockbackAmount: 1
+  knockbackTime: 0.2
+  knockbackFreezeTime: 0.5
+  hearDistanceRunning: 3
+  hearDistanceWalking: 1
+  hearDistanceCrouched: 0.5

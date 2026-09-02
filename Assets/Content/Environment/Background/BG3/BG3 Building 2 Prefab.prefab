@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6403473294250588224}
+  - component: {fileID: 9214135884006428318}
   - component: {fileID: 8783155278917721824}
-  - component: {fileID: 3527007960514339745}
   - component: {fileID: 6794529949242963909}
   m_Layer: 0
   m_Name: Building
@@ -29,15 +29,40 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 186042029522810614}
   m_Father: {fileID: 4378996617218313024}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9214135884006428318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4558498730060173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e283ecf6994794a99e19004bb929bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 8783155278917721824}
+  gridOffset: {x: 24, y: 24}
+  windowSize: {x: 64, y: 32}
+  windowGap: {x: 12, y: 12}
+  minInterval: 5
+  maxInterval: 32
+  flickerChance: 0.3
+  flickerProbability: 0.2
+  quickFlickChance: 0.1
+  keyTolerance: 0.05
+  buildingColor: {r: 0.09411765, g: 0.11372549, b: 0.25882354, a: 1}
+  windowColorA: {r: 0.079062484, g: 0.09624995, b: 0.22, a: 1}
+  windowColorB: {r: 0.8, g: 0.74039215, b: 0.5992157, a: 1}
 --- !u!212 &8783155278917721824
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -61,7 +86,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 51e52d31350b6604fadebb062e3e3295, type: 2}
+  - {fileID: 2100000, guid: d0c5a3806e014b9595023bf70bf7899f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,20 +119,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3527007960514339745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4558498730060173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e72ff7dcbcddd14794e0c9a5d80c064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minY: -4
-  maxY: 4
+  m_BlendShapeWeights: []
 --- !u!114 &6794529949242963909
 MonoBehaviour:
   m_ObjectHideFlags: 0

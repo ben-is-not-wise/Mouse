@@ -53,7 +53,7 @@ namespace HackedDesign
 
         public void Perform(IAi ai, AiContext ctx)
         {
-            if (Game.Instance.Player.Character.IsDead)
+            if (ctx.playerIsDead)
             {
                 return;
             }

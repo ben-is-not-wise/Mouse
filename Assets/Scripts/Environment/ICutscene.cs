@@ -7,8 +7,8 @@ namespace HackedDesign
 {
     public interface ICutscene
     {
-        void Play();
+        void Play(IGame game);
 
-        void Stop();
+        void Stop(IGame game);
     }
 }

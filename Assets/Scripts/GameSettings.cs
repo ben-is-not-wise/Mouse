@@ -7,16 +7,22 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    public enum SkipStage
+    {
+        None,
+        SkipIntro,
+        SkipTutLevel,
+        SkipAct0
+    }
+
     [CreateAssetMenu(fileName = "GameSettings", menuName = "Mouse/Settings/Game")]
     public class GameSettings : ScriptableObject
     {
         // FIXME: Make these serialized properties
-        [SerializeField] private bool debug = false;
-        [SerializeField] private bool skipIntro = false;
+        [SerializeField] private SkipStage skipStage = SkipStage.None;
         [SerializeField] private bool startPistol = false;
         [SerializeField] private bool infiniteMomentum = false;
-        [SerializeField] private float fallDeathHeight = 27f;
-        [SerializeField] private float fallDamageHeight = 20f;
+        [SerializeField] private bool showDamageNumbers = false;
         [SerializeField] private float shatterMagnitude = 10.1f;
         [SerializeField] private float interactDistance = 2.0f;
         [SerializeField] private float defaultLevelTime = 64f;
@@ -24,18 +30,13 @@ namespace HackedDesign
         [SerializeField] private float knockbackTime = 0.2f;
         [SerializeField] private float knockbackFreezeTime = 0.2f;
 
-        public bool Debug => debug;
-        public bool SkipIntro => skipIntro;
+        public SkipStage SkipStage => skipStage;
         public bool StartPistol => startPistol;
         public bool InfiniteMomentum => infiniteMomentum;
-        public float FallDeathHeight => fallDeathHeight;
-        public float FallDamageHeight => fallDamageHeight;
+        public bool ShowDamageNumbers => showDamageNumbers;
         public float ShatterMagnitude => shatterMagnitude;
         public float InteractDistance => interactDistance;
         public float DefaultLevelTime => this.defaultLevelTime;
 
-        public float KnockbackAmount { get => this.knockbackAmount; set => this.knockbackAmount = value; }
-        public float KnockbackTime { get => this.knockbackTime; set => this.knockbackTime = value; }
-        public float KnockbackFreezeTime { get => this.knockbackFreezeTime; set => this.knockbackFreezeTime = value; }
     }
 }

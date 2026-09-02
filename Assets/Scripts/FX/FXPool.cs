@@ -33,7 +33,7 @@ namespace HackedDesign
                 fxPool[type] = fxList;
             }
 
-            var fx = fxList.FirstOrDefault(f => !f.Playing);
+            var fx = fxList.FirstOrDefault(f => !f.Playing && !f.isActiveAndEnabled);
 
             if (fx == null)
             {

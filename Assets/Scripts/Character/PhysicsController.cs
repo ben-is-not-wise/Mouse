@@ -16,6 +16,7 @@ namespace HackedDesign
         [Header("Settings")]
         [SerializeField] private PhysicsSettings? settings = null;
         [SerializeField] private LayerMask environmentMask;
+        [SerializeField] private LayerMask ladderMask;
 
         [Header("Events")]
         [SerializeField] private UnityEvent fallDeathEvent;
@@ -27,8 +28,10 @@ namespace HackedDesign
         [Header("Settings")]
         [SerializeField] private Transform ledgeDetectionPoint;
         [SerializeField] private Vector3 ledgeOffsetEnd = Vector3.zero;
+        [SerializeField] private float wallStickGraceTime = 1f;
 
         private bool wallStick = false;
+        private float wallStickGraceTimer = 0f;
 
         public bool OnGround { get => onGround; private set => onGround = value; }
         public bool OnWall { get => onWall; private set => onWall = value; }
@@ -41,17 +44,21 @@ namespace HackedDesign
         public bool Static => body != null && body.bodyType == RigidbodyType2D.Static;
 
         public bool CurrentlyClimbingLedge { get => this.currentlyClimbingLedge; set => this.currentlyClimbingLedge = value; }
-        
+
+        public bool ClimbingLadder => this.climbingLadder;
+
 
         private float fallingTime = 0;
         private float fallingStartY = 0;
         private int jumpPhase;
         private float coyoteCounter, jumpBufferCounter;
         private bool isJumping;
+        private bool groundResetDone;
         private float wallDirectionX;
         private float movementSpeed = 0;
 
         private bool currentlyClimbingLedge = false;
+        private bool climbingLadder = false;
 
         
 
@@ -168,6 +175,10 @@ namespace HackedDesign
         private IEnumerator ClearCanGrabLedge()
         {
             yield return new WaitForEndOfFrame();
+            while (DetectEnvForLedgeGrab() && DetectClearAirForLedgeGrab())
+            {
+                yield return null;
+            }
             this.canGrabLedge = true;
         }
 
@@ -176,7 +187,16 @@ namespace HackedDesign
         #region Movement
         public void FixedMovement(float desiredVelocity, float climbVelocity, bool jumpFlag, bool jumpHoldFlag, float momentum)
         {
-            wallStick = momentum > 0.1f || CurrentlyClimbingLedge;
+            if (momentum > 0.1f)
+            {
+                wallStickGraceTimer = wallStickGraceTime;
+            }
+            else
+            {
+                wallStickGraceTimer -= Time.fixedDeltaTime;
+            }
+
+            wallStick = wallStickGraceTimer > 0f || CurrentlyClimbingLedge;
 
             if (Static || !body.EnsureNotNull(this, nameof(body)))
             {
@@ -201,6 +221,11 @@ namespace HackedDesign
             // If we're going through a currentlyKnockback, do nothing else
             // If we're climbing a ledge, do nothing else
             if (CurrentlyKnockback || (CurrentlyClimbingLedge && wallStick))
+            {
+                return;
+            }
+
+            if (UpdateLadder(desiredVelocity, climbVelocity, jumpFlag))
             {
                 return;
             }
@@ -261,17 +286,18 @@ namespace HackedDesign
 
             if (OnGround)
             {
-                // Reset jump counters while we're on the ground
-                // FIXME: Don't do this every frame
-                if (!queuedJump)
+                // Reset jump counters once when we settle on the ground
+                if (!queuedJump && !groundResetDone)
                 {
                     jumpPhase = 0;
                     coyoteCounter = (settings != null ? settings.coyoteTime : 0);
                     isJumping = false;
+                    groundResetDone = true;
                 }
             }
             else
             {
+                groundResetDone = false;
                 coyoteCounter -= Time.fixedDeltaTime;
             }
 
@@ -389,6 +415,51 @@ namespace HackedDesign
         }
         #endregion Movement
 
+        #region Ladder
+        private bool UpdateLadder(float desiredVelocity, float climbVelocity, bool jumpFlag)
+        {
+            bool onLadder = bodyCollider != null && bodyCollider.IsTouchingLayers(ladderMask);
+
+            if (climbingLadder)
+            {
+                if (!onLadder || (OnGround && climbVelocity < 0f) || jumpFlag)
+                {
+                    StopClimbingLadder();
+                    return false;
+                }
+
+                body!.gravityScale = 0;
+                body.linearVelocity = new Vector2(desiredVelocity, climbVelocity * (settings != null ? settings.wallClimbSpeed : 0));
+                return true;
+            }
+
+            if (onLadder && jumpFlag)
+            {
+                climbingLadder = true;
+                body!.gravityScale = 0;
+                body.linearVelocity = Vector2.zero;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void StopClimbingLadder()
+        {
+            if (!climbingLadder)
+            {
+                return;
+            }
+
+            climbingLadder = false;
+            coyoteCounter = settings != null ? settings.coyoteTime : 0;
+            if (body != null)
+            {
+                body.gravityScale = DefaultGravityScale();
+            }
+        }
+        #endregion Ladder
+
         #region Falling
         private void UpdateFalling()
         {
@@ -407,7 +478,7 @@ namespace HackedDesign
 
                 //Debug.Log($"Fall {fallingStartY} {transform.position.y} {fallingStartY - transform.position.y}");
 
-                if (fallingStartY - transform.position.y >= Game.Instance.GameSettings.FallDeathHeight)
+                if (fallingStartY - transform.position.y >= settings.fallDeathHeight)
                 {
                     Debug.Log("SPLAT");
                     Stop();

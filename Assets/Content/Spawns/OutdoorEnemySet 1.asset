@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1849093e50ad247bb82fcf1dc37ed6, type: 3}
+  m_Name: OutdoorEnemySet 1
+  m_EditorClassIdentifier: Mouse::HackedDesign.EnemySpawnSet
+  enemyPrefabs:
+  - {fileID: -5006827703715512327, guid: bb491781072ee4c42b9595f60ad2fd13, type: 3}
+  - {fileID: 7329100333877127978, guid: 54a4d856328055545b3eee0081496b4c, type: 3}
+  - {fileID: -5006827703715512327, guid: 3fac1fce71b7df34aaebcaac99d4a014, type: 3}
+  - {fileID: 7329100333877127978, guid: 055e5deb201c6c845802ead50144e3ea, type: 3}
+  - {fileID: -5006827703715512327, guid: 9ba5e944cda54ba4583024b94210d98c, type: 3}

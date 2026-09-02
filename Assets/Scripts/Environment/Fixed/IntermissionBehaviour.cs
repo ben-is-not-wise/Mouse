@@ -8,20 +8,23 @@ using UnityEngine.Events;
 
 namespace HackedDesign
 {
-    public class IntermissionBehaviour: MonoBehaviour, ICutscene
+    public class IntermissionBehaviour : MonoBehaviour, ICutscene
     {
+        private IGame game;
 
         [SerializeField] private Transform anarchist;
 
 
-        public void Play() { }
+        public void Play(IGame game)
+        {
+            this.game = game;
+            Phase1();
+        }
 
-        public void Stop() { }
+        public void Stop(IGame game) { }
 
         public void HotDogManInteract()
         {
-
-            //Game.Instance.SetStateIntermission();
         }
 
         public void Intro1DialogOver()
@@ -31,7 +34,12 @@ namespace HackedDesign
 
         public void AnarchistInteract()
         {
-            Game.Instance.SetStateMissionSelect();
+            game.SetStateMissionSelect();
+        }
+
+        private void Phase1()
+        {
+
         }
     }
 }

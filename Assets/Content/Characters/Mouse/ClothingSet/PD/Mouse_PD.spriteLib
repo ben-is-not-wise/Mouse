@@ -692,44 +692,44 @@ MonoBehaviour:
       m_Hash: 1023947003
       m_Sprite: {fileID: -1924268274458164950, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: -1924268274458164950, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: -1924268274458164950, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_1
       m_Hash: 168755309
       m_Sprite: {fileID: -215463909514541561, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: -215463909514541561, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: -215463909514541561, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_2
       m_Hash: 319181271
       m_Sprite: {fileID: -6913289465996407950, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: -6913289465996407950, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: -6913289465996407950, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_3
       m_Hash: 604070209
       m_Sprite: {fileID: 5061967107477919476, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: 5061967107477919476, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: 5061967107477919476, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_4
       m_Hash: 979760354
       m_Sprite: {fileID: 5226210220088895834, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: 5226210220088895834, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: 5226210220088895834, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_5
       m_Hash: 224576628
       m_Sprite: {fileID: 3967189447638150873, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: 3967189447638150873, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: 3967189447638150873, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_6
       m_Hash: 342595022
       m_Sprite: {fileID: -7839228958569794368, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: -7839228958569794368, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: -7839228958569794368, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     - m_Name: Wall Climb SHT_7
       m_Hash: 594322776
       m_Sprite: {fileID: -4546760404302161599, guid: d516c251be664da41b8cd6babda2235c, type: 3}
       m_FromMain: 1
-      m_SpriteOverride: {fileID: -4546760404302161599, guid: d516c251be664da41b8cd6babda2235c, type: 3}
+      m_SpriteOverride: {fileID: -4546760404302161599, guid: 3ddabdc9b0e8300469fdc50df4e9332d, type: 3}
     m_FromMain: 1
-    m_EntryOverrideCount: 0
+    m_EntryOverrideCount: 8
   - m_Name: Wall Hang
     m_Hash: 562511255
     m_CategoryList: []
@@ -777,5 +777,5 @@ MonoBehaviour:
     m_FromMain: 1
     m_EntryOverrideCount: 0
   m_PrimaryLibraryGUID: 3c1b6696397448a4abf7c425f2ef39d7
-  m_ModificationHash: 639181961948774348
+  m_ModificationHash: 639194032337771830
   m_Version: 1

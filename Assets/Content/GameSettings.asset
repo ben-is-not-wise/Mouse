@@ -12,13 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f36592afb11fcd47a75d1fa082b5a30, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  debug: 0
-  skipIntro: 1
+  skipStage: 1
   startPistol: 0
   infiniteMomentum: 0
-  fallDeathHeight: 27
-  fallDamageHeight: 20
-  shatterMagnitude: 10.1
+  showDamageNumbers: 1
+  shatterMagnitude: 10
   interactDistance: 2
   defaultLevelTime: 256
   knockbackAmount: 1

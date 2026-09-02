@@ -5,7 +5,7 @@ using UnityEngine;
 namespace HackedDesign
 {
     [CreateAssetMenu(fileName = "WeaponSettings", menuName = "Mouse/Settings/Weapon")]
-    public class WeaponSettings : ScriptableObject
+    public class WeaponSettings : Item
     {
         public static List<WeaponSettings> AllWeapons { get; set; } = new List<WeaponSettings>();
 
@@ -16,7 +16,6 @@ namespace HackedDesign
         private void OnDisable() => AllWeapons.Remove(this);
 
         public WeaponType weaponType;
-        public Sprite icon;
         public int minKineticLevel = 0;
         public string longDescription;
         public int minShootDamage = 10;

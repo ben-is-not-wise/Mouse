@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d44aecb7006a927499a6bd6f35d152c4, type: 3}
   m_Name: Unarmed
   m_EditorClassIdentifier: 
-  weaponType: 0
+  id: 
+  displayName: 
   icon: {fileID: 0}
+  description: 
+  weaponType: 0
   minKineticLevel: 0
   longDescription: Unarmed
   minShootDamage: 100
   maxShootDamage: 200
-  minMeleeDamage: 25
-  maxMeleeDamage: 50
+  minMeleeDamage: 30
+  maxMeleeDamage: 80
   projectileForce: 13

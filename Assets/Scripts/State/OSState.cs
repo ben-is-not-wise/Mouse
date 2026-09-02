@@ -1,40 +1,39 @@
-using HackedDesign.UI;
 using UnityEngine;
 
 namespace HackedDesign
 {
-    public class OSState : IState
+    [TransitionsTo(typeof(MainMenuState), typeof(PlayingState))]
+    public class OSState : AbstractState
     {
         private readonly IGame game;
-        private readonly IPresenter inventoryPresenter;
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
 
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
-        public OSState(IGame game, IPresenter inventoryPresenter)
+        private float prevTimeScale = 0;
+
+        public OSState(IGame game)
         {
             this.game = game;
-            this.inventoryPresenter = inventoryPresenter;
         }
 
-        public void Begin() => inventoryPresenter.Show();
-
-        public void End() => inventoryPresenter.Hide();
-
-        public void Update() => inventoryPresenter.Repaint();
-
-        public void FixedUpdate()
-        {
-
+        public override void Begin() { 
+            game.UI.OS.Show();
+            prevTimeScale = Time.timeScale;
+            Time.timeScale = 0;
         }
 
-        public void LateUpdate()
+        public override void End()
         {
             
+            game.UI.OS.Hide();
+            Time.timeScale = prevTimeScale;
         }
 
-        public void Menu() => game.SetStateMainMenu();
+        public override void Update() => game.UI.OS.Repaint();
 
-        public void Select() => game.SetStatePlaying();
+        public override void Pause() => game.SetStateMainMenu();
+
+        public override void Select() => game.SetStatePlaying();
     }
 }

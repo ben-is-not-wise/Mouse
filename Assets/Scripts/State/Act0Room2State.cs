@@ -1,56 +1,37 @@
-using HackedDesign.UI;
-using System.Linq;
-using UnityEngine;
-
 namespace HackedDesign
 {
-    public class Act0Room2State : IState
+    public class Act0Room2State : AbstractState
     {
-        private readonly IPlayerController player;
-        private readonly ILevelManager level;
-        private readonly IDialogManager dialog;
+        private readonly IGame game;
 
-        public bool PlayerActionAllowed => true;
-        public bool Battle => false;
+        public override bool PlayerActionAllowed => true;
+        public override bool Battle => false;
 
-
-        public Act0Room2State(IPlayerController player, ILevelManager level, IDialogManager dialog)
+        public Act0Room2State(IGame game)
         {
-            this.player = player;
-            this.level = level;
-            this.dialog = dialog;
+            this.game = game;
         }
 
-        public void Begin()
+        public override void Begin()
         {
-            level.Clear();
-            level.ShowCutscene(Cutscenes.MouseStartingRoom2, true, true, player);
-            player.Character.Shadow.enabled = false;
-            player.Character.SetStateIdle();
-            dialog.ShowDialog("intro_room1", Dialog1End);
+            game.Level.Clear();
+            game.Level.ShowCutscene(Cutscenes.MouseStartingRoom2, true, true, game.Player);
+            //game.Player.Character.Shadow.enabled = false;
+            game.Player.Character.SetStateIdle();
+            game.DialogManager.ShowDialog("intro_room1", Dialog1End);
         }
 
-        public void End() => player.Character.Shadow.enabled = true;
+        //public override void End() => game.Player.Character.Shadow.enabled = true;
 
         public void Dialog1End()
         {
 
         }
 
-        public void Update() => player.UpdateIdleBehaviour();
+        public override void Update() => game.Player.UpdateIdleBehaviour();
 
-        public void FixedUpdate() => player.FixedUpdateBehaviour();
+        public override void FixedUpdate() => game.Player.FixedUpdateBehaviour();
 
-        public void LateUpdate() => player.LateUpdateBehaviour();
-
-        public void Menu()
-        {
-            //GameManager.Instance.SetStartMenu();
-        }
-
-        public void Select()
-        {
-
-        }
+        public override void LateUpdate() => game.Player.LateUpdateBehaviour();
     }
 }

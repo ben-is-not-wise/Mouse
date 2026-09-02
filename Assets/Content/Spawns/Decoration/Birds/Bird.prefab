@@ -37,6 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &161127256430284297
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -60,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 6ed17b4e61a9c5c4f8233c9fd94fc579, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,6 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 8800817
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -703989615678852387, guid: bdaf283cdaa2c644f97d70bf9946b685, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -91,8 +93,8 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!95 &5391993583476486184
 Animator:
   serializedVersion: 7
@@ -166,8 +168,8 @@ MonoBehaviour:
   animator: {fileID: 5391993583476486184}
   lookaroundTime: 60
   flyingDelay: 30
-  minFlyingSpeedX: 10
-  maxFlyingSpeedX: 13
-  minFlyingSpeedY: 0
-  maxFlyingSpeedY: 10
+  minFlyingSpeedX: 12
+  maxFlyingSpeedX: 15
+  minFlyingSpeedY: 1
+  maxFlyingSpeedY: 15
   flyingTime: 7

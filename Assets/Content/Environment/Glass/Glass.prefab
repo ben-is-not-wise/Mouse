@@ -37,7 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3955405141027904055
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -94,6 +94,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 1
+  m_BlendShapeWeights: []
 --- !u!61 &3887839325263098633
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -152,11 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48df472ea39a0ef4ebbcbc260a587051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
+  collider: {fileID: 3887839325263098633}
   glassBreakEffect: {fileID: 5906930431400661177}
   spriteRenderer: {fileID: 3955405141027904055}
   breakable: 1
   playOnce: 1
+  gameSettings: {fileID: 11400000, guid: 400c5ac5bba5bd643a0f35802dd6ca70, type: 2}
 --- !u!1 &8212043179903114772
 GameObject:
   m_ObjectHideFlags: 0

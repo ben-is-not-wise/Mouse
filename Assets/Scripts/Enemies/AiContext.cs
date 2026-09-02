@@ -7,6 +7,8 @@ namespace HackedDesign
     {
         public string name;
         public Vector3 position;
+        public Vector3 playerPosition;
+        public bool playerIsDead;
         public bool canSeePlayer;
         public bool canHearPlayer;
         public bool hasSeenPlayer;

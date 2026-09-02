@@ -6,6 +6,5 @@ namespace HackedDesign.UI
         void Show();
         void Hide();
         void Toggle();
-        void Repaint();
     }
 }

@@ -36,7 +36,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4571080708408635541
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,6 +93,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!114 &3826188015671872924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,12 +203,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ComponentVersion: 2
+  m_ComponentVersion: 4
   m_LightType: 1
   m_BlendStyleIndex: 0
+  m_Light2DProvider:
+    rid: -2
+  m_SelectionSources:
+    rid: 4997499423134319459
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.9019608, g: 0.34901962, b: 0.5019608, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 1}
+  m_Intensity: 1.5
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: ffb3823a
@@ -226,8 +231,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.00024998188, y: -0.00030004978, z: 0}
-    m_Extent: {x: 2.4861498, y: 2.4604, z: 0}
+    m_Center: {x: -0.00080001354, y: 0.03125, z: 0}
+    m_Extent: {x: 2.4980998, y: 2.49195, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -240,5 +245,22 @@ MonoBehaviour:
   m_ShapePath:
   - {x: -1.9336362, y: -1.9597001, z: 0}
   - {x: 1.9857655, y: -1.9597008, z: 0}
-  - {x: 1.9857652, y: 1.9075695, z: 0}
-  - {x: -1.9857671, y: 1.9597002, z: 0}
+  - {x: 1.9983957, y: 1.9959717, z: 0}
+  - {x: -1.9983968, y: 2.0228448, z: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4997499423134319459
+      type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_SelectedHashCode: 1
+        m_SelectedSource:
+          rid: -2
+        m_Provider2DCache:
+          rid: 4997499423134319460
+    - rid: 4997499423134319460
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []

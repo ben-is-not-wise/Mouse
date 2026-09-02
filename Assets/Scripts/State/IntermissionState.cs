@@ -1,74 +1,47 @@
-using HackedDesign.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace HackedDesign
 {
-    public class IntermissionState : IState
+    [TransitionsTo(typeof(MissionSelectState))]
+    public class IntermissionState : AbstractState
     {
         private readonly IGame game;
-        private readonly IPlayerController player;
-        private readonly ILevelManager level;
-        private readonly IPresenter actionPresenter;
-        private readonly IDialogManager dialog;
 
-        public bool PlayerActionAllowed => true;
-        public bool Battle => false;
+        public override bool PlayerActionAllowed => true;
+        public override bool Battle => false;
 
-
-        public IntermissionState(IGame game, IPlayerController player, ILevelManager level, IDialogManager dialog, IPresenter actionPresenter)
+        public IntermissionState(IGame game)
         {
             this.game = game;
-            this.player = player;
-            this.level = level;
-            this.dialog = dialog;
-            this.actionPresenter = actionPresenter;
         }
 
-        public void Begin()
+        public override void Begin()
         {
-            
-            level.Clear();
-            level.ShowCutscene("Hotdog Stand", false, true, player);
-            player.Character.ExecuteCommand(new FacingCommand(0, 1f));
-            player.Character.SetStateSitting();
+            game.Level.Clear();
+            game.Level.ShowCutscene("Hotdog Stand", false, true, game.Player);
+            game.Player.Character.ExecuteCommand(new FacingCommand(0, -1f));
+            game.Player.Character.SetStateIdle();
+            //game.Player.Character.SetStateSitting();
 
-            dialog.ShowDialog("intro_intermission1", new UnityAction(Intro1Over));
+            //game.DialogManager.ShowDialog("intro_intermission1", new UnityAction(Intro1Over));
         }
 
         public void Intro1Over()
         {
             Debug.Log("Intro1 over");
 
-            dialog.ShowDialog("intro_intermission2", new UnityAction(Intro2Over));
+            game.DialogManager.ShowDialog("intro_intermission2", new UnityAction(Intro2Over));
         }
 
         public void Intro2Over() => game.SetStateMissionSelect();
 
+        public override void End() => game.UI.ActionBar.Hide();
 
-        public void End() => actionPresenter.Hide();
+        public override void Update() => game.Player.UpdateIdleBehaviour();
 
-        public void Update() => player.UpdateSitBehaviour();
+        public override void FixedUpdate() => game.Player.FixedUpdateBehaviour();
 
-        public void FixedUpdate()
-        {
-            player.FixedUpdateBehaviour();
-        }
-
-        public void LateUpdate()
-        {
-            player.LateUpdateBehaviour();
-            
-        }
-
-        public void Menu()
-        {
-            //GameManager.Instance.SetStartMenu();
-        }
-
-        public void Select()
-        {
-
-        }
+        public override void LateUpdate() => game.Player.LateUpdateBehaviour();
     }
 }

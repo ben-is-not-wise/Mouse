@@ -17,6 +17,8 @@ namespace HackedDesign
         [SerializeField, Range(0f, 0.5f)] public float jumpBufferTime = 0.2f;
         [SerializeField] public float fallingTimeDeath = 1.0f;
         [SerializeField] public float fallingDeathYLimit = -100.0f;
+
+        [SerializeField] public float fallDeathHeight = 27f;
         //[SerializeField, Range(0f, 10f)] public float jumpSpeed = 20f;              
         [Header("Move")]
         [SerializeField, Range(0f, 100f)] public float maxAcceleration = 35f;

@@ -1,48 +1,48 @@
 using HackedDesign.UI;
-using UnityEngine;
 
 namespace HackedDesign
 {
-    public class DeathState : IState
+    [TransitionsTo(typeof(LoadLevelState), typeof(LoadTutorialState))]
+    public class DeathState : AbstractState
     {
-        private readonly IPresenter deathMenu;
-        
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
+        private readonly IGame game;
+        private readonly DeathPresenter deathMenu;
 
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
-        public DeathState(IPresenter deathMenu)
+        public DeathState(IGame game, DeathPresenter deathMenu)
         {
-            this.deathMenu = deathMenu;     
+            this.game = game;
+            this.deathMenu = deathMenu;
         }
 
-        public void Begin() => deathMenu.Show();
-
-        public void End() => deathMenu.Hide();
-
-        public void Update()
+        public override void Begin()
         {
-
-  
+            deathMenu.Restart += OnRestart;
+            deathMenu.Exit += OnExit;
+            deathMenu.Show();
         }
 
-        public void FixedUpdate()
+        public override void End()
         {
-
+            deathMenu.Restart -= OnRestart;
+            deathMenu.Exit -= OnExit;
+            deathMenu.Hide();
         }
 
-        public void LateUpdate()
+        private void OnRestart()
         {
-            
+            if (game.GameData.FinishedTutorial)
+            {
+                game.SetStateLoadLevel();
+            }
+            else
+            {
+                game.SetStateAct0LoadTutorialLevel();
+            }
         }
 
-        public void Menu()
-        {
-        }
-
-        public void Select()
-        {
-
-        }
+        private void OnExit() => game.SetStateMainMenu();
     }
 }

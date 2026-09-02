@@ -14,7 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reactionTime: 1
   recognitionTime: 0.4
-  triggerTime: 0.2
   aggressive: 1
+  stationary: 0
   giveUpTime: 10
-  maxVisualRange: 30
+  memoryTime: 15
+  alertRadius: 12
+  proximityRange: 2.5
+  aimError: 2
+  targetLeading: 0
+  maxVisualRange: 20
+  fieldOfView: 120
+  minRoamTime: 1
+  maxRoamTime: 10
+  roamTime: 7
+  hoverHeight: 4
+  hoverDeadband: 0.5
+  groundProbeDistance: 8
+  canJumpGaps: 0
+  <SpawnOffset>k__BackingField: {x: 0, y: 0}

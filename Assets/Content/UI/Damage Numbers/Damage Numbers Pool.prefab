@@ -55,6 +55,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 8800817
@@ -73,3 +74,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.UI.DamageNumbers.DamageNumberPool
   damageNumberPrefab: {fileID: 56542536354355850, guid: ef12258be57cd2642a8caecaf9f24005, type: 3}
+  settings: {fileID: 11400000, guid: 400c5ac5bba5bd643a0f35802dd6ca70, type: 2}

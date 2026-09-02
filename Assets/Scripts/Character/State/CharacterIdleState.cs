@@ -2,6 +2,7 @@
 
 namespace HackedDesign
 {
+    [TransitionsTo(typeof(CharacterBattleState), typeof(CharacterSittingState), typeof(CharacterDeadState))]
     public class CharacterIdleState : ICharacterState
     {
         private readonly ICharacterExecute characterExecute;

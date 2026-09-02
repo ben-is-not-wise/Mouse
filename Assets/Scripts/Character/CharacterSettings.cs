@@ -24,6 +24,12 @@ namespace HackedDesign
         [SerializeField] private bool infiniteAmmo = false;
         [SerializeField] private bool infiniteHealth = false;
         [SerializeField] private List<WeaponSettings> weaponSettings = new();
+        [SerializeField] private WeaponSettings? startingWeapon = null;
+        [SerializeField] private WeaponSettings? defaultMelee = null;
+        [SerializeField] private WeaponSettings? startingGrenade = null;
+        [SerializeField] private List<Item> startingInventory = new();
+        [SerializeField] private List<HackLoadout> startingHacks = new();
+        [SerializeField] private List<Upgrade> startingUpgrades = new();
         [SerializeField] private float momentumAirLoss = 0.5f;
         [SerializeField] private float baseMomentumFactor = 0.1f;
         [SerializeField] private float attackMomentumLoss = 0.5f;
@@ -56,6 +62,12 @@ namespace HackedDesign
         public float BaseMomentumFactor { get => this.baseMomentumFactor; set => this.baseMomentumFactor = value; }
         public float MomentumLoss { get => this.momentumAirLoss; set => this.momentumAirLoss = value; }
         public List<WeaponSettings> WeaponSettings { get => this.weaponSettings; set => this.weaponSettings = value; }
+        public WeaponSettings? StartingWeapon => this.startingWeapon;
+        public WeaponSettings? DefaultMelee => this.defaultMelee;
+        public WeaponSettings? StartingGrenade => this.startingGrenade;
+        public List<Item> StartingInventory => this.startingInventory;
+        public List<HackLoadout> StartingHacks => this.startingHacks;
+        public List<Upgrade> StartingUpgrades => this.startingUpgrades;
         public bool InfiniteHealth { get => this.infiniteHealth; set => this.infiniteHealth = value; }
         public bool InfiniteAmmo { get => this.infiniteAmmo; set => this.infiniteAmmo = value; }
         public int StartingAmmo { get => this.startingAmmo; set => this.startingAmmo = value; }
@@ -71,6 +83,13 @@ namespace HackedDesign
         public float HearDistanceRunning { get => this.hearDistanceRunning; }
         public float HearDistanceWalking { get => this.hearDistanceWalking; }
         public float HearDistanceCrouched { get => this.hearDistanceCrouched; }
-        
+
+    }
+
+    [System.Serializable]
+    public class HackLoadout
+    {
+        public Hack? hack;
+        public Subroutine[] subroutines = new Subroutine[0];
     }
 }

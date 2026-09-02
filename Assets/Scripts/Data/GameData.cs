@@ -10,7 +10,15 @@ namespace HackedDesign
     [System.Serializable]
     public class GameData
     {
-        public HashSet<string> GameFlags = new();
+        public List<string> GameFlags = new();
+
+        public void AddFlag(string flag)
+        {
+            if (!Game.Instance.GameData.GameFlags.Contains(flag))
+            {
+                Game.Instance.GameData.GameFlags.Add(flag);
+            }
+        }
 
         public List<MissionData> completedMissions = new();
         //public List<MissionData> availableMissions = new();

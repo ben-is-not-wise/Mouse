@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 6929211704511668072}
   - component: {fileID: 8571477023535537960}
   - component: {fileID: 315489455703502417}
-  - component: {fileID: 3301286636184083215}
   - component: {fileID: 4282444502895818392}
   m_Layer: 0
   m_Name: Building
@@ -37,7 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &315489455703502417
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -61,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 853961414d4872a4c8d083ca68eb8840, type: 2}
+  - {fileID: 2100000, guid: d0c5a3806e014b9595023bf70bf7899f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94,20 +94,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3301286636184083215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4521256084586364397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e72ff7dcbcddd14794e0c9a5d80c064, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minY: -4
-  maxY: 4
+  m_BlendShapeWeights: []
 --- !u!114 &4282444502895818392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,3 +224,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2083442244770285119, guid: 12b535f6dac967448ac64592a514c872, type: 3}
   m_PrefabInstance: {fileID: 853463912674105016}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6929211704511668072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4521256084586364397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e283ecf6994794a99e19004bb929bb, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  spriteRenderer: {fileID: 315489455703502417}
+  minInterval: 5
+  maxInterval: 32
+  flickerChance: 0.3
+  flickerProbability: 0.2
+  keyTolerance: 0.05
+  buildingColor: {r: 0.12941177, g: 0.21176471, b: 0.32156864, a: 1}
+  windowColorA: {r: 0.116707325, g: 0.19097562, b: 0.29, a: 1}
+  windowColorB: {r: 1, g: 0.90882355, b: 0.7, a: 1}

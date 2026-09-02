@@ -1,17 +1,12 @@
 ﻿<Solution>
   <Project Path="Mouse.csproj" />
   <Project Path="EPO.csproj" />
-  <Project Path="DunGen.Editor.csproj" />
-  <Project Path="DunGen.csproj" />
   <Project Path="EPOUtilities.csproj" />
   <Project Path="EPOEditor.csproj" />
   <Project Path="Mouse.Extensions.csproj" />
-  <Project Path="DunGen.Integration.UnityNav.Editor.csproj" />
-  <Project Path="EPOURP.csproj" />
   <Project Path="Mouse.Editor.csproj" />
+  <Project Path="EPOURP.csproj" />
   <Project Path="Mouse.Utils.csproj" />
   <Project Path="EPOHDRP.csproj" />
-  <Project Path="DunGen.Integration.UnityNav.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="DunGen.Integration.ASPP.csproj" />
 </Solution>

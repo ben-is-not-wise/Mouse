@@ -2,12 +2,10 @@ using HackedDesign.UI;
 
 namespace HackedDesign
 {
-    public class Act3IntroCardState : IState
+    public class Act3IntroCardState : AbstractState
     {
-
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
-
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
         private readonly ActPresenter presenter;
 
@@ -17,22 +15,12 @@ namespace HackedDesign
             this.presenter.finishedEvent.AddListener(Continue);
         }
 
-        public void Begin() => presenter.Show();
+        public override void Begin() => presenter.Show();
 
         private void Continue()
         {
         }
 
-        public void End() => presenter.Hide();
-
-        public void Update() { }
-
-        public void FixedUpdate() { }
-
-        public void LateUpdate() { }
-
-        public void Menu() { }
-
-        public void Select() { }
+        public override void End() => presenter.Hide();
     }
 }

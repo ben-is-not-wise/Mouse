@@ -2,6 +2,7 @@
 
 namespace HackedDesign
 {
+    [TransitionsTo(typeof(EnemySearchingState))]
     public class EnemyIdleState: IEnemyState
     {
         private readonly IAi ai;

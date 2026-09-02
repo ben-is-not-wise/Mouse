@@ -14,9 +14,12 @@ namespace HackedDesign.UI
         [SerializeField] RectTransform selectMission;
         [SerializeField] UnityEngine.UI.Button missionButtonPrefab;
 
-        public override void Repaint()
+        public event Action Select;
+        public event Action Continue;
+
+        public void Repaint(GameData data)
         {
-            var mission = Game.Instance.GameData.CurrentMission;
+            var mission = data.CurrentMission;
             seedText.text = mission.seed.ToHexString();
             corpText.text = mission.corp;
             missionTypeText.text = mission.missionType.ToString();
@@ -25,21 +28,13 @@ namespace HackedDesign.UI
 
 
 
-        public void SelectClick()
-        {
-            Game.Instance.SetStateIntermission();
-        }
+        public void SelectClick() => Select?.Invoke();
 
         public void RejectClick()
         {
 
         }
 
-        public void ContinueClick()
-        {
-            Game.Instance.SetStateLoadLevel();
-            //Game.Instance.SetStateIntermission();
-            //Game.Instance.GameData.SelectMission(mission);
-        }
+        public void ContinueClick() => Continue?.Invoke();
     }
 }

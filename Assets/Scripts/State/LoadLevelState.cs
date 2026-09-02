@@ -1,65 +1,41 @@
-using HackedDesign.UI;
 using UnityEngine;
 
 namespace HackedDesign
 {
-    public class LoadLevelState : IState
+    [TransitionsTo(typeof(PlayingState))]
+    public class LoadLevelState : AbstractState
     {
         private readonly IGame game;
-        private readonly IPlayerController player;
-        private readonly ILevelManager level;
-        private readonly IEnemyManager enemyManager;
 
-        public bool PlayerActionAllowed => true;
-        public bool Battle => true;
+        public override bool PlayerActionAllowed => true;
+        public override bool Battle => true;
 
-        public LoadLevelState(IGame game, IPlayerController player, ILevelManager level, IEnemyManager enemyManager)
+        public LoadLevelState(IGame game)
         {
             this.game = game;
-            this.player = player;
-            this.level = level;
-            this.enemyManager = enemyManager;
         }
 
-        public void Begin()
+        public override void Begin()
         {
             LoadLevel();
-            player.Reset();
-            player.Teleport(level.GetLevelPlayerSpawnLocation() + Vector3.up);
-            level.SpawnEnemies(33);
+            game.Player.Reset();
+            game.Player.Teleport(game.Level.GetLevelPlayerSpawnLocation() + Vector3.up);
+            game.Level.SpawnEnemies(33);
         }
 
         private void LoadLevel()
         {
-            level.Clear();
-            level.Generate(Random.Range(1, 1000), 50, 1);
-            level.RainOn();
+            game.Level.Clear();
+            game.Level.Generate(Random.Range(1, 1000), 1);
+            game.Level.RainOn();
         }
 
-        public void End() => game.LevelTimer.Timer.Start();
+        public override void End() => game.LevelTimer.Timer.Start();
 
-        public void Update()
+        public override void Update()
         {
             game.LevelTimer.Reset();
             game.SetStatePlaying();
-        }
-
-        public void FixedUpdate()
-        {
-        }
-
-        public void LateUpdate()
-        {
-           
-        }
-
-        public void Menu()
-        {
-        }
-
-        public void Select()
-        {
-
         }
     }
 }

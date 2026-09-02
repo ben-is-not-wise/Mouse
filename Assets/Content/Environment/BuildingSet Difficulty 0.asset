@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fdbccd17f414cd9bfb0314c842ca685, type: 3}
+  m_Name: BuildingSet Difficulty 0
+  m_EditorClassIdentifier: Mouse::HackedDesign.BuildingSet
+  startBuildings:
+  - {fileID: 8131875419712681844, guid: 92fb1777fa30cd64f9491f7c6ff2f5d9, type: 3}
+  midBuildings:
+  - {fileID: 8131875419712681844, guid: 2c96330ebbcf67f4da8d72b4a2f1f28c, type: 3}
+  - {fileID: 8131875419712681844, guid: a437c36e9143a784d9f8397bcb83d510, type: 3}
+  - {fileID: 8131875419712681844, guid: 507795c7bfd7725409afaf61aa5486d8, type: 3}
+  - {fileID: 8131875419712681844, guid: 08152fbb0740cd14ba6c81cf1cda613e, type: 3}
+  - {fileID: 8131875419712681844, guid: ef797b803edc40b43978f9d701079bc4, type: 3}
+  - {fileID: 8131875419712681844, guid: b52b84726b32ee348a4d01e3ea676ce7, type: 3}
+  - {fileID: 8131875419712681844, guid: b12b6753152296d458a750c95b34c7f7, type: 3}
+  - {fileID: 8131875419712681844, guid: e3424fb2fa5680840bfd3e4c0e07c397, type: 3}
+  - {fileID: 8131875419712681844, guid: 4b80036b49df9f34aa5f6c51f6f3624c, type: 3}
+  - {fileID: 8131875419712681844, guid: 3f6b45d342e20064795fe51ccdb97d22, type: 3}
+  endBuildings:
+  - {fileID: 8131875419712681844, guid: 1372eac2c3a35e54fb23414a02fcbece, type: 3}
+  minLength: 20
+  maxLength: 20

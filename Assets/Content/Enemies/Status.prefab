@@ -35,7 +35,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8888052711685868836
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,6 +92,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!114 &7989545397337579756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,4 +111,5 @@ MonoBehaviour:
   pickupSprite: {fileID: 21300000, guid: a40309af475914d03801adb3092e184d, type: 3}
   talkSprite: {fileID: 21300000, guid: 48e69ef7fd3f149eb91c4ba8e59379fe, type: 3}
   interactSprite: {fileID: 21300000, guid: f7d3e01dd772c4c45b43b38531850085, type: 3}
+  exitSprite: {fileID: 21300000, guid: 737f812fa71e443baa3e306b09cbf00f, type: 3}
   showDefault: 0

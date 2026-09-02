@@ -5,14 +5,7 @@ namespace HackedDesign.UI
 {
     public class ShopPresenter : AbstractPresenter
     {
-        [Header("Data")]
-        //[SerializeField] private CharacterData gameData;
         [SerializeField] private OperatingSystem os;
-        //[Header("UI")]
 
-        public override void Repaint()
-        {
-
-        }
     }
 }

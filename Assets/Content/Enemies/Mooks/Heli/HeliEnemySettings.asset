@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013efa53d65a1cd4d9770b49ee51b3cf, type: 3}
   m_Name: HeliEnemySettings
   m_EditorClassIdentifier: 
-  reactionTime: 1
-  recognitionTime: 0.4
+  reactionTime: 0.5
+  recognitionTime: 0.3
   aggressive: 1
   stationary: 0
   giveUpTime: 1.33
@@ -27,7 +27,7 @@ MonoBehaviour:
   minRoamTime: 1
   maxRoamTime: 10
   roamTime: 7
-  hoverHeight: 3
+  hoverHeight: 4
   hoverDeadband: 0.5
   groundProbeDistance: 8
   canJumpGaps: 1

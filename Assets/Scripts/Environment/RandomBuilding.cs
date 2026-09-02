@@ -14,9 +14,9 @@ public class RandomBuilding : MonoBehaviour
     private void Awake()
     {
         this.AutoBind(ref spriteRenderer);
-    }
-    void Start()
-    {
+        // Picked in Awake (not Start) so the final sprite is already set by the time
+        // Level.cs measures this building's bounds right after Instantiate - Start() on a
+        // newly-instantiated object runs later, too late for that synchronous bounds check.
         SetSprite();
     }
 

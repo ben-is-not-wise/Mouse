@@ -45,24 +45,22 @@ namespace HackedDesign
 
         public void Perform(IAi ai, AiContext ctx)
         {
-            if (Game.Instance.Player.Character.IsDead)
+            if (ctx.playerIsDead)
             {
                 return;
             }
 
-            var playerPosition = Game.Instance.Player.transform.position;
-
             if (hasPrevPlayer && Time.fixedDeltaTime > 0)
             {
-                var instant = (playerPosition - prevPlayerPosition) / Time.fixedDeltaTime;
+                var instant = (ctx.playerPosition - prevPlayerPosition) / Time.fixedDeltaTime;
                 playerVelocity = Vector3.Lerp(playerVelocity, instant, 0.3f);
             }
-            prevPlayerPosition = playerPosition;
+            prevPlayerPosition = ctx.playerPosition;
             hasPrevPlayer = true;
 
             if (!ctx.settings.Stationary && ctx.canSeePlayer)
             {
-                ai.Character.ExecuteCommand(new FacingCommand(0, playerPosition.x <= ai.Character.transform.position.x ? -1 : 1));
+                ai.Character.ExecuteCommand(new FacingCommand(0, ctx.playerPosition.x <= ai.Character.transform.position.x ? -1 : 1));
             }
 
             ai.Character.ExecuteCommand(new AimCommand(ctx.bullets > 0));
@@ -72,17 +70,24 @@ namespace HackedDesign
                 return;
             }
 
+            var distance = (ai.Character.transform.position - ctx.playerPosition).magnitude;
+
             if (ctx.bullets > 0)
             {
+                if (distance > ai.Character.Settings.ShootDistance)
+                {
+                    steering.MoveToward(ai, ctx, ctx.playerPosition, ctx.settings.CanJumpGaps);
+                    return;
+                }
+
                 ai.Character.ExecuteCommand(new MoveCommand(0, 0));
                 TryAttack(ai, ctx, aiming: true);
                 return;
             }
 
-            var toPlayer = ai.Character.transform.position - playerPosition;
-            if (toPlayer.magnitude > MeleeRange)
+            if (distance > MeleeRange)
             {
-                steering.MoveToward(ai, ctx, playerPosition);
+                steering.MoveToward(ai, ctx, ctx.playerPosition);
             }
             else
             {

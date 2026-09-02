@@ -9,10 +9,6 @@ namespace HackedDesign.UI
     {
         [HideInInspector] public UnityEvent finishedEvent;
 
-        public override void Repaint()
-        {
-
-        }
 
         public void NextClick()
         {

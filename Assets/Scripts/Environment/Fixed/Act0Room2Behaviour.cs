@@ -15,8 +15,8 @@ namespace HackedDesign
 
         }
 
-        public void Play() { }
+        public void Play(IGame game) { }
 
-        public void Stop() { }
+        public void Stop(IGame game) { }
     }
 }

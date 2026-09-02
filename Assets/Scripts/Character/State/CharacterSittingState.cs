@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    [TransitionsTo(typeof(CharacterIdleState))]
     public class CharacterSittingState : ICharacterState
     {
         private readonly Animator animator;

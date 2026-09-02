@@ -44,13 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33844105b86de9c469121f8ad4456a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: -5006827703715512327, guid: b46e0cf7cdd5ab34989fe7a6343c765e, type: 3}
-  - {fileID: -5006827703715512327, guid: bb491781072ee4c42b9595f60ad2fd13, type: 3}
-  - {fileID: 7329100333877127978, guid: 54a4d856328055545b3eee0081496b4c, type: 3}
-  - {fileID: -5006827703715512327, guid: 3fac1fce71b7df34aaebcaac99d4a014, type: 3}
-  - {fileID: 7329100333877127978, guid: 055e5deb201c6c845802ead50144e3ea, type: 3}
-  - {fileID: -5006827703715512327, guid: 9ba5e944cda54ba4583024b94210d98c, type: 3}
+  difficultyLevels:
+  - {fileID: 11400000, guid: 56199b6b471ccf5449bf1123c65fc1e7, type: 2}
   traps:
   - {fileID: 2072137641269891416, guid: edf4851cc8aa8a54cb0e9bf97b505668, type: 3}
   - {fileID: 7235826455370351959, guid: dfae0faeb6a9bd647a1d5bad643a9e1c, type: 3}
@@ -62,4 +57,10 @@ MonoBehaviour:
   - {fileID: 4070400558305773655, guid: 890f11bf7a4f99544b1c208f692ed320, type: 3}
   - {fileID: 4070400558305773655, guid: 05e47d02e40a1c14d82360f487e0ea15, type: 3}
   - {fileID: 4070400558305773655, guid: 74350e6a447296a4e8a132c0d1a8022d, type: 3}
+  - {fileID: 5386955994993972789, guid: 2188bf7beb968eb45be6db348791c12b, type: 3}
+  - {fileID: 4070400558305773655, guid: b7ca893c254ba6e42b0a7bcdcc99e383, type: 3}
+  - {fileID: 4070400558305773655, guid: 80328a4423ee37f459fbf8e7aab290c4, type: 3}
+  - {fileID: 4070400558305773655, guid: a1e0c3fcd8c5a0247b9a3080f4e8d49e, type: 3}
+  - {fileID: 4070400558305773655, guid: 0dceb2c05b2e6db44b951cdb0a70dae0, type: 3}
+  - {fileID: 4070400558305773655, guid: 2ea10132e7978b746bb58add20e3f577, type: 3}
   mustSpawn: 0

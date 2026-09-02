@@ -3,47 +3,45 @@ using UnityEngine;
 
 namespace HackedDesign
 {
-    public class MainMenuState : IState
+    [TransitionsTo(typeof(Act1IntroCardState), typeof(Act0Room2State), typeof(LoadTutorialState), typeof(Act0IntroCardState))]
+    public class MainMenuState : AbstractState
     {
-        private readonly IPresenter mainMenu;
-        
-        public bool PlayerActionAllowed => false;
-        public bool Battle => false;
+        private readonly IGame game;
+        private readonly MainMenuPresenter mainMenu;
 
+        public override bool PlayerActionAllowed => false;
+        public override bool Battle => false;
 
-        public MainMenuState(IPresenter mainMenu)
+        public MainMenuState(IGame game, MainMenuPresenter mainMenu)
         {
-            this.mainMenu = mainMenu;     
-            
+            this.game = game;
+            this.mainMenu = mainMenu;
         }
 
-        public void Begin() => mainMenu.Show();
-
-        public void End() => mainMenu.Hide();
-
-        public void Update()
+        public override void Begin()
         {
-
-  
+            mainMenu.StartGame += OnStart;
+            mainMenu.Options += OnOptions;
+            mainMenu.Credits += OnCredits;
+            mainMenu.Exit += OnExit;
+            mainMenu.Show();
         }
 
-        public void FixedUpdate()
+        public override void End()
         {
-
+            mainMenu.StartGame -= OnStart;
+            mainMenu.Options -= OnOptions;
+            mainMenu.Credits -= OnCredits;
+            mainMenu.Exit -= OnExit;
+            mainMenu.Hide();
         }
 
-        public void LateUpdate()
-        {
-            
-        }
+        private void OnStart() => game.NewGame();
 
-        public void Menu()
-        {
-        }
+        private void OnOptions() => Debug.Log("Main Menu Options");
 
-        public void Select()
-        {
+        private void OnCredits() => Debug.Log("Credits Click");
 
-        }
+        private void OnExit() => game.SetStateQuit();
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRate: 0.33
   walkSpeed: 4
-  runSpeed: 5
+  runSpeed: 6
   crouchSpeed: 3.5
   shootDistance: 10
   meleeDistance: 1.5
@@ -26,12 +26,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   alertRadius: 10
-  startingHealth: 100
+  startingHealth: 10000
   startingAmmo: 6
   infiniteAmmo: 1
   infiniteHealth: 0
   weaponSettings:
   - {fileID: 11400000, guid: 9b0f56487dedb6041851381a82169f6d, type: 2}
+  startingWeapon: {fileID: 11400000, guid: 26858494ca1e6764abffafaa16fe2ef1, type: 2}
+  defaultMelee: {fileID: 11400000, guid: 3e345b983de8811479ef9ed6e1f75cf2, type: 2}
+  startingInventory: []
+  startingHacks: []
+  startingUpgrades: []
   momentumAirLoss: 0
   baseMomentumFactor: 0
   attackMomentumLoss: 0

@@ -10,10 +10,11 @@ namespace HackedDesign
     public interface IEnemyManager
     {
         void Reset();
-        EnemyController Spawn(Spawn spawn);
+        EnemyController SpawnRandom(Spawn spawn, int difficulty);
         void UpdateAllBehaviour();
-        void UpdateAllFixedBehaviour();
+        void UpdateAllFixedBehaviour(IPlayerController player);
         void UpdateAllLateBehaviour();
+        void StopAll();
     }
 
     public class EnemyManager : AutoSingleton<EnemyManager>, IEnemyManager
@@ -31,15 +32,40 @@ namespace HackedDesign
             pool.Clear();
         }
 
-        public EnemyController Spawn(Spawn spawn)
+        public EnemyController SpawnChase(Spawn spawn, int difficulty)
+        {
+            Debug.Log("Spawning chase enemy at " + spawn.transform.position);
+
+            var enemyPrefab = spawn.GetChaseSpawn(difficulty);
+
+            Debug.Log("spawning " + enemyPrefab.EnemyType);
+
+            var enemy = pool.Where(e => e.EnemyType == enemyPrefab.EnemyType).OrderBy(_ => Random.value).FirstOrDefault();
+
+            if (enemy == null)
+            {
+                enemy = InstantiateChaseEnemy(enemyPrefab, spawn);
+                //enemy = InstantiateNewEnemy(spawn, difficulty);
+                pool.Add(enemy);
+            }
+
+            enemy.Spawn(spawn.transform.position);
+
+            return enemy;
+
+        }
+
+        public EnemyController SpawnRandom(Spawn spawn, int difficulty)
         {
             Debug.Log("Spawning enemy at " + spawn.transform.position);
 
-            var enemy = FindInactiveEnemyForSpawn(spawn);
+            var prefab = spawn.GetRandomEnemyPrefab(difficulty);
+
+            var enemy = FindInactiveEnemyForSpawn(prefab);
 
             if(enemy == null)
             {
-                enemy = InstantiateNewEnemy(spawn);
+                enemy = InstantiateNewEnemy(prefab, spawn, difficulty);
                 pool.Add(enemy);
             }
 
@@ -48,10 +74,15 @@ namespace HackedDesign
             return enemy;
         }
 
-        public EnemyController InstantiateNewEnemy(Spawn spawn)
+        public EnemyController InstantiateChaseEnemy(EnemyController prefab, Spawn spawn)
         {
-            var prefab = spawn.GetRandomEnemyPrefab();
+            var enemy = Instantiate(prefab, spawn.transform.position + (Vector3)prefab.EnemySettings.SpawnOffset, Quaternion.identity, this.transform);
+            enemy.gameObject.ClearCloneSuffix();
+            return enemy;
+        }
 
+        public EnemyController InstantiateNewEnemy(EnemyController prefab, Spawn spawn, int difficulty)
+        {
             if (prefab == null)
             {
                 Debug.LogError("Could not find a prefab to spawn", this);
@@ -63,8 +94,8 @@ namespace HackedDesign
             return enemy;
         }
 
-        public EnemyController FindInactiveEnemyForSpawn(Spawn spawn) => 
-            pool.Where(e => !e.gameObject.activeInHierarchy && spawn.CanSpawnEnemy(e.EnemyType)).OrderBy(_ => Random.value).FirstOrDefault();
+        public EnemyController FindInactiveEnemyForSpawn(EnemyController prefab) =>
+            pool.Where(e => !e.gameObject.activeInHierarchy && e.EnemyType == prefab.EnemyType).OrderBy(_ => Random.value).FirstOrDefault();
         
         public void UpdateAllBehaviour()
         {
@@ -74,11 +105,11 @@ namespace HackedDesign
             }
         }
 
-        public void UpdateAllFixedBehaviour()
+        public void UpdateAllFixedBehaviour(IPlayerController player)
         {
             foreach (var enemy in pool.Where(e => e.gameObject.activeInHierarchy))
             {
-                enemy.FixedUpdateBehaviour();
+                enemy.FixedUpdateBehaviour(player);
             }
         }
 
@@ -87,6 +118,14 @@ namespace HackedDesign
             foreach (var enemy in pool.Where(e => e.gameObject.activeInHierarchy))
             {
                 enemy.LateUpdateBehaviour();
+            }
+        }
+
+        public void StopAll()
+        {
+            foreach (var enemy in pool.Where(e => e.gameObject.activeInHierarchy))
+            {
+                enemy.Character.ExecuteCommand(new StopCommand());
             }
         }
     }

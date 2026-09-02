@@ -22,10 +22,9 @@ namespace HackedDesign
         [SerializeField] private OperatingSystem operatingSystem;
         [SerializeField] private PhysicsController? body = null;
         [SerializeField] private Animator? animator = null;
-        [SerializeField] private new Collider2D? collider = null;
+        [SerializeField] private Collider2D? collider = null;
         [SerializeField] private Transform head;
         [SerializeField] private Ghost ghost;
-        [SerializeField] private ShadowCaster2D shadow;
         [SerializeField] private SpriteLibrary? spriteLibrary = null;
         [Header("Settings")]
         [SerializeField] private CharacterSettings? settings = null;
@@ -62,7 +61,7 @@ namespace HackedDesign
         public PhysicsController? Body { get => body; set => body = value; }
         public CharacterSettings? Settings { get => settings; set => settings = value; }
 
-        public ShadowCaster2D? Shadow => shadow;
+        //public ShadowCaster2D? Shadow => shadow;
 
         public Transform Head => head;
 
@@ -123,7 +122,6 @@ namespace HackedDesign
             this.AutoBind(ref operatingSystem);
             this.AutoBind(ref body);
             this.AutoBind(ref collider);
-            this.AutoBind(ref shadow);
             this.AutoBind(ref spriteLibrary);
             spriteResolvers = GetComponentsInChildren<SpriteResolver>(includeInactive: true);
             if (head == null)
@@ -140,6 +138,8 @@ namespace HackedDesign
 
         public void SetOutfit(string name)
         {
+            Debug.Log("Setting outfit : " + name);
+
             if (!spriteLibrary.EnsureNotNull(this, nameof(spriteLibrary)))
             {
                 return;
@@ -164,6 +164,21 @@ namespace HackedDesign
         {
             InputDirection = inputDirection;
             InputClimb = inputClimb;
+        }
+
+        private float LocomotionBlend()
+        {
+            if (Mathf.Abs(InputDirection) < Mathf.Epsilon)
+            {
+                return 0f;
+            }
+
+            if (IsCrouched)
+            {
+                return 1f;
+            }
+
+            return IsWalking ? 3f : 7f;
         }
 
         public void SetJump() => Jump = true;
@@ -284,7 +299,7 @@ namespace HackedDesign
         public void Reset()
         {
             Stop();
-            OperatingSystem.Reset(Settings);
+            OperatingSystem.Reset();
             if (Animator.EnsureNotNull(this, nameof(Animator)))
             {
                 Animator.SetBool(AnimatorParams.Grounded, true);
@@ -309,6 +324,7 @@ namespace HackedDesign
 
             if(IsDead)
             {
+                Body.StopClimbingLadder();
                 Body.FixedMovement(0, 0, false, false, 0);
                 return;
             }
@@ -348,9 +364,9 @@ namespace HackedDesign
             {
                 crouched = IsCrouched,
                 onGround = Body == null || Body.OnGround,
-                onWall = Body != null && Body.OnWall,
+                onWall = Body != null && (Body.OnWall || Body.ClimbingLadder),
                 velocityY = Body == null ? 0 : Body.VelocityY,
-                movementMagnitude = Mathf.Abs(DesiredMovement),
+                movementMagnitude = LocomotionBlend(),
                 rollOnLand = Body != null && CanRoll && Body.LastFallTime > 1f,
                 aiming = Aiming,
                 isClimbingLedge = Body != null && Body.CurrentlyClimbingLedge,
@@ -435,12 +451,22 @@ namespace HackedDesign
         #endregion Death
 
         #region Attack
-        public void Attack(Vector3 target, bool aiming) => CurrentState.Attack(new CharacterAttackContext()
+        public void Attack(Vector3 target, bool aiming)
         {
-            target = target,
-            aiming = aiming,
-            knockback = knockback
-        });
+            float sign = target.x - transform.position.x;
+
+            if (Mathf.Abs(sign) >= Mathf.Epsilon)
+            {
+                SetFacingDirection(sign);
+            }
+
+            CurrentState.Attack(new CharacterAttackContext()
+            {
+                target = target,
+                aiming = aiming,
+                knockback = knockback
+            });
+        }
 
         #endregion Attack
 

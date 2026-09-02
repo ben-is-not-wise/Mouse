@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1849093e50ad247bb82fcf1dc37ed6, type: 3}
+  m_Name: OutdoorEnemySet Tutorial
+  m_EditorClassIdentifier: Mouse::HackedDesign.EnemySpawnSet
+  enemyPrefabs:
+  - {fileID: -5006827703715512327, guid: bb491781072ee4c42b9595f60ad2fd13, type: 3}
+  - {fileID: 1847379538233366939, guid: 15057701288e40942b336d508f83714d, type: 3}
+  - {fileID: 6651333809260215782, guid: 1523e9abffa2ec643892046c8e479d4c, type: 3}
+  - {fileID: 8721810498897370834, guid: 19aab8c66b1a17744ac49f5f0affb37a, type: 3}
+  - {fileID: 3887006565540923272, guid: 527bd6dcf797f824e9189192eb9628e7, type: 3}
+  - {fileID: 1847379538233366939, guid: c133e9b1cd1913d488fb945c7cc51c56, type: 3}
+  - {fileID: 2505872886590916407, guid: 0bd97333c67e8be4181679e430281d07, type: 3}
+  - {fileID: 7670093949437496343, guid: f3a0585cd7ec4df42af3732b6d70168a, type: 3}
+  - {fileID: 3770605024655554858, guid: 3cd7bd777c9325a498862b94626385be, type: 3}
+  - {fileID: 3731536834597109307, guid: c6a725993bb19604a8b29c8b536c7bd8, type: 3}
+  - {fileID: 796238485327973973, guid: 62612fa0ab04cae4ebbcb7d72cce14ac, type: 3}
+  - {fileID: 796238485327973973, guid: 2cc32ba77d86872478822c9a12e39cea, type: 3}
+  chasePrefab: {fileID: 7329100333877127978, guid: 055e5deb201c6c845802ead50144e3ea, type: 3}

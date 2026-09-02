@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GunDroneCharacterSettings
   m_EditorClassIdentifier: 
   attackRate: 0.33
-  walkSpeed: 2
-  runSpeed: 4
+  walkSpeed: 4
+  runSpeed: 6
   crouchSpeed: 3.5
-  shootDistance: 20
+  shootDistance: 7
   meleeDistance: 1.5
   interactDistance: 1
   attackMask:
@@ -25,13 +25,19 @@ MonoBehaviour:
   interactMask:
     serializedVersion: 2
     m_Bits: 0
-  alertRadius: 20
-  startingHealth: 100
+  alertRadius: 10
+  startingHealth: 10000
   startingAmmo: 6
   infiniteAmmo: 1
   infiniteHealth: 0
   weaponSettings:
-  - {fileID: 11400000, guid: 9b0f56487dedb6041851381a82169f6d, type: 2}
+  - {fileID: 11400000, guid: a13376bfbbfd8884f8eef6608c74c67e, type: 2}
+  startingWeapon: {fileID: 11400000, guid: a13376bfbbfd8884f8eef6608c74c67e, type: 2}
+  defaultMelee: {fileID: 0}
+  startingGrenade: {fileID: 11400000, guid: 26858494ca1e6764abffafaa16fe2ef1, type: 2}
+  startingInventory: []
+  startingHacks: []
+  startingUpgrades: []
   momentumAirLoss: 0
   baseMomentumFactor: 0
   attackMomentumLoss: 0
@@ -39,3 +45,10 @@ MonoBehaviour:
   maxMomentum: 5
   hitfx: 2
   timeSlowSpeed: 0.5
+  anticipateDelay: 0.2
+  knockbackAmount: 1
+  knockbackTime: 0.2
+  knockbackFreezeTime: 0.2
+  hearDistanceRunning: 3
+  hearDistanceWalking: 1
+  hearDistanceCrouched: 0.5

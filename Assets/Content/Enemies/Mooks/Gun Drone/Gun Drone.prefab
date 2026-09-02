@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 3788069480937609357}
   - component: {fileID: 7784879929265448589}
   - component: {fileID: 661357183565574594}
+  - component: {fileID: 4604400774779957375}
   m_Layer: 8
   m_Name: Gun Drone
   m_TagString: Enemy
@@ -98,7 +99,7 @@ Transform:
   m_GameObject: {fileID: 6952841663971232510}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1069.4674, y: 4.04353, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -110,7 +111,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1021168553152892194
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -167,6 +168,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!114 &7329100333877127978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +184,9 @@ MonoBehaviour:
   character: {fileID: 8273372842617449697}
   characterStatusIcon: {fileID: 5299402286459072237}
   aimPivot: {fileID: 4007903951215739512}
-  enemyType: 2
+  enemyType: 7
+  useUtilityBrain: 1
+  brainSettings: {fileID: 11400000, guid: 40cbddb37febd6942bc7a3b6c0c1e35d, type: 2}
   lineOfSightMask:
     serializedVersion: 2
     m_Bits: 200
@@ -215,8 +219,9 @@ MonoBehaviour:
   collider: {fileID: 8803169600867095997}
   head: {fileID: 4007903951215739512}
   ghost: {fileID: 0}
-  shadow: {fileID: 0}
+  spriteLibrary: {fileID: 0}
   settings: {fileID: 11400000, guid: e195ff7eff049f84486653df7b1aaff4, type: 2}
+  wardrobe: []
 --- !u!114 &8538473111488450000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +260,9 @@ MonoBehaviour:
   environmentMask:
     serializedVersion: 2
     m_Bits: 2240
+  ladderMask:
+    serializedVersion: 2
+    m_Bits: 0
   fallDeathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -263,6 +271,7 @@ MonoBehaviour:
   contactNormal: {x: 0, y: 0}
   ledgeDetectionPoint: {fileID: 0}
   ledgeOffsetEnd: {x: 0, y: 0, z: 0}
+  wallStickGraceTime: 1
 --- !u!50 &1443602716750539417
 Rigidbody2D:
   serializedVersion: 5
@@ -429,7 +438,24 @@ MonoBehaviour:
   interactAction:
     m_PersistentCalls:
       m_Calls: []
+  os: {fileID: 0}
   label: Gun Drone
+  repeatable: 1
+  gameFlag: 
+  interactionType: 3
+--- !u!114 &4604400774779957375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6952841663971232510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates: []
 --- !u!1001 &1876627262623194321
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -438,6 +464,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5518448612938903335}
     m_Modifications:
+    - target: {fileID: 1197155818746722769, guid: 45852bcd898db144fb16c36d23088d99, type: 3}
+      propertyPath: charSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: e195ff7eff049f84486653df7b1aaff4, type: 2}
     - target: {fileID: 3269264565739926011, guid: 45852bcd898db144fb16c36d23088d99, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

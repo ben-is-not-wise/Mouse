@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    [TransitionsTo(typeof(EnemyAlertState), typeof(EnemyIdleState))]
     public class EnemySearchingState : IEnemyState
     {
         private readonly IAi ai;
@@ -26,10 +27,9 @@ namespace HackedDesign
 
         public void UpdateBehaviour(AiContext ctx)
         {
-            if (Game.Instance.Player.Character.IsDead)
+            if (ctx.playerIsDead)
             {
                 return;
-                // FIXME: Go to a post game state
             }
 
             if (!sawPlayer && (ctx.canSeePlayer || ctx.canHearPlayer))

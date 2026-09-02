@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using UnityEngine;
 
 namespace HackedDesign
@@ -79,7 +80,12 @@ namespace HackedDesign
 
         public static Bounds GetWorldBounds(this GameObject obj)
         {
-            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+            // Exclude ParticleSystemRenderer - it reports zero-size bounds at world origin
+            // whenever it has no live particles, which would otherwise drag the combined
+            // bounds down to include (0,0,0).
+            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>()
+                .Where(r => r is not ParticleSystemRenderer)
+                .ToArray();
 
             if (renderers.Length == 0)
             {

@@ -23,8 +23,6 @@ namespace HackedDesign
         [SerializeField] private LayerMask movementMask;
         [SerializeField, NotNull] private EnemySettings enemySettings;
 
-        private PlayerController? player = null;
-
         private const float HearingPositionError = 2f;
 
         private const float AlertBroadcastInterval = 1f;
@@ -67,14 +65,11 @@ namespace HackedDesign
 
         public bool HasSeenDeadEnemies { get; private set; } = false;
 
-        public bool PlayerInFrontOfUs
+        public bool GetPlayerInFrontOfUs(IPlayerController player)
         {
-            get
-            {
-                var facing = this.player != null ? this.player.transform.position.x <= this.transform.position.x ? -1 : 1 : -1;
+            var facing = player != null ? player.Transform.position.x <= this.transform.position.x ? -1 : 1 : -1;
 
-                return Mathf.Sign(facing) == Mathf.Sign(transform.right.x);
-            }
+            return Mathf.Sign(facing) == Mathf.Sign(transform.right.x);
         }
 
         public EnemySettings EnemySettings { get => enemySettings; private set => enemySettings = value; }
@@ -151,7 +146,6 @@ namespace HackedDesign
 
         private void Start()
         {
-            this.player = Game.Instance.Player;
             Reset();
         }
 
@@ -166,9 +160,9 @@ namespace HackedDesign
             gameObject.SetActive(true);
         }
 
-        private void UpdateDetect()
+        private void UpdateDetect(IPlayerController player)
         {
-            if (!this.player.EnsureNotNull(this, nameof(this.player)) || !this.player.Character.EnsureNotNull(this, nameof(this.player.Character)))
+            if (player == null)
             {
                 return;
             }
@@ -179,10 +173,10 @@ namespace HackedDesign
                 return;
             }
 
-            CanHearPlayer = this.player.Character.CanHear(aimPivot.position);
+            CanHearPlayer = player.Character.CanHear(aimPivot.position);
 
-            var hit = InVisionCone(this.player.transform.position)
-                ? this.player.Character.CanSee(aimPivot.position, EnemySettings.MaxVisualRange, lineOfSightMask)
+            var hit = InVisionCone(player.Transform.position)
+                ? player.Character.CanSee(aimPivot.position, EnemySettings.MaxVisualRange, lineOfSightMask)
                 : null;
 
             if (hit.HasValue && hit.Value.transform != null && hit.Value.transform.CompareTag(Tags.Player))
@@ -198,7 +192,7 @@ namespace HackedDesign
 
             if (CanHearPlayer && !CanSeePlayer && !wasHearingPlayer)
             {
-                LastKnownPlayerPosition = this.player.transform.position + (Vector3)(Random.insideUnitCircle * HearingPositionError);
+                LastKnownPlayerPosition = player.Transform.position + (Vector3)(Random.insideUnitCircle * HearingPositionError);
             }
             wasHearingPlayer = CanHearPlayer;
 
@@ -216,10 +210,10 @@ namespace HackedDesign
                 }
             }
 
-            if ((this.player.transform.position - aimPivot.position).sqrMagnitude <= EnemySettings.ProximityRange * EnemySettings.ProximityRange)
+            if ((player.Transform.position - aimPivot.position).sqrMagnitude <= EnemySettings.ProximityRange * EnemySettings.ProximityRange)
             {
                 HasBeenAlerted = true;
-                LastKnownPlayerPosition = this.player.transform.position;
+                LastKnownPlayerPosition = player.Transform.position;
                 lastPerceivedTime = Time.time;
             }
 
@@ -279,17 +273,17 @@ namespace HackedDesign
 
         public void UpdateBehaviour()
         {
-            Character.OperatingSystem.UpdateBehaviour();
+            Character.OperatingSystem.UpdateBehaviour(false);
         }
 
-        public void FixedUpdateBehaviour()
+        public void FixedUpdateBehaviour(IPlayerController player)
         {
             if (senseTick++ % SenseInterval == senseOffset)
             {
-                UpdateDetect();
+                UpdateDetect(player);
             }
 
-            if (Game.Instance.Player.Character.IsDead)
+            if (player.Character.IsDead)
             {
                 Character.SetMovement(0, 0);
                 return;
@@ -299,13 +293,15 @@ namespace HackedDesign
             {
                 name = this.name,
                 position = transform.position,
+                playerPosition = player.Transform.position,
+                playerIsDead = player.Character.IsDead,
                 canHearPlayer = CanHearPlayer || HasBeenAlerted,
                 canSeePlayer = CanSeePlayer,
                 hasSeenPlayer = HasSeenPlayer,
                 hasSeenDeadEnemies = HasSeenDeadEnemies,
                 facing = Mathf.RoundToInt(Character.transform.right.x),
                 settings = EnemySettings,
-                playerInFrontOfUs = PlayerInFrontOfUs,
+                playerInFrontOfUs = GetPlayerInFrontOfUs(player),
                 lastKnownPlayerPosition = LastKnownPlayerPosition,
                 wallInFront = WallInFront,
                 dropInFront = DropInFront,
@@ -319,8 +315,6 @@ namespace HackedDesign
         }
 
         public void LateUpdateBehaviour() => Character.Animate();
-
-        public float DistanceToPlayer() => this.player != null ? (this.player.transform.position - transform.position).magnitude : int.MaxValue;
 
         public void Alert(Vector3 position)
         {
