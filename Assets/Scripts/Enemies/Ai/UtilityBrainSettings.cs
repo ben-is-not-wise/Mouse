@@ -28,6 +28,7 @@ namespace HackedDesign
             UtilityActionType.Investigate => new InvestigateAction(),
             UtilityActionType.Attack => new AttackAction(),
             UtilityActionType.Advance => new AdvanceAction(),
+            UtilityActionType.AutoShoot => new AutoShootAction(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
     }

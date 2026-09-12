@@ -63,10 +63,16 @@ namespace HackedDesign
                 ai.Character.ExecuteCommand(new FacingCommand(0, ctx.playerPosition.x <= ai.Character.transform.position.x ? -1 : 1));
             }
 
-            ai.Character.ExecuteCommand(new AimCommand(ctx.bullets > 0));
+            ai.Character.ExecuteCommand(new AimCommand(ctx.canSeePlayer && ctx.bullets > 0));
 
             if (!ctx.canSeePlayer)
             {
+                // No shot to take: close in on the last known position instead of standing
+                // idle for the rest of the memory window (see Score's GiveUpTime carry-over).
+                if (!ctx.settings.Stationary)
+                {
+                    steering.MoveToward(ai, ctx, ctx.lastKnownPlayerPosition, ctx.settings.CanJumpGaps);
+                }
                 return;
             }
 

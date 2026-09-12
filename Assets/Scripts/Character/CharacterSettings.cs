@@ -30,6 +30,7 @@ namespace HackedDesign
         [SerializeField] private List<Item> startingInventory = new();
         [SerializeField] private List<HackLoadout> startingHacks = new();
         [SerializeField] private List<Upgrade> startingUpgrades = new();
+        [SerializeField] private BarrierLoadout? startingBarrier = null;
         [SerializeField] private float momentumAirLoss = 0.5f;
         [SerializeField] private float baseMomentumFactor = 0.1f;
         [SerializeField] private float attackMomentumLoss = 0.5f;
@@ -68,6 +69,7 @@ namespace HackedDesign
         public List<Item> StartingInventory => this.startingInventory;
         public List<HackLoadout> StartingHacks => this.startingHacks;
         public List<Upgrade> StartingUpgrades => this.startingUpgrades;
+        public BarrierLoadout? StartingBarrier => this.startingBarrier;
         public bool InfiniteHealth { get => this.infiniteHealth; set => this.infiniteHealth = value; }
         public bool InfiniteAmmo { get => this.infiniteAmmo; set => this.infiniteAmmo = value; }
         public int StartingAmmo { get => this.startingAmmo; set => this.startingAmmo = value; }
@@ -90,6 +92,13 @@ namespace HackedDesign
     public class HackLoadout
     {
         public Hack? hack;
+        public Subroutine[] subroutines = new Subroutine[0];
+    }
+
+    [System.Serializable]
+    public class BarrierLoadout
+    {
+        public Barrier? barrier;
         public Subroutine[] subroutines = new Subroutine[0];
     }
 }

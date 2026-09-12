@@ -56,6 +56,18 @@ namespace HackedDesign.Editor
                 EditorGUILayout.LabelField($"  {i}", instance?.definition != null ? instance.definition.name : "-");
             }
 
+            EditorGUILayout.LabelField("Barrier", EditorStyles.miniBoldLabel);
+            var barrier = os.BarrierSlot;
+            EditorGUILayout.LabelField("  0", barrier?.definition != null ? barrier.definition.name : "-");
+            if (barrier?.installed != null)
+            {
+                for (int j = 0; j < barrier.installed.Length; j++)
+                {
+                    var sub = barrier.installed[j];
+                    EditorGUILayout.LabelField($"      sub {j}", sub != null ? sub.name : "-");
+                }
+            }
+
             EditorGUILayout.LabelField("Weapons", EditorStyles.miniBoldLabel);
             var weaponSlots = os.WeaponSlots;
             for (int i = 0; i < weaponSlots.Count; i++)

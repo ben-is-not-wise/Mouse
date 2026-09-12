@@ -27,6 +27,7 @@ namespace HackedDesign.UI
     public class UIManager : AutoSingleton<UIManager>, IUIManager
     {
         [SerializeField] private MainMenuPresenter? mainMenuPresenter = null;
+        [SerializeField] private EndLevelPresenter? endLevelPresenter = null;
         [SerializeField] private DeathPresenter? deathPresenter = null;
         [SerializeField] private PausePresenter? pausePresenter = null;
         [SerializeField] private ActionBarPresenter? actionBarPresenter = null;
@@ -42,6 +43,8 @@ namespace HackedDesign.UI
         [field: SerializeField, NotNull] public FullScreenFXPresenter FullScreenFX { get; private set; } = null!;
 
         public MainMenuPresenter? MainMenu => mainMenuPresenter;
+
+        public EndLevelPresenter? EndLevel => endLevelPresenter;
         public DeathPresenter? Death => deathPresenter;
         public PausePresenter? Pause => pausePresenter;
         public ActionBarPresenter? ActionBar => actionBarPresenter;
@@ -58,6 +61,7 @@ namespace HackedDesign.UI
         public void HideUI()
         {
             mainMenuPresenter.HideIfValid(this, nameof(mainMenuPresenter));
+            endLevelPresenter.HideIfValid(this, nameof(endLevelPresenter));
             deathPresenter.HideIfValid(this, nameof(deathPresenter));
             pausePresenter.HideIfValid(this, nameof(pausePresenter));
             actionBarPresenter.HideIfValid(this, nameof(actionBarPresenter));

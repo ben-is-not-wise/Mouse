@@ -1,10 +1,10 @@
 ﻿<Solution>
   <Project Path="Mouse.csproj" />
   <Project Path="EPO.csproj" />
+  <Project Path="Mouse.Editor.csproj" />
   <Project Path="EPOUtilities.csproj" />
   <Project Path="EPOEditor.csproj" />
   <Project Path="Mouse.Extensions.csproj" />
-  <Project Path="Mouse.Editor.csproj" />
   <Project Path="EPOURP.csproj" />
   <Project Path="Mouse.Utils.csproj" />
   <Project Path="EPOHDRP.csproj" />

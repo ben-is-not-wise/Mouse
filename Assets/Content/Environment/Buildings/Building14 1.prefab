@@ -154,17 +154,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.BuildingWindowSeed
   spriteRenderer: {fileID: 2952685519826531637}
-  gridOffset: {x: 20, y: 24}
-  windowSize: {x: 64, y: 32}
-  windowGap: {x: 12, y: 12}
+  gridOffset: {x: 32, y: 24}
+  windowSize: {x: 111, y: 32}
+  windowGap: {x: 0, y: 12}
   minInterval: 10
   maxInterval: 60
-  flickerChance: 0.6
+  flickerChance: 0.3
   flickerProbability: 0.1
   quickFlickChance: 0.1
   keyTolerance: 0.05
   buildingColor: {r: 0, g: 0, b: 0, a: 1}
-  windowColorA: {r: 0.04, g: 0.0298, b: 0.0102, a: 1}
+  windowColorA: {r: 0.32941177, g: 0.30980393, b: 0.2627451, a: 1}
   windowColorB: {r: 1, g: 0.9402, b: 0.8, a: 1}
 --- !u!1 &6126057408205858751
 GameObject:
@@ -335,17 +335,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.BuildingWindowSeed
   spriteRenderer: {fileID: 198186597215349008}
-  gridOffset: {x: 24, y: 24}
-  windowSize: {x: 64, y: 32}
-  windowGap: {x: 12, y: 12}
+  gridOffset: {x: 34, y: 24}
+  windowSize: {x: 111, y: 32}
+  windowGap: {x: 0, y: 12}
   minInterval: 10
   maxInterval: 60
-  flickerChance: 0.6
+  flickerChance: 0.3
   flickerProbability: 0.1
   quickFlickChance: 0.1
   keyTolerance: 0.05
   buildingColor: {r: 0, g: 0, b: 0, a: 1}
-  windowColorA: {r: 0.04, g: 0.0298, b: 0.0102, a: 1}
+  windowColorA: {r: 0.32941177, g: 0.30980393, b: 0.2627451, a: 1}
   windowColorB: {r: 1, g: 0.9402, b: 0.8, a: 1}
 --- !u!1 &8131875419712681844
 GameObject:
@@ -539,17 +539,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.BuildingWindowSeed
   spriteRenderer: {fileID: 1363011300020836440}
-  gridOffset: {x: 20, y: 24}
-  windowSize: {x: 64, y: 32}
-  windowGap: {x: 12, y: 12}
+  gridOffset: {x: 34, y: 24}
+  windowSize: {x: 111, y: 32}
+  windowGap: {x: 0, y: 12}
   minInterval: 10
   maxInterval: 60
-  flickerChance: 0.6
+  flickerChance: 0.3
   flickerProbability: 0.1
   quickFlickChance: 0.1
   keyTolerance: 0.05
   buildingColor: {r: 0, g: 0, b: 0, a: 1}
-  windowColorA: {r: 0.04, g: 0.0298, b: 0.0102, a: 1}
+  windowColorA: {r: 0.32941177, g: 0.30980393, b: 0.2627451, a: 1}
   windowColorB: {r: 1, g: 0.9402, b: 0.8, a: 1}
 --- !u!1001 &2935848573036271634
 PrefabInstance:

@@ -105,7 +105,7 @@ namespace HackedDesign
         public void SetStateLoadLevel() => CurrentState = new LoadLevelState(this);
         public void SetStateAct0LoadTutorialLevel() => CurrentState = new LoadTutorialState(this);
         public void SetStateMainMenu() => CurrentState = new MainMenuState(this, uiManager.MainMenu);
-        public void SetStateDeath() => CurrentState = new DeathState(this, uiManager.Death);
+        public void SetStateDeath() => CurrentState = new DeathState(this);
         public void SetStateLevelEnd() => CurrentState = new LevelEndState(this);
 
         private IState? suspendedState;

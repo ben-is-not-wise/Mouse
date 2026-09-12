@@ -28,6 +28,10 @@ namespace HackedDesign
         [SerializeField] private float groundProbeDistance = 8f;
         [Header("Movement")]
         [SerializeField] private bool canJumpGaps = false;
+        [Header("Auto Shoot")]
+        [SerializeField] private float autoShootScore = 0.55f;
+        [SerializeField] private float autoShootMinInterval = 3f;
+        [SerializeField] private float autoShootMaxInterval = 6f;
         [field: SerializeField] public Vector2 SpawnOffset {  get; set; }
         
         public float ReactionTime { get => reactionTime;  }
@@ -49,6 +53,9 @@ namespace HackedDesign
         public float HoverDeadband { get => hoverDeadband; }
         public float GroundProbeDistance { get => groundProbeDistance; }
         public bool CanJumpGaps { get => canJumpGaps; }
+        public float AutoShootScore { get => autoShootScore; }
+        public float AutoShootMinInterval { get => autoShootMinInterval; }
+        public float AutoShootMaxInterval { get => autoShootMaxInterval; }
 
     }
 }

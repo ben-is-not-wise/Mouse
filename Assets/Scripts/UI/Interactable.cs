@@ -143,7 +143,7 @@ namespace HackedDesign
 
             if (interact)
             {
-                outlinable.enabled = true;
+                //outlinable.enabled = true;
 
                 if (PlayerInRange())
                 {
@@ -158,12 +158,12 @@ namespace HackedDesign
             }
             else if (ping)
             {
-                outlinable.enabled = true;
+                //outlinable.enabled = true;
                 outlinable.OutlineParameters.Color = Color.magenta;
             }
             else if (target)
             {
-                outlinable.enabled = true;
+                //outlinable.enabled = true;
                 if (PlayerInRange())
                 {
                     ColorUtility.TryParseHtmlString("#FDAC3D", out var color);
@@ -177,7 +177,7 @@ namespace HackedDesign
             }
             else
             {
-                outlinable.enabled = false;
+                //outlinable.enabled = false;
             }
         }
 

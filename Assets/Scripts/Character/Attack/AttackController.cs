@@ -191,7 +191,7 @@ namespace HackedDesign
 
             var dir = (target - start).normalized;
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.CurrentWeapon.RandomShootDamage, OperatingSystem.CurrentWeapon.projectileForce, owner: character);
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.ActiveWeapon.ShootDamage, OperatingSystem.CurrentWeapon.projectileForce, owner: character);
 
             OperatingSystem.DecreaseAmmo();
 
@@ -258,7 +258,7 @@ namespace HackedDesign
 
             var velocity = SolveArc(start, target, speed);
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Grenade, start, (Vector3)velocity.normalized, OperatingSystem.CurrentWeapon.RandomShootDamage, velocity.magnitude, gravity: true, owner: character);
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Grenade, start, (Vector3)velocity.normalized, OperatingSystem.ActiveWeapon.ShootDamage, velocity.magnitude, gravity: true, owner: character);
 
             OperatingSystem.DecreaseAmmo();
         }
@@ -324,7 +324,7 @@ namespace HackedDesign
             {
                 if (!targetChar.IsDead)
                 {
-                    var damage = OperatingSystem.CurrentWeapon.RandomMeleeDamage;
+                    var damage = OperatingSystem.ActiveWeapon.MeleeDamage;
                     targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - Pivot, true);
                     DamageNumberPool.Instance.Spawn(damage, hitPoint);
 

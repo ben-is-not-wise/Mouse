@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HackedDesign
@@ -9,5 +10,8 @@ namespace HackedDesign
         public string displayName;
         public Sprite icon;
         [TextArea] public string description;
+        public List<StatRange> randomStats = new();
+
+        public virtual IEnumerable<StatRange> RandomStats => randomStats;
     }
 }

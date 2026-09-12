@@ -154,13 +154,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mouse::HackedDesign.BuildingWindowSeed
   spriteRenderer: {fileID: 2952685519826531637}
-  gridOffset: {x: 20, y: 24}
-  windowSize: {x: 64, y: 32}
-  windowGap: {x: 12, y: 12}
+  gridOffset: {x: 34, y: 24}
+  windowSize: {x: 111, y: 32}
+  windowGap: {x: 0, y: 12}
   minInterval: 2
   maxInterval: 8
-  flickerChance: 0.6
-  flickerProbability: 0.3
+  flickerChance: 0.1
+  flickerProbability: 0.1
   quickFlickChance: 0.1
   keyTolerance: 0.05
   buildingColor: {r: 0, g: 0, b: 0, a: 1}

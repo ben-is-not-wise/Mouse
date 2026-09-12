@@ -9,5 +9,6 @@ namespace HackedDesign
         Investigate,
         Attack,
         Advance,
+        AutoShoot,
     }
 }

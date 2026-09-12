@@ -45,7 +45,7 @@ namespace HackedDesign
         [Header("Buildings")]
         [SerializeField] Transform parent;
         [SerializeField] Transform propsParent;
-        [SerializeField] List<BuildingSet> buildingSets = new List<BuildingSet>();
+        [SerializeField] List<LevelSet> buildingSets = new List<LevelSet>();
         [Header("Settings")]
         [SerializeField] int propCount = 50;
 
@@ -249,7 +249,7 @@ namespace HackedDesign
             }
         }
 
-        private BuildingSet GetBuildingSet(int difficulty) => buildingSets.Count == 0 ? null : buildingSets[Mathf.Clamp(difficulty, 0, buildingSets.Count - 1)];
+        private LevelSet GetBuildingSet(int difficulty) => buildingSets.Count == 0 ? null : buildingSets[Mathf.Clamp(difficulty, 0, buildingSets.Count - 1)];
 
         private float SpawnBuilding(GameObject prefab, float xPosition, int difficulty)
         {

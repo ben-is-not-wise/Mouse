@@ -17,7 +17,21 @@ MonoBehaviour:
   aggressive: 1
   stationary: 0
   giveUpTime: 10
-  maxVisualRange: 30
+  memoryTime: 15
+  alertRadius: 12
+  proximityRange: 2.5
+  aimError: 0.5
+  targetLeading: 0
+  maxVisualRange: 12
+  fieldOfView: 120
   minRoamTime: 1
   maxRoamTime: 10
   roamTime: 7
+  hoverHeight: 4
+  hoverDeadband: 0.5
+  groundProbeDistance: 8
+  canJumpGaps: 0
+  autoShootScore: 0.55
+  autoShootMinInterval: 3
+  autoShootMaxInterval: 6
+  <SpawnOffset>k__BackingField: {x: 0, y: 0}

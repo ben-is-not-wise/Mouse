@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 698454c3ad160b44e8ab5e01d2d610c2, type: 3}
   m_Name: GunDroneUtilityBrainSettings
   m_EditorClassIdentifier: Mouse::HackedDesign.UtilityBrainSettings
-  actions: 0300000004000000
+  actions: 030000000500000004000000
   hysteresis: 0.1

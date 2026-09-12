@@ -34,7 +34,7 @@ namespace HackedDesign
                 return;
             }
 
-            float distance = (ctx.playerPosition - ctx.position).magnitude;
+            float distance = Mathf.Abs(ctx.playerPosition.x - ctx.position.x);
 
             if (!stopped && distance <= ArrivalRange)
             {

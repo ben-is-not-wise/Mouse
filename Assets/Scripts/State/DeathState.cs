@@ -11,10 +11,10 @@ namespace HackedDesign
         public override bool PlayerActionAllowed => false;
         public override bool Battle => false;
 
-        public DeathState(IGame game, DeathPresenter deathMenu)
+        public DeathState(IGame game)
         {
             this.game = game;
-            this.deathMenu = deathMenu;
+            this.deathMenu = UIManager.Instance.Death;
         }
 
         public override void Begin()

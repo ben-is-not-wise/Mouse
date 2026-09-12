@@ -12,61 +12,38 @@ namespace HackedDesign
         [SerializeField] private GameSettings gameSettings;
         [SerializeField] private CharacterSettings charSettings;
         [SerializeField] private float healFactor = 0;
-        [SerializeField] private List<OSHex> osHexList = new List<OSHex>();
-                
+               
         [SerializeField] public Action changeActions;
         [SerializeField] public Action dieActions;
         [SerializeField] public Action hitActions;
-        [SerializeField] public int oxHexCount = 1;
+        [SerializeField] public BarrierIndicator barrier;
         private CharacterData characterData = new();
 
         [SerializeField] private List<Hack> repoHacks = new();
 
         void Start()
         {
-            HideAll();
         }
 
-        public void HideAll()
-        {
-            foreach(var hex in osHexList)
-            {
-                hex.Hide();
-            }
-        }
-        public void Show()
-        {
-            for (int i = 0; i < osHexList.Count; i++)
-            {
-                osHexList[i].Show();
-            }
-        }
-
-        public void Hide()
-        {
-            for (int i = 0; i < osHexList.Count; i++)
-            {
-                osHexList[i].Hide();
-            }
-        }
-
+        
         public void UpdateBehaviour(bool hackMode)
         {
             Health += healFactor * Time.deltaTime;
-             for (int i = 0; i < osHexList.Count; i++)
+
+            if (barrier.OrNull() != null && characterData.barrierSlot != null)
             {
-                if(hackMode)
-                {
-                    osHexList[i].Show();
-                }
-                else
-                {
-                    osHexList[i].Hide();
-                }
+                characterData.currentBarrierRotation += Time.deltaTime * characterData.barrierSlot.stats.Get(ItemStatKeys.BarrierRotationSpeed);
+
+                barrier.Repaint(characterData.barrierSlot, characterData.currentBarrierRotation, true);
             }
         }
 
         public float PingRadius => this.characterData.pingRadius;
+
+        public void ResetBarrierRotation()
+        {
+            this.characterData.currentBarrierRotation = 0;
+        }
 
         public IReadOnlyList<Hack> ActiveHacks => this.characterData.hackSlots.Where(h => h != null).Select(h => h.definition).ToList();
         public List<Hack> RepoHacks { get => repoHacks; set => repoHacks = value; }
@@ -242,6 +219,17 @@ namespace HackedDesign
             {
                 instance?.definition.Apply(this);
             }
+            if (characterData.barrierSlot != null)
+            {
+                characterData.barrierSlot.definition.Apply(this);
+                foreach (var sub in characterData.barrierSlot.installed)
+                {
+                    if (sub.EnsureNotNull(nameof(sub)))
+                    {
+                        sub.OnInstall(characterData.barrierSlot.definition);
+                    }
+                }
+            }
             foreach (var instance in characterData.weaponSlots)
             {
                 if (instance == null)
@@ -277,6 +265,7 @@ namespace HackedDesign
         public IReadOnlyList<Item> Inventory => this.characterData.inventory;
         public IReadOnlyList<HackInstance> HackSlots => this.characterData.hackSlots;
         public IReadOnlyList<UpgradeInstance> UpgradeSlots => this.characterData.upgradeSlots;
+        public BarrierInstance BarrierSlot => this.characterData.barrierSlot;
 
         public bool AddItem(Item item)
         {
@@ -434,6 +423,124 @@ namespace HackedDesign
             instance.definition.Remove(this);
             inv[slot] = instance.definition;
             slots[upgradeSlot] = null;
+            changeActions?.Invoke();
+            return true;
+        }
+
+        public bool EquipBarrier(int inventorySlot)
+        {
+            var inv = this.characterData.inventory;
+            if (this.characterData.barrierSlot != null)
+            {
+                return false;
+            }
+            if (inventorySlot < 0 || inventorySlot >= inv.Length)
+            {
+                return false;
+            }
+            if (inv[inventorySlot] is not Barrier barrier)
+            {
+                return false;
+            }
+
+            this.characterData.barrierSlot = new BarrierInstance(barrier);
+            inv[inventorySlot] = null;
+            barrier.Apply(this);
+            changeActions?.Invoke();
+            return true;
+        }
+
+        public bool UnequipBarrier()
+        {
+            var inv = this.characterData.inventory;
+            var instance = this.characterData.barrierSlot;
+            if (instance == null)
+            {
+                return false;
+            }
+
+            int required = 1 + instance.installed.Count(s => s != null);
+            if (inv.Count(s => s == null) < required)
+            {
+                return false;
+            }
+
+            instance.definition.Remove(this);
+            inv[Array.IndexOf(inv, null)] = instance.definition;
+            for (int i = 0; i < instance.installed.Length; i++)
+            {
+                var sub = instance.installed[i];
+                if (sub == null)
+                {
+                    continue;
+                }
+                sub.OnUninstall(instance.definition);
+                inv[Array.IndexOf(inv, null)] = sub;
+                instance.installed[i] = null;
+            }
+            this.characterData.barrierSlot = null;
+            changeActions?.Invoke();
+            return true;
+        }
+
+        public bool InstallBarrierSubroutine(int subroutineSlot, int inventorySlot)
+        {
+            var instance = this.characterData.barrierSlot;
+            var inv = this.characterData.inventory;
+            if (instance == null)
+            {
+                return false;
+            }
+            if (subroutineSlot < 0 || subroutineSlot >= instance.installed.Length)
+            {
+                return false;
+            }
+            if (inventorySlot < 0 || inventorySlot >= inv.Length)
+            {
+                return false;
+            }
+            if (inv[inventorySlot] is not Subroutine sub)
+            {
+                return false;
+            }
+
+            var displaced = instance.installed[subroutineSlot];
+            if (displaced.EnsureNotNull(nameof(displaced)))
+            {
+                displaced.OnUninstall(instance.definition);
+            }
+
+            inv[inventorySlot] = displaced;
+            instance.installed[subroutineSlot] = sub;
+            sub.OnInstall(instance.definition);
+            changeActions?.Invoke();
+            return true;
+        }
+
+        public bool UninstallBarrierSubroutine(int subroutineSlot)
+        {
+            var instance = this.characterData.barrierSlot;
+            if (instance == null)
+            {
+                return false;
+            }
+            if (subroutineSlot < 0 || subroutineSlot >= instance.installed.Length)
+            {
+                return false;
+            }
+            var sub = instance.installed[subroutineSlot];
+            if (sub == null)
+            {
+                return false;
+            }
+            int slot = Array.IndexOf(this.characterData.inventory, null);
+            if (slot < 0)
+            {
+                return false;
+            }
+            sub.OnUninstall(instance.definition);
+            this.characterData.inventory[slot] = sub;
+            instance.installed[subroutineSlot] = null;
             changeActions?.Invoke();
             return true;
         }

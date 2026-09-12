@@ -44,6 +44,8 @@ namespace HackedDesign
         public Item[] inventory = new Item[InventorySize];
         public HackInstance[] hackSlots = new HackInstance[HackSlotCount];
         public UpgradeInstance[] upgradeSlots = new UpgradeInstance[UpgradeSlotCount];
+        public BarrierInstance barrierSlot;
+        public float currentBarrierRotation = 0;
 
         public void Reset(CharacterSettings settings)
         {
@@ -62,6 +64,7 @@ namespace HackedDesign
             System.Array.Clear(inventory, 0, inventory.Length);
             System.Array.Clear(hackSlots, 0, hackSlots.Length);
             System.Array.Clear(upgradeSlots, 0, upgradeSlots.Length);
+            barrierSlot = null;
 
             var startInventory = settings.StartingInventory;
             for (int i = 0; i < startInventory.Count && i < inventory.Length; i++)
@@ -97,6 +100,20 @@ namespace HackedDesign
                 {
                     upgradeSlots[i] = new UpgradeInstance(startUpgrades[i]);
                 }
+            }
+
+            var startBarrier = settings.StartingBarrier;
+            if (startBarrier != null && startBarrier.barrier != null)
+            {
+                var instance = new BarrierInstance(startBarrier.barrier);
+                if (startBarrier.subroutines != null)
+                {
+                    for (int j = 0; j < startBarrier.subroutines.Length && j < instance.installed.Length; j++)
+                    {
+                        instance.installed[j] = startBarrier.subroutines[j];
+                    }
+                }
+                barrierSlot = instance;
             }
         }
     }

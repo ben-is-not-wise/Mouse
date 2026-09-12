@@ -27,12 +27,23 @@ namespace HackedDesign
             int facing = target.x < ctx.position.x ? -1 : 1;
             ai.Character.ExecuteCommand(new FacingCommand(0, facing));
 
+            // ctx.wallInFront/ctx.dropInFront were sensed for ctx.facing, the direction we
+            // were facing at the start of this tick - not necessarily the direction above.
+            // If the target just made us turn around, that sensor data tells us nothing about
+            // what's actually ahead now, so hold position for this one tick rather than
+            // stepping blindly into unswept ground (e.g. straight off a ledge).
+            bool directionChanged = facing != ctx.facing;
+
             if (ctx.flying)
             {
                 var direction = (target - ctx.position).normalized;
                 float climb = HoverClimb(ctx);
                 float vertical;
-                if (ctx.wallInFront)
+                if (directionChanged)
+                {
+                    vertical = 0f;
+                }
+                else if (ctx.wallInFront)
                 {
                     // A building/wall blocks the horizontal path: climb over it.
                     vertical = 1f;
@@ -61,7 +72,7 @@ namespace HackedDesign
                 lastJumpX = float.NaN;
             }
 
-            if (ctx.wallInFront && !stuck && Time.time >= nextJumpTime)
+            if (!directionChanged && ctx.wallInFront && !stuck && Time.time >= nextJumpTime)
             {
                 bool progressed = float.IsNaN(lastJumpX) || Mathf.Abs(ctx.position.x - lastJumpX) >= ProgressEpsilon;
                 failedJumps = progressed ? 0 : failedJumps + 1;
@@ -79,7 +90,7 @@ namespace HackedDesign
                 }
             }
 
-            if (allowGapJump && ctx.dropInFront && !stuck && Time.time >= nextJumpTime && CanClearGap(ai, ctx))
+            if (!directionChanged && allowGapJump && ctx.dropInFront && !stuck && Time.time >= nextJumpTime && CanClearGap(ai, ctx))
             {
                 ai.Character.ExecuteCommand(new JumpCommand());
                 nextJumpTime = Time.time + JumpCooldown;
@@ -88,7 +99,7 @@ namespace HackedDesign
 
             // While committed to a gap jump, keep driving forward so we carry momentum across.
             bool committedGapJump = Time.time < gapJumpUntil;
-            float move = ((ctx.dropInFront && !committedGapJump) || stuck) ? 0 : facing;
+            float move = (directionChanged || (ctx.dropInFront && !committedGapJump) || stuck) ? 0 : facing;
             ai.Character.ExecuteCommand(new MoveCommand(move, 0));
         }
 
