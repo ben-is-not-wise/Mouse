@@ -14,6 +14,8 @@ namespace HackedDesign
         public bool hasSeenPlayer;
         public bool playerInFrontOfUs;
         public bool hasSeenDeadEnemies;
+        public bool suspicious;
+        public Vector3 suspiciousPosition;
         public int facing;
         public Vector3 lastKnownPlayerPosition;
         public bool wallInFront;

@@ -25,7 +25,7 @@ MonoBehaviour:
   interactMask:
     serializedVersion: 2
     m_Bits: 0
-  alertRadius: 12
+  alertRadius: 8
   startingHealth: 100
   startingAmmo: 0
   infiniteAmmo: 0
@@ -58,3 +58,8 @@ MonoBehaviour:
   hearDistanceRunning: 3
   hearDistanceWalking: 1
   hearDistanceCrouched: 0.5
+  visibilityNormal: 0.5
+  visibilityCrouched: 0.25
+  visibilityCrouchedMoving: 0.25
+  visibilityCrouchedInShadow: 0
+  shadowVisibilityMultiplier: 0.5

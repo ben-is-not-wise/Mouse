@@ -40,8 +40,8 @@ namespace HackedDesign
 
         public Vector3 Pivot => pivot != null ? pivot.position : this.transform.position;
         public bool CanAttack => Time.time >= nextAttackTimer;
-        public bool HasGun => OperatingSystem.CurrentWeapon.weaponType == WeaponType.Gun;
-        public bool HasGrenade => OperatingSystem.CurrentWeapon.weaponType == WeaponType.Grenade;
+        public bool HasGun => OperatingSystem.ActiveActionWeapon?.definition.weaponType == WeaponType.Gun;
+        public bool HasGrenade => OperatingSystem.ActiveActionWeapon?.definition.weaponType == WeaponType.Grenade;
         public bool CanShoot => OperatingSystem.HasAmmo;
         public bool IsAnimatingAttack => animator.EnsureNotNull(this, nameof(animator)) && animator.GetCurrentAnimatorStateInfo(0).IsTag(AttackAnimTag);
 
@@ -174,7 +174,8 @@ namespace HackedDesign
         {
             UpdateNextAttackTimer();
 
-            if (!character.CanAttack || character.Knockback)
+            var weapon = OperatingSystem.ActiveActionWeapon;
+            if (!character.CanAttack || character.Knockback || weapon == null)
             {
                 return;
             }
@@ -191,7 +192,7 @@ namespace HackedDesign
 
             var dir = (target - start).normalized;
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, OperatingSystem.ActiveWeapon.ShootDamage, OperatingSystem.CurrentWeapon.projectileForce, owner: character);
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Bullet, start, dir, weapon.ShootDamage, weapon.definition.projectileForce, owner: character);
 
             OperatingSystem.DecreaseAmmo();
 
@@ -216,7 +217,7 @@ namespace HackedDesign
 
         private IEnumerator ThrowAnticipate(Vector3 target)
         {
-            Animator.SetTrigger(AnimatorParams.ShootAnticipate);
+            Animator.SetTrigger(AnimatorParams.ThrowAnticipate);
 
             float elapsedTime = 0f;
 
@@ -224,7 +225,7 @@ namespace HackedDesign
             {
                 if (character.Knockback)
                 {
-                    Animator.ResetTrigger(AnimatorParams.ShootAnticipate);
+                    Animator.ResetTrigger(AnimatorParams.PunchAnticipate);
                     UpdateNextAttackTimer();
                     yield break;
                 }
@@ -240,12 +241,13 @@ namespace HackedDesign
         {
             UpdateNextAttackTimer();
 
-            if (!character.CanAttack || character.Knockback)
+            var weapon = OperatingSystem.ActiveActionWeapon;
+            if (!character.CanAttack || character.Knockback || weapon == null)
             {
                 return;
             }
 
-            Animator.SetTrigger(AnimatorParams.Shoot);
+            Animator.SetTrigger(AnimatorParams.Throw);
 
             if (isPlayer)
             {
@@ -254,42 +256,13 @@ namespace HackedDesign
             }
 
             var start = Pivot;
-            float speed = OperatingSystem.CurrentWeapon.projectileForce;
+            float speed = weapon.definition.projectileForce;
 
-            var velocity = SolveArc(start, target, speed);
+            var velocity = Ballistics.SolveArc(start, target, speed);
 
-            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Grenade, start, (Vector3)velocity.normalized, OperatingSystem.ActiveWeapon.ShootDamage, velocity.magnitude, gravity: true, owner: character);
+            ProjectilePool.Instance.Spawn(Projectile.ProjectileType.Grenade, start, (Vector3)velocity.normalized, weapon.ShootDamage, velocity.magnitude, gravity: true, owner: character);
 
             OperatingSystem.DecreaseAmmo();
-        }
-
-        // Launch angle for grenades, measured above horizontal.
-        private const float LaunchAngleDegrees = 20f;
-
-        // Ballistic launch velocity at a fixed angle, solving for the speed that lands on the
-        // target. Clamps to maxSpeed (undershoots if out of range); lobs at maxSpeed when the
-        // target sits above what this angle can reach.
-        private static Vector2 SolveArc(Vector2 from, Vector2 to, float maxSpeed)
-        {
-            float g = Mathf.Abs(Physics2D.gravity.y);
-            float dx = to.x - from.x;
-            float dy = to.y - from.y;
-            float dir = dx < 0 ? -1f : 1f;
-            float range = Mathf.Abs(dx);
-
-            float theta = LaunchAngleDegrees * Mathf.Deg2Rad;
-            float cos = Mathf.Cos(theta);
-            float sin = Mathf.Sin(theta);
-            float denom = range * Mathf.Tan(theta) - dy;
-
-            if (g > 0f && cos > 0f && denom > 0f)
-            {
-                float speed = Mathf.Sqrt(g * range * range / (2f * cos * cos * denom));
-                speed = Mathf.Min(speed, maxSpeed);
-                return new Vector2(dir * speed * cos, speed * sin);
-            }
-
-            return new Vector2(dir * maxSpeed * cos, maxSpeed * sin);
         }
 
         private void AlertNearbyEnemies()
@@ -324,7 +297,7 @@ namespace HackedDesign
             {
                 if (!targetChar.IsDead)
                 {
-                    var damage = OperatingSystem.ActiveWeapon.MeleeDamage;
+                    var damage = OperatingSystem.MeleeWeapon?.MeleeDamage ?? 0;
                     targetChar.TakeDamage(damage, hitPoint, (Vector3)hitPoint - Pivot, true);
                     DamageNumberPool.Instance.Spawn(damage, hitPoint);
 

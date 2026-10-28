@@ -31,6 +31,9 @@ namespace HackedDesign
         public static readonly int PunchAnticipate = Animator.StringToHash("punchAnticipate");
         public static readonly int Kick = Animator.StringToHash("kick");
         public static readonly int KickAnticipate = Animator.StringToHash("kickAnticipate");
+
+        public static readonly int Throw = Animator.StringToHash("throw");
+        public static readonly int ThrowAnticipate = Animator.StringToHash("throwAnticipate");
         public static readonly int Idle = Animator.StringToHash("idle");
         public static readonly int FlyAway = Animator.StringToHash("flyaway");
         public static readonly int LookAround = Animator.StringToHash("lookaround");

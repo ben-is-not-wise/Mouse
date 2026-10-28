@@ -41,7 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 397586462189149710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33844105b86de9c469121f8ad4456a97, type: 3}
+  m_Script: {fileID: 11500000, guid: ce622cdac45f35f42be33bb360412c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedEnemies: 01000000
+  parent: {fileID: 0}
+  difficultyLevels:
+  - {fileID: 11400000, guid: 7df4e7fcdfcc8964fa49c75bc724d36a, type: 2}
+  traps: []
+  props: []
+  mustSpawn: 0
+  chaseSpawn: 0

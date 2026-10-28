@@ -41,21 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6718912234766781939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33844105b86de9c469121f8ad4456a97, type: 3}
+  m_Script: {fileID: 11500000, guid: ce622cdac45f35f42be33bb360412c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   difficultyLevels:
   - {fileID: 11400000, guid: fb2884c7c2a15ab45aee89ad0ef4ea51, type: 2}
-  traps:
-  - {fileID: 7235826455370351959, guid: dfae0faeb6a9bd647a1d5bad643a9e1c, type: 3}
-  props:
-  - {fileID: 4070400558305773655, guid: a1e0c3fcd8c5a0247b9a3080f4e8d49e, type: 3}
-  - {fileID: 9098214586216700712, guid: ded5a5d6d890a3c4eb1ce6f01ca35b84, type: 3}
-  - {fileID: 4070400558305773655, guid: b7ca893c254ba6e42b0a7bcdcc99e383, type: 3}
-  - {fileID: 8617114173944003489, guid: 14835c972d33e1c498dbef3fad56f279, type: 3}
-  - {fileID: 8617114173944003489, guid: 3ea92dbce1c28b24ea0d8f2265b6f36e, type: 3}
-  - {fileID: 2456265190889735803, guid: 2932201ffa2ae8247a7aec1709ed6073, type: 3}
-  - {fileID: 2123160512373512669, guid: 4aedb7f637ef378438983e76f971e9f2, type: 3}
-  - {fileID: 236195300935687611, guid: 0a88a67d99da12045990998b598c24c1, type: 3}
-  - {fileID: 236195300935687611, guid: f18f77128be70ac4a8c2b842efca6980, type: 3}
+  traps: []
+  props: []
   mustSpawn: 0
+  chaseSpawn: 0

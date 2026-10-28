@@ -15,7 +15,7 @@ namespace HackedDesign
             for (int i = 0; i < renderers.Length; i++)
             {
                 renderers[i].sortingLayerName = sortingLayer;
-                renderers[i].sortingOrder = orderInLayer;
+                renderers[i].sortingOrder += orderInLayer;
             }
 
             var canvases = GetComponentsInChildren<Canvas>(true);
@@ -26,7 +26,7 @@ namespace HackedDesign
                     continue;
                 }
                 canvases[i].sortingLayerName = sortingLayer;
-                canvases[i].sortingOrder = orderInLayer;
+                canvases[i].sortingOrder += orderInLayer;
             }
 
             if (lightTargetSortingLayers != null && lightTargetSortingLayers.names.Length > 0)

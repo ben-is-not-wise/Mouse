@@ -5,6 +5,7 @@ namespace HackedDesign
 {
     public class AiSteering
     {
+        private const float StopDistance = 1f;
         private const float JumpCooldown = 0.6f;
         private const int MaxFailedJumps = 3;
         private const float ProgressEpsilon = 0.5f;
@@ -24,6 +25,12 @@ namespace HackedDesign
 
         public void MoveToward(IAi ai, AiContext ctx, Vector3 target, bool allowGapJump = false)
         {
+            if (Mathf.Abs(target.x - ctx.position.x) <= StopDistance)
+            {
+                ai.Character.ExecuteCommand(new MoveCommand(0, 0));
+                return;
+            }
+
             int facing = target.x < ctx.position.x ? -1 : 1;
             ai.Character.ExecuteCommand(new FacingCommand(0, facing));
 

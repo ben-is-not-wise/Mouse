@@ -42,7 +42,7 @@ MonoBehaviour:
   startingHacks: []
   startingUpgrades: []
   startingBarrier:
-    barrier: {fileID: 11400000, guid: eb711066b616c5a4eb89f34e6a0c12df, type: 2}
+    barrier: {fileID: 0}
     subroutines: []
   momentumAirLoss: 0.75
   baseMomentumFactor: 0
@@ -58,3 +58,8 @@ MonoBehaviour:
   hearDistanceRunning: 3
   hearDistanceWalking: 1
   hearDistanceCrouched: 0.5
+  visibilityNormal: 0.5
+  visibilityCrouched: 0.1
+  visibilityCrouchedMoving: 0.2
+  visibilityCrouchedInShadow: 0
+  shadowVisibilityMultiplier: 0.5

@@ -28,6 +28,14 @@ namespace HackedDesign
 
         public void Perform(IAi ai, AiContext ctx)
         {
+            if (ctx.suspicious)
+            {
+                facing = ctx.suspiciousPosition.x <= ctx.position.x ? -1 : 1;
+                ai.Character.ExecuteCommand(new FacingCommand(0, facing));
+                ai.Character.ExecuteCommand(new MoveCommand(0, ctx.flying ? AiSteering.HoverClimb(ctx) : 0));
+                return;
+            }
+
             if (ctx.settings.Stationary)
             {
                 return;

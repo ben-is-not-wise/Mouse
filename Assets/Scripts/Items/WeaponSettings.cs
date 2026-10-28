@@ -19,6 +19,9 @@ namespace HackedDesign
         public int minKineticLevel = 0;
         public string longDescription;
         public float projectileForce = 10f;
+        public float range = 1f;
+
+        public override InfoCategory InfoCategory => InfoCategory.Weapon;
     }
 
     public enum WeaponType

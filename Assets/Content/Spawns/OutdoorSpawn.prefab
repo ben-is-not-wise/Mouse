@@ -41,26 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6718912234766781939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33844105b86de9c469121f8ad4456a97, type: 3}
+  m_Script: {fileID: 11500000, guid: ce622cdac45f35f42be33bb360412c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 0}
   difficultyLevels:
   - {fileID: 11400000, guid: 56199b6b471ccf5449bf1123c65fc1e7, type: 2}
-  traps:
-  - {fileID: 2072137641269891416, guid: edf4851cc8aa8a54cb0e9bf97b505668, type: 3}
-  - {fileID: 7235826455370351959, guid: dfae0faeb6a9bd647a1d5bad643a9e1c, type: 3}
-  - {fileID: 5458576855800231348, guid: 9aaf2a47bdf65ee4b939746db8ea5e44, type: 3}
-  - {fileID: 7235826455370351959, guid: 4383b1e67f9351b4587b87740df5efb9, type: 3}
-  props:
-  - {fileID: 8519437087534518011, guid: fa93ba7e8b1bf00458796987b0baa5fd, type: 3}
-  - {fileID: 9014153852498221468, guid: ae0cfcb014370154bb70ad1c93ae939e, type: 3}
-  - {fileID: 4070400558305773655, guid: 890f11bf7a4f99544b1c208f692ed320, type: 3}
-  - {fileID: 4070400558305773655, guid: 05e47d02e40a1c14d82360f487e0ea15, type: 3}
-  - {fileID: 4070400558305773655, guid: 74350e6a447296a4e8a132c0d1a8022d, type: 3}
-  - {fileID: 5386955994993972789, guid: 2188bf7beb968eb45be6db348791c12b, type: 3}
-  - {fileID: 4070400558305773655, guid: b7ca893c254ba6e42b0a7bcdcc99e383, type: 3}
-  - {fileID: 4070400558305773655, guid: 80328a4423ee37f459fbf8e7aab290c4, type: 3}
-  - {fileID: 4070400558305773655, guid: a1e0c3fcd8c5a0247b9a3080f4e8d49e, type: 3}
-  - {fileID: 4070400558305773655, guid: 0dceb2c05b2e6db44b951cdb0a70dae0, type: 3}
-  - {fileID: 4070400558305773655, guid: 2ea10132e7978b746bb58add20e3f577, type: 3}
+  traps: []
+  props: []
   mustSpawn: 0
+  chaseSpawn: 0

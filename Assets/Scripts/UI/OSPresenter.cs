@@ -28,7 +28,7 @@ namespace HackedDesign.UI
 
         public override void Repaint()
         {
-
+            /*
             switch (os.CurrentTab)
             {
                 case OSTab.Character:
@@ -71,9 +71,9 @@ namespace HackedDesign.UI
                     infoPanel.Show();
                     infoPanel.Repaint();
                     break;
-            }
+            }*/
         }
-
+/*
         public void CharTabClick()
         {
             os.CurrentTab = OSTab.Character;
@@ -97,6 +97,6 @@ namespace HackedDesign.UI
         public void InfoTabClick()
         {
             os.CurrentTab = OSTab.Info;
-        }
+        }*/
     }
 }

@@ -31,7 +31,11 @@ namespace HackedDesign
         [SerializeField] private List<Outfit> wardrobe = new();
 
         private SpriteResolver[] spriteResolvers = System.Array.Empty<SpriteResolver>();
-        
+        private SpriteRenderer[] bodyRenderers = System.Array.Empty<SpriteRenderer>();
+        private readonly List<VisibilityZone> visibilityZones = new();
+
+        private static readonly Color HiddenColor = new(0.5f, 0.5f, 0.5f, 1f);
+
         #region State
         private ICharacterState currentState;
 
@@ -124,6 +128,7 @@ namespace HackedDesign
             this.AutoBind(ref collider);
             this.AutoBind(ref spriteLibrary);
             spriteResolvers = GetComponentsInChildren<SpriteResolver>(includeInactive: true);
+            bodyRenderers = System.Array.ConvertAll(spriteResolvers, r => r.GetComponent<SpriteRenderer>());
             if (head == null)
             {
                 head = transform;
@@ -306,7 +311,7 @@ namespace HackedDesign
                 //Animator.Play(AnimatorParams.Idle);
             }
             SetCrouch(false);
-            UpdateSpriteDirection(1f, 1f);
+            SetFacingDirection(1f);
             InputDirection = 0f;
             InputClimb = 0f;
             if (collider != null)
@@ -372,6 +377,59 @@ namespace HackedDesign
                 isClimbingLedge = Body != null && Body.CurrentlyClimbingLedge,
                 knockback = knockback
             });
+
+            OperatingSystem.UpdateVisibility(IsCrouched, Mathf.Abs(InputDirection) >= Mathf.Epsilon, InShadow(), ZoneVisibility());
+            UpdateHiddenTint();
+        }
+
+        private float? ZoneVisibility()
+        {
+            this.visibilityZones.RemoveAll(zone => zone == null);
+
+            float? result = null;
+            foreach (var zone in this.visibilityZones)
+            {
+                if (!zone.IsShadow)
+                {
+                    result = Mathf.Max(result ?? 0f, zone.Visibility);
+                }
+            }
+            return result;
+        }
+
+        private bool InShadow() => this.visibilityZones.Exists(zone => zone != null && zone.IsShadow);
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.TryGetComponent<VisibilityZone>(out var zone))
+            {
+                this.visibilityZones.Add(zone);
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.TryGetComponent<VisibilityZone>(out var zone))
+            {
+                this.visibilityZones.Remove(zone);
+            }
+        }
+
+        private void UpdateHiddenTint()
+        {
+            if (!IsPlayer || settings == null || settings.VisibilityNormal <= 0f)
+            {
+                return;
+            }
+
+            var color = Color.Lerp(HiddenColor, Color.white, OperatingSystem.Visibility / settings.VisibilityNormal);
+            foreach (var bodyRenderer in bodyRenderers)
+            {
+                if (bodyRenderer != null)
+                {
+                    bodyRenderer.color = color;
+                }
+            }
         }
 
         public bool CanHear(Vector3 position)
@@ -453,6 +511,11 @@ namespace HackedDesign
         #region Attack
         public void Attack(Vector3 target, bool aiming)
         {
+            if (Body != null && Body.CurrentlyClimbingLedge)
+            {
+                return;
+            }
+
             float sign = target.x - transform.position.x;
 
             if (Mathf.Abs(sign) >= Mathf.Epsilon)
@@ -492,6 +555,11 @@ namespace HackedDesign
         #region Animation
         public void UpdateSpriteDirection(float movementDirection, float facingDirection)
         {
+            if (Body != null && Body.CurrentlyClimbingLedge)
+            {
+                return;
+            }
+
             if (Body != null && Body.OnWall)
             {
                 SetFacingDirection(Body.ContactNormal.x < 0 ? 1f : -1f);

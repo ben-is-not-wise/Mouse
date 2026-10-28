@@ -13,6 +13,9 @@ namespace HackedDesign
         [SerializeField] private float lineInnerRadius = 1f;
         [SerializeField] private float targetRadius = 20f;
         [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private LineRenderer arcRenderer;
+        [SerializeField] private int arcSegments = 30;
+        [SerializeField] private float arcFallbackDuration = 1f;
         [SerializeField] private Animator animator;
         [SerializeField] private TargetPresenter targetPresenter;
         [SerializeField] private GameSettings gameSettings;
@@ -28,6 +31,7 @@ namespace HackedDesign
         private ICharacterExecute charExecute;
 
         private readonly Vector3[] linePoints = new Vector3[2];
+        private Vector3[] arcPoints;
 
         private readonly RaycastHit2D[] hitBuffer = new RaycastHit2D[1];
 
@@ -69,7 +73,62 @@ namespace HackedDesign
             }
         }
 
-        public void Reset() => ShowTarget(Vector3.zero, false, false);
+        public void Reset()
+        {
+            ShowTarget(Vector3.zero, false, false);
+            HideGrenadeArc();
+        }
+
+        public void ShowGrenadeArc(Vector3 target, float speed)
+        {
+            if (arcRenderer == null)
+            {
+                return;
+            }
+
+            if (arcPoints == null || arcPoints.Length != arcSegments + 1)
+            {
+                arcPoints = new Vector3[arcSegments + 1];
+            }
+
+            Vector2 start = pivot.position;
+            var velocity = Ballistics.SolveArc(start, target, speed);
+            float duration = Mathf.Abs(velocity.x) > Mathf.Epsilon ? Mathf.Abs(target.x - start.x) / Mathf.Abs(velocity.x) : arcFallbackDuration;
+            float z = pivot.position.z;
+
+            arcPoints[0] = new Vector3(start.x, start.y, z);
+            int count = 1;
+
+            for (int i = 1; i <= arcSegments; i++)
+            {
+                Vector2 previous = arcPoints[i - 1];
+                Vector2 next = Ballistics.PositionAt(start, velocity, duration * i / arcSegments);
+                var hit = Physics2D.Linecast(previous, next, laserMask);
+
+                if (hit)
+                {
+                    arcPoints[count++] = new Vector3(hit.point.x, hit.point.y, z);
+                    break;
+                }
+
+                arcPoints[count++] = new Vector3(next.x, next.y, z);
+            }
+
+            arcRenderer.enabled = true;
+            arcRenderer.positionCount = count;
+            arcRenderer.SetPositions(arcPoints);
+        }
+
+        public void HideGrenadeArc()
+        {
+            if (arcRenderer == null || !arcRenderer.enabled)
+            {
+                return;
+            }
+
+            arcRenderer.positionCount = 0;
+            arcRenderer.enabled = false;
+        }
 
         public void ShowTarget(Vector3 direction, bool aiming, bool hasPistol)
         {

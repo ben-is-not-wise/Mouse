@@ -5,16 +5,57 @@ using UnityEngine;
 
 namespace HackedDesign
 {
+    [ExecuteAlways]
     public class RandomContents : MonoBehaviour
     {
         [SerializeField] private float changeToPickSomething = 1.0f;
         //[SerializeField] private List<GameObject> randomPrefabs = new();
         [SerializeField] private List<WeightedPrefab> weightedPrefabs = new();
-        
 
-        void Awake() => PickPrefab();
+        private GameObject preview;
 
-        private void PickPrefab()
+        void Awake()
+        {
+            if (Application.isPlaying)
+            {
+                PickPrefab();
+            }
+        }
+
+        void OnEnable()
+        {
+            if (!Application.isPlaying)
+            {
+                RerollPreview();
+            }
+        }
+
+        void OnDisable() => ClearPreview();
+
+        [ContextMenu("Reroll Preview")]
+        private void RerollPreview()
+        {
+            ClearPreview();
+            if (this.gameObject.scene.IsValid())
+            {
+                this.preview = PickPrefab();
+                if (this.preview != null)
+                {
+                    this.preview.hideFlags = HideFlags.HideAndDontSave;
+                }
+            }
+        }
+
+        private void ClearPreview()
+        {
+            if (this.preview != null)
+            {
+                DestroyImmediate(this.preview);
+            }
+            this.preview = null;
+        }
+
+        private GameObject PickPrefab()
         {
             //if (randomPrefabs.Count == 0)
             //{
@@ -24,9 +65,15 @@ namespace HackedDesign
             if (Random.value < changeToPickSomething)
             {
                 var prefab = GetRandomPrefab();
+                if (prefab == null)
+                {
+                    return null;
+                }
                 var gameObj = Instantiate(prefab, transform.position, Quaternion.identity, this.transform);
                 gameObj.ClearCloneSuffix();
+                return gameObj;
             }
+            return null;
         }
 
         public GameObject GetRandomPrefab()

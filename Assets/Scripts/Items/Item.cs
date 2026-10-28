@@ -11,7 +11,11 @@ namespace HackedDesign
         public Sprite icon;
         [TextArea] public string description;
         public List<StatRange> randomStats = new();
+        [SerializeField] private bool hideInWiki;
+
+        public bool HideInWiki => hideInWiki;
 
         public virtual IEnumerable<StatRange> RandomStats => randomStats;
+        public virtual InfoCategory InfoCategory => InfoCategory.Item;
     }
 }

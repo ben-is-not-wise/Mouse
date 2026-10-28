@@ -21,12 +21,16 @@ namespace HackedDesign
 
         [SerializeField] private List<Hack> repoHacks = new();
 
+        [Header("Debug")]
+        [SerializeField] private float visibility;
+
         void Start()
         {
+            CurrentTab = OSTab.Tasks;
         }
 
         
-        public void UpdateBehaviour(bool hackMode)
+        public void UpdateBehaviour()
         {
             Health += healFactor * Time.deltaTime;
 
@@ -79,41 +83,41 @@ namespace HackedDesign
         public int KineticLevel => this.characterData.kinetic;
         public int DigitalLevel => this.characterData.digital;
         public int GhostLevel => this.characterData.ghost;
-        public WeaponInstance ActiveWeapon => this.characterData.weaponSlots[this.characterData.currentWeaponSlot];
+        public WeaponInstance MeleeWeapon => this.characterData.meleeSlot;
+        public ItemInstance ActiveAction => this.characterData.actionSlots[this.characterData.currentActionSlot];
+        public WeaponInstance ActiveActionWeapon => ActiveAction as WeaponInstance;
+        public IReadOnlyList<ItemInstance> ActionSlots => this.characterData.actionSlots;
+        public int CurrentActionSlot => this.characterData.currentActionSlot;
 
-        public WeaponSettings CurrentWeapon => ActiveWeapon?.definition;
-        public IReadOnlyList<WeaponInstance> WeaponSlots => this.characterData.weaponSlots;
-        public int CurrentWeaponSlot => this.characterData.currentWeaponSlot;
-
-        public void SelectWeapon(WeaponSlotId slot)
+        public void SelectAction(int slot)
         {
-            if (this.characterData.weaponSlots[(int)slot] == null)
+            if (slot < 0 || slot >= this.characterData.actionSlots.Length || this.characterData.actionSlots[slot] == null)
             {
                 return;
             }
-            this.characterData.currentWeaponSlot = (int)slot;
+            this.characterData.currentActionSlot = slot;
             changeActions?.Invoke();
         }
 
-        public void NextWeapon()
+        public void NextAction()
         {
-            int next = NextFilled(this.characterData.weaponSlots, this.characterData.currentWeaponSlot, 1);
-            if (next == this.characterData.currentWeaponSlot)
+            int next = NextFilled(this.characterData.actionSlots, this.characterData.currentActionSlot, 1);
+            if (next == this.characterData.currentActionSlot)
             {
                 return;
             }
-            this.characterData.currentWeaponSlot = next;
+            this.characterData.currentActionSlot = next;
             changeActions?.Invoke();
         }
 
-        public void PrevWeapon()
+        public void PrevAction()
         {
-            int next = NextFilled(this.characterData.weaponSlots, this.characterData.currentWeaponSlot, -1);
-            if (next == this.characterData.currentWeaponSlot)
+            int next = NextFilled(this.characterData.actionSlots, this.characterData.currentActionSlot, -1);
+            if (next == this.characterData.currentActionSlot)
             {
                 return;
             }
-            this.characterData.currentWeaponSlot = next;
+            this.characterData.currentActionSlot = next;
             changeActions?.Invoke();
         }
 
@@ -196,11 +200,51 @@ namespace HackedDesign
 
         public float PreallocatedEnergy => this.characterData.preallocatedEnergy;
 
+        public float Visibility
+        {
+            get => visibility;
+            private set
+            {
+                if (visibility != value)
+                {
+                    visibility = value;
+                    changeActions?.Invoke();
+                }
+            }
+        }
+
+        public void UpdateVisibility(bool crouched, bool moving, bool inShadow = false, float? zoneVisibility = null)
+        {
+            if (charSettings == null)
+            {
+                return;
+            }
+
+            if (zoneVisibility.HasValue)
+            {
+                Visibility = zoneVisibility.Value;
+                return;
+            }
+
+            if (inShadow && crouched && !moving)
+            {
+                Visibility = charSettings.VisibilityCrouchedInShadow;
+                return;
+            }
+
+            var baseVisibility = crouched
+                ? (moving ? charSettings.VisibilityCrouchedMoving : charSettings.VisibilityCrouched)
+                : charSettings.VisibilityNormal;
+
+            Visibility = inShadow ? baseVisibility * charSettings.ShadowVisibilityMultiplier : baseVisibility;
+        }
+
         private void Awake() => this.AutoBind(ref characterData);
 
         public void Reset()
         {
             characterData.Reset(charSettings);
+            UpdateVisibility(false, false);
             foreach (var instance in characterData.hackSlots)
             {
                 if (instance == null)
@@ -230,7 +274,7 @@ namespace HackedDesign
                     }
                 }
             }
-            foreach (var instance in characterData.weaponSlots)
+            foreach (var instance in characterData.actionSlots.OfType<WeaponInstance>().Append(characterData.meleeSlot))
             {
                 if (instance == null)
                 {
@@ -627,10 +671,15 @@ namespace HackedDesign
             return true;
         }
 
-        public bool EquipWeapon(int inventorySlot)
+        public bool EquipAction(int inventorySlot, int actionSlot)
         {
             var inv = this.characterData.inventory;
-            if (this.characterData.weaponSlots[(int)WeaponSlotId.Primary] != null)
+            var slots = this.characterData.actionSlots;
+            if (actionSlot < 0 || actionSlot >= slots.Length)
+            {
+                return false;
+            }
+            if (slots[actionSlot] != null)
             {
                 return false;
             }
@@ -643,19 +692,23 @@ namespace HackedDesign
                 return false;
             }
 
-            this.characterData.weaponSlots[(int)WeaponSlotId.Primary] = new WeaponInstance(weapon);
+            slots[actionSlot] = new WeaponInstance(weapon);
             inv[inventorySlot] = null;
             changeActions?.Invoke();
             return true;
         }
 
-        public bool UnequipWeapon()
+        public bool UnequipAction(int actionSlot)
         {
             var inv = this.characterData.inventory;
-            var instance = this.characterData.weaponSlots[(int)WeaponSlotId.Primary];
-            if (instance == null) 
-            { 
-                return false; 
+            var slots = this.characterData.actionSlots;
+            if (actionSlot < 0 || actionSlot >= slots.Length)
+            {
+                return false;
+            }
+            if (slots[actionSlot] is not WeaponInstance instance)
+            {
+                return false;
             }
 
             int required = 1 + instance.installed.Count(m => m != null);
@@ -676,20 +729,19 @@ namespace HackedDesign
                 inv[System.Array.IndexOf(inv, null)] = mod;
                 instance.installed[i] = null;
             }
-            this.characterData.weaponSlots[(int)WeaponSlotId.Primary] = null;
-            if (this.characterData.currentWeaponSlot == (int)WeaponSlotId.Primary)
-            {
-                this.characterData.currentWeaponSlot = (int)WeaponSlotId.Melee;
-            }
+            slots[actionSlot] = null;
             changeActions?.Invoke();
             return true;
         }
 
-        public bool InstallWeaponMod(WeaponSlotId slot, int inventorySlot)
+        public bool InstallWeaponMod(int actionSlot, int inventorySlot)
         {
             var inv = this.characterData.inventory;
-            var instance = this.characterData.weaponSlots[(int)slot];
-            if (instance == null)
+            if (actionSlot < 0 || actionSlot >= this.characterData.actionSlots.Length)
+            {
+                return false;
+            }
+            if (this.characterData.actionSlots[actionSlot] is not WeaponInstance instance)
             {
                 return false;
             }
@@ -715,10 +767,13 @@ namespace HackedDesign
             return true;
         }
 
-        public bool UninstallWeaponMod(WeaponSlotId slot)
+        public bool UninstallWeaponMod(int actionSlot)
         {
-            var instance = this.characterData.weaponSlots[(int)slot];
-            if (instance == null)
+            if (actionSlot < 0 || actionSlot >= this.characterData.actionSlots.Length)
+            {
+                return false;
+            }
+            if (this.characterData.actionSlots[actionSlot] is not WeaponInstance instance)
             {
                 return false;
             }

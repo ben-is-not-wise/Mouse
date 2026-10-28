@@ -11,7 +11,7 @@ namespace HackedDesign.UI
         [SerializeField] private Typewriter typewriter;
         [SerializeField] private UnityEngine.UI.Text nameText;
         [SerializeField] private UnityEngine.UI.Text dialogText;
-        [SerializeField] private UnityEngine.UI.Image dialogAvatar;
+        [SerializeField] private HackedDesign.UI.AvatarPresenter avatar;
         [SerializeField] private Sprite defaultAvatar;
         [HideInInspector] public UnityEvent finishedEvent;
 
@@ -35,7 +35,7 @@ namespace HackedDesign.UI
                 }
 
                 dialogText.text = page.Text;
-                dialogAvatar.sprite = dialogManager.GetSpeakerSprite(page);
+                avatar.SetByName(page.Speaker);
                 nameText.text = page.Speakertitle;
                 typewriter.Play(page.Text);
             }
@@ -43,7 +43,7 @@ namespace HackedDesign.UI
             {
                 Debug.LogWarning("Unknown dialog", this);
                 dialogText.text = "";
-                dialogAvatar.sprite = defaultAvatar;
+                avatar.Set(AvatarPresenter.Gender.Unknown, 0, 0);
             }
         }
 

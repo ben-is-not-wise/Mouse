@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f36592afb11fcd47a75d1fa082b5a30, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  skipStage: 1
-  startPistol: 0
+  skipStage: 0
   infiniteMomentum: 0
   showDamageNumbers: 1
   shatterMagnitude: 10
@@ -22,3 +21,6 @@ MonoBehaviour:
   knockbackAmount: 1
   knockbackTime: 0.2
   knockbackFreezeTime: 0.2
+  spawnEnemies: 0
+  spawnChaser: 0
+  skipTypewriter: 0

@@ -20,6 +20,24 @@ namespace HackedDesign
             }
         }
 
+        [SerializeField] private List<DiscoveredInfo> discoveredInfo = new();
+
+        public void Discover(InfoCategory category, string name)
+        {
+            if (!IsDiscovered(category, name))
+            {
+                this.discoveredInfo.Add(new DiscoveredInfo(category, name));
+            }
+        }
+
+        public void Discover(Item item) => Discover(item.InfoCategory, item.name);
+
+        public bool IsDiscovered(Item item) => IsDiscovered(item.InfoCategory, item.name);
+
+        public bool IsDiscovered(InfoCategory category, string name) => this.discoveredInfo.Any(info => info.Category == category && info.Name == name);
+
+        public IEnumerable<string> GetDiscovered(InfoCategory category) => this.discoveredInfo.Where(info => info.Category == category).Select(info => info.Name);
+
         public List<MissionData> completedMissions = new();
         //public List<MissionData> availableMissions = new();
         private MissionData currentMission;
@@ -30,6 +48,7 @@ namespace HackedDesign
 
         public void Reset()
         {
+            this.discoveredInfo.Clear();
             CurrentMission = new MissionData()
             {
                 seed = 1,
@@ -57,6 +76,22 @@ namespace HackedDesign
         }*/
     }
 
+
+    [System.Serializable]
+    public struct DiscoveredInfo
+    {
+        [SerializeField] private InfoCategory category;
+        [SerializeField] private string name;
+
+        public DiscoveredInfo(InfoCategory category, string name)
+        {
+            this.category = category;
+            this.name = name;
+        }
+
+        public InfoCategory Category => category;
+        public string Name => name;
+    }
 
     [System.Serializable]
     public class MissionData

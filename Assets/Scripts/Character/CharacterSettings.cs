@@ -45,6 +45,11 @@ namespace HackedDesign
         [SerializeField] private float hearDistanceRunning = 3f;
         [SerializeField] private float hearDistanceWalking = 1f;
         [SerializeField] private float hearDistanceCrouched = 0.5f;
+        [SerializeField] private float visibilityNormal = 0.5f;
+        [SerializeField] private float visibilityCrouched = 0.25f;
+        [SerializeField] private float visibilityCrouchedMoving = 0.25f;
+        [SerializeField] private float visibilityCrouchedInShadow = 0f;
+        [SerializeField] private float shadowVisibilityMultiplier = 0.5f;
 
         public float ShootDistance { get => shootDistance; private set => shootDistance = value; }
         public float AttackRate { get => attackRate; private set => attackRate = value; }
@@ -85,6 +90,12 @@ namespace HackedDesign
         public float HearDistanceRunning { get => this.hearDistanceRunning; }
         public float HearDistanceWalking { get => this.hearDistanceWalking; }
         public float HearDistanceCrouched { get => this.hearDistanceCrouched; }
+
+        public float VisibilityNormal { get => this.visibilityNormal; }
+        public float VisibilityCrouched { get => this.visibilityCrouched; }
+        public float VisibilityCrouchedMoving { get => this.visibilityCrouchedMoving; }
+        public float VisibilityCrouchedInShadow { get => this.visibilityCrouchedInShadow; }
+        public float ShadowVisibilityMultiplier { get => this.shadowVisibilityMultiplier; }
 
     }
 

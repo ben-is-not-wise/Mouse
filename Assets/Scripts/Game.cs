@@ -24,7 +24,7 @@ namespace HackedDesign
 
         bool HackMode { get; set; }
 
-        void NewGame();
+        void NewGame(SkipStage stage = SkipStage.None);
         void SetStateAct0IntroCard();
         void SetStateAct1IntroCard();
         void SetStateAct2IntroCard();
@@ -146,14 +146,14 @@ namespace HackedDesign
 
         #endregion
 
-        public void NewGame()
+        public void NewGame(SkipStage stage = SkipStage.None)
         {
             GameData.Reset();
             Player.Reset();
 
             Player.Character.OperatingSystem.CurrentMission = 1;
 
-            switch(GameSettings.SkipStage)
+            switch(stage)
             {
                 case SkipStage.SkipAct0:
                     Debug.Log("SkipAct0");
@@ -165,7 +165,7 @@ namespace HackedDesign
                     break;
                 case SkipStage.SkipIntro:
                     Debug.Log("SkipIntro");
-                    var cutscene = Level.ShowCutscene(Cutscenes.Rooftop1, true, 0, 0, true, true, Player);
+                    var cutscene = Level.ShowCutscene(Cutscenes.TestingSkyline, true, true, 0, 0, true, true, Player);
                     cutscene.Stop(this);
                     Level.Reset();
                     Player.Teleport(Level.GetLevelPlayerSpawnLocation() + Vector3.up);

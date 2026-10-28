@@ -78,11 +78,4 @@ namespace HackedDesign
             return UnityEngine.Random.Range(Mathf.Min(lo, hi), Mathf.Max(lo, hi) + 1);
         }
     }
-
-    public enum WeaponSlotId
-    {
-        Primary,
-        Grenade,
-        Melee
-    }
 }

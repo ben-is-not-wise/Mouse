@@ -1,7 +1,9 @@
 {
 	"name": "Mouse.Editor",
 	"references": [
-		"GUID:64c628acc77981b47937c2afbb469755"
+		"GUID:64c628acc77981b47937c2afbb469755",
+		"UnityEditor.UI",
+		"UnityEngine.UI"
 	],
 	"includePlatforms": [
 		"Editor"

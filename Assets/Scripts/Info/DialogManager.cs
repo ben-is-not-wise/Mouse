@@ -19,8 +19,8 @@ namespace HackedDesign
     {
         List<DialogLine> CurrentDialog { get; set; }
 
-        Sprite GetSpeakerSprite(DialogLine page);
-        Sprite GetSpeakerSprite(string name, string emotion);
+        //Sprite GetSpeakerSprite(DialogLine page);
+        //Sprite GetSpeakerSprite(string name, string emotion);
         void HideDialog();
         void ShowDialog(string name);
         void ShowDialog(string name, UnityAction dialogOverAction);
@@ -29,13 +29,10 @@ namespace HackedDesign
     public class DialogManager: AutoSingleton<DialogManager>, IDialogManager
     {
         [SerializeField] private DialogPresenter presenter;
-        [SerializeField] private PausePresenter messagePresenter;
-        [SerializeField] private List<Speaker> speakers;
         private Dictionary<string, List<DialogLine>> dialog = new();
 
         public List<DialogLine> CurrentDialog { get; set; }
         public List<DialogLine> CurrentMessages { get; set; }
-        public List<Speaker> Speakers { get => speakers; set => speakers = value; }
 
         private UnityAction dialogOverCallback;
 
@@ -47,9 +44,9 @@ namespace HackedDesign
 
         void Start() => presenter.finishedEvent.AddListener(new UnityAction(DialogFinished));
 
-        public Sprite GetSpeakerSprite(DialogLine page) => GetSpeakerSprite(page.Speaker, page.Emotion);
+        //public Sprite GetSpeakerSprite(DialogLine page) => GetSpeakerSprite(page.Speaker, page.Emotion);
 
-        public Sprite GetSpeakerSprite(string name, string emotion) => speakers.FirstOrDefault(x => x.name == name).GetEmotion(emotion);
+        //public Sprite GetSpeakerSprite(string name, string emotion) => speakers.FirstOrDefault(x => x.name == name).GetEmotion(emotion);
 
         public void SetMessages(string name)
         { 

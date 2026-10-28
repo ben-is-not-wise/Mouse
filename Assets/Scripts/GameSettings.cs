@@ -20,7 +20,6 @@ namespace HackedDesign
     {
         // FIXME: Make these serialized properties
         [SerializeField] private SkipStage skipStage = SkipStage.None;
-        [SerializeField] private bool startPistol = false;
         [SerializeField] private bool infiniteMomentum = false;
         [SerializeField] private bool showDamageNumbers = false;
         [SerializeField] private float shatterMagnitude = 10.1f;
@@ -29,14 +28,21 @@ namespace HackedDesign
         [SerializeField] private float knockbackAmount = 1f;
         [SerializeField] private float knockbackTime = 0.2f;
         [SerializeField] private float knockbackFreezeTime = 0.2f;
+        [SerializeField] private bool spawnEnemies = true;
+        [SerializeField] private bool spawnChaser = true;
+
+        [SerializeField] private bool skipTypewriter = false;
 
         public SkipStage SkipStage => skipStage;
-        public bool StartPistol => startPistol;
         public bool InfiniteMomentum => infiniteMomentum;
         public bool ShowDamageNumbers => showDamageNumbers;
         public float ShatterMagnitude => shatterMagnitude;
         public float InteractDistance => interactDistance;
         public float DefaultLevelTime => this.defaultLevelTime;
 
+        public bool SpawnEnemies => this.spawnEnemies;
+        public bool SpawnChaser => this.spawnChaser;
+
+        public bool SkipTypewriter => this.skipTypewriter;
     }
 }

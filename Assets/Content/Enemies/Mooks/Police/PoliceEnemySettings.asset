@@ -22,11 +22,18 @@ MonoBehaviour:
   proximityRange: 2.5
   aimError: 0.5
   targetLeading: 0
-  maxVisualRange: 12
+  maxVisualRange: 8
   fieldOfView: 120
   minRoamTime: 1
   maxRoamTime: 10
   roamTime: 7
+  detectionTime: 1
+  awarenessDecayTime: 2
+  suspicionGiveUpTime: 3
+  loseThreshold: 0.5
+  minDistanceFactor: 0.3
+  proximityDetectionMultiplier: 4
+  touchRange: 1
   hoverHeight: 4
   hoverDeadband: 0.5
   groundProbeDistance: 8

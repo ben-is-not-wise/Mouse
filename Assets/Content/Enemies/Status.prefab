@@ -59,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: a866636bf43562e48a5196aff3d1154c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,8 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 8888052711685868836}
-  alertSprite: {fileID: 21300000, guid: e73266254092c274f8a4e274309ee2f6, type: 3}
-  searchingSprite: {fileID: 21300000, guid: 94ac5df9b47b94309a57e589102b6ee7, type: 3}
+  alertSprite: {fileID: 21300000, guid: 55451e2c28eca48a28a37db3b0592f21, type: 3}
+  searchingSprite: {fileID: 21300000, guid: 55451e2c28eca48a28a37db3b0592f21, type: 3}
   pickupSprite: {fileID: 21300000, guid: a40309af475914d03801adb3092e184d, type: 3}
   talkSprite: {fileID: 21300000, guid: 48e69ef7fd3f149eb91c4ba8e59379fe, type: 3}
   interactSprite: {fileID: 21300000, guid: f7d3e01dd772c4c45b43b38531850085, type: 3}

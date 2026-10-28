@@ -14,35 +14,36 @@ We're writing to you wishing you all the best with the purchase of your new Aipe
 We know *Kat* will give you many years of love.
 
 Aipets Customer Support"
-intro_room1,Mouse PD,Mouse PD,Angry,FALSE,,,,"*It was the night before christmas, and all through the city, not a creature was stirring, except for a Mouse…*"
-intro_room1,Mouse PD,Mouse PD,Blink,FALSE,,,,*A buzzing keeps going off in the distant haze of consciousness.*
-intro_room1,Mouse PD,Mouse PD,Confused,FALSE,,,,*You look over. A new message notification flashes on your computer. Work. Sigh.*
-intro_room1bed,Mouse PD,Mouse PD,Blink,FALSE,,,,"*You yawn. A few more minutes wouldn't hurt, would it?*"
-intro_room1cat,Mouse PD,Mouse PD,Happy,FALSE,,,,"*Kat, short  for Empress Katherine the Greatest Furbaby, first of her name.*"
-intro_room1cat,Mouse PD,Mouse PD,Confused,FALSE,,,,"*Kat remained fast asleep, recharging. You'd finally saved up enough for a RealCat™ - with realistic claws and the softest tummy fur - AI pet a few months ago.*"
-intro_room1cat,Mouse PD,Mouse PD,Happy,FALSE,,,,*Which was no small feat on your class B salary.*
-intro_room1coffee,Mouse PD,Mouse PD,Confused,FALSE,,,,*No amount of caffeine is going to help you stay awake tonight*
-intro_room1door,Mouse PD,Mouse PD,Angry,FALSE,,,,*You can't just ignore the message from work*
-intro_room1aircon,Mouse PD,Mouse PD,Default,FALSE,,,,*Your HPD worker class B employment contract even includes airconditioning with your apartment*
-intro_roof1,Mouse PD,Mouse PD,Default,FALSE,,,,*A light drizzle falls over the sleeping city of Horizon*
-intro_roof2,Mouse PD,Mouse PD,Confused,FALSE,,,,"Hold it, who are you?"
+intro_room1,Mouse PD,Mouse,Angry,FALSE,,,,"*It was the night before christmas, and all through the city, not a creature was stirring, except for a Mouse…*"
+intro_room1,Mouse PD,Mouse,Blink,FALSE,,,,*A buzzing keeps going off in the distant haze of consciousness.*
+intro_room1,Mouse PD,Mouse,Confused,FALSE,,,,*A new message notification flashes on your neuro-shell. Work. Sigh.*
+intro_room1,Mouse PD,Mouse,Confused,FALSE,,,,Press ESC to pause and open up the interface to your neuro-shell to see your current tasks.
+intro_room1bed,Mouse PD,Mouse,Blink,FALSE,,,,"*You yawn. A few more minutes wouldn't hurt, would it?*"
+intro_room1cat,Mouse PD,Mouse,Happy,FALSE,,,,"*Kat, short  for Empress Katherine the Greatest Furbaby, first of her name.*"
+intro_room1cat,Mouse PD,Mouse,Confused,FALSE,,,,"*Kat remained fast asleep, recharging. You'd finally saved up enough for a RealCat™ - with realistic claws and the softest tummy fur - AI pet a few months ago.*"
+intro_room1cat,Mouse PD,Mouse,Happy,FALSE,,,,*Which was no small feat on your class B salary.*
+intro_room1coffee,Mouse PD,Mouse,Confused,FALSE,,,,*No amount of caffeine is going to help you stay awake tonight*
+intro_room1door,Mouse PD,Mouse,Angry,FALSE,,,,*You can't just ignore the message from work*
+intro_room1aircon,Mouse PD,Mouse,Default,FALSE,,,,*Your HPD worker class B employment contract even includes airconditioning with your apartment*
+intro_roof1,Mouse PD,Mouse,Default,FALSE,,,,*A light drizzle falls over the sleeping city of Horizon*
+intro_roof2,Mouse PD,Mouse,Confused,FALSE,,,,"Hold it, who are you?"
 intro_roof2,unknown,unknown,Happy,FALSE,,,,Does it matter? Nap time.
-intro_roof3,Mouse PD,Mouse PD,Blink,FALSE,,,,*Static swells in fills your vision and the world suddenly fades to a silent grey…*
-intro_roof4,Mouse PD,Mouse PD,Confused,FALSE,,,,*Two notification alarms in one night… You come too on the rooftop. That alarm is actually coming from the police heli hovering overhead.*
+intro_roof3,Mouse PD,Mouse,Blink,FALSE,,,,*Static swells in fills your vision and the world suddenly fades to a silent grey…*
+intro_roof4,Mouse PD,Mouse,Confused,FALSE,,,,*Two notification alarms in one night… You come too on the rooftop. That alarm is actually coming from the police heli hovering overhead.*
 intro_roof5,Boss,Boss,Angry,FALSE,,,,"Welcome back to reality M. First Thomasin calls off sick, then thieves enter the Allison facility and steal 21 TB of ghost data during a transfer."
-intro_roof4,Mouse PD,Mouse PD,Confused,FALSE,,,,"Boss, what are you doing here?"
+intro_roof4,Mouse PD,Mouse,Confused,FALSE,,,,"Boss, what are you doing here?"
 intro_roof5,Boss,Boss,Upset,FALSE,,,,"And you, M, let them walk right past."
-intro_roof5,Mouse PD,Mouse PD,Confused,FALSE,,,,I had nothing to do with it…
+intro_roof5,Mouse PD,Mouse,Confused,FALSE,,,,I had nothing to do with it…
 intro_roof5,Boss,Boss,Default,FALSE,,,,"I just watched the tapes, show you standing there the whole time while the thief walks right past you"
 intro_roof5,Boss,Boss,Default,FALSE,,,,It even looks like she stopped and had a chat. Do you deny that you're were colluding with the thief?
-intro_roof5,Mouse PD,Mouse PD,Confused,FALSE,,,,That doesn't make sense.
+intro_roof5,Mouse PD,Mouse,Confused,FALSE,,,,That doesn't make sense.
 intro_roof5,Boss,Boss,Default,FALSE,,,,"I hope pay was worth it, because you are under arrest. Your employment at Hyperion PD has been terminated"
-intro_roof5,Mouse PD,Mouse PD,Confused,FALSE,,,,"What, I…"
+intro_roof5,Mouse PD,Mouse,Confused,FALSE,,,,"What, I…"
 intro_roof5,Boss,Boss,Default,FALSE,,,,"All property of the HPD, including your HPD provided employee unit and all complementary property within revert immediately to the HPD's ownership"
 intro_roof5,Boss,Boss,Default,FALSE,,,,"And as of 30 seconds ago, your social rights have reverted to class D"
 intro_roof5,Boss,Boss,Default,FALSE,,,,"Now, if you'd be kind enough to stay still and hold out your hands, these fine security officers need to cuff you."
-intro_roof5,Mouse PD,Mouse PD,Confused,FALSE,,,,"*You know, M, you think to yourself. There is another option. You could always…*"
-intro_roof5,Mouse PD,Mouse PD,Confused,FALSE,,,,"<color=""#990000"">Run!</color>"
+intro_roof5,Mouse PD,Mouse,Confused,FALSE,,,,"*You know, M, you think to yourself. There is another option. You could always…*"
+intro_roof5,Mouse PD,Mouse,Confused,FALSE,,,,"<color=""#990000"">Run!</color>"
 intro_intermission1,Hotdog Vendor,Hotdog Vendor,Happy,FALSE,,,,"Take a seat, friend. You look down on your luck."
 intro_intermission1,Hotdog Vendor,Hotdog Vendor,Confused,FALSE,,,,Another victim of the corp hegemony?
 intro_intermission1,Mouse,Mouse,Blink,FALSE,,,,*You nod.*

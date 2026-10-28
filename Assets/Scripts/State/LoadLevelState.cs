@@ -20,8 +20,10 @@ namespace HackedDesign
             LoadLevel();
             game.Player.Reset();
             game.Player.Teleport(game.Level.GetLevelPlayerSpawnLocation() + Vector3.up);
+
             game.Level.SpawnEnemies(33);
         }
+            
 
         private void LoadLevel()
         {

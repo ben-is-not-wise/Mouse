@@ -48,6 +48,8 @@ namespace HackedDesign
             Time.timeScale = prevTimeScale;
         }
 
+        public override void Pause() => game.ResumeFromPause();
+
         private void OnContinue() => game.ResumeFromPause();
 
         private void OnExit() => game.SetStateMainMenu();

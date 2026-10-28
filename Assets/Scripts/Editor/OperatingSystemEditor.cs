@@ -69,11 +69,21 @@ namespace HackedDesign.Editor
             }
 
             EditorGUILayout.LabelField("Weapons", EditorStyles.miniBoldLabel);
-            var weaponSlots = os.WeaponSlots;
-            for (int i = 0; i < weaponSlots.Count; i++)
+            DrawWeaponSlot("  Melee", os.MeleeWeapon);
+
+            EditorGUILayout.LabelField("Actions", EditorStyles.miniBoldLabel);
+            var actionSlots = os.ActionSlots;
+            for (int i = 0; i < actionSlots.Count; i++)
             {
-                string label = $"  {(WeaponSlotId)i}{(i == os.CurrentWeaponSlot ? " *" : "")}";
-                DrawWeaponSlot(label, weaponSlots[i]);
+                string label = $"  {i + 1}{(i == os.CurrentActionSlot ? " *" : "")}";
+                if (actionSlots[i] is WeaponInstance weapon)
+                {
+                    DrawWeaponSlot(label, weapon);
+                }
+                else
+                {
+                    EditorGUILayout.LabelField(label, actionSlots[i] != null ? actionSlots[i].GetType().Name : "-");
+                }
             }
 
             Repaint();

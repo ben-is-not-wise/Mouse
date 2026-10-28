@@ -9,15 +9,21 @@ namespace HackedDesign
         [SerializeField] private List<GameObject> startBuildings = new();
         [SerializeField] private List<GameObject> midBuildings = new();
         [SerializeField] private List<GameObject> endBuildings = new();
+        [SerializeField] private List<GameObject> baseBuildings = new();
         [SerializeField] private int minLength = 20;
         [SerializeField] private int maxLength = 20;
 
         public int GetRandomLength() => Random.Range(minLength, maxLength + 1);
 
-        public GameObject GetRandomStartBuilding() => startBuildings.Count == 0 ? null : startBuildings[Random.Range(0, startBuildings.Count)];
+        public GameObject GetRandomStartBuilding() => GetRandomBuilding(startBuildings);
 
-        public GameObject GetRandomMidBuilding() => midBuildings.Count == 0 ? null : midBuildings[Random.Range(0, midBuildings.Count)];
+        public GameObject GetRandomMidBuilding() => GetRandomBuilding(midBuildings);
 
-        public GameObject GetRandomEndBuilding() => endBuildings.Count == 0 ? null : endBuildings[Random.Range(0, endBuildings.Count)];
+        public GameObject GetRandomEndBuilding() => GetRandomBuilding(endBuildings);
+
+        public GameObject GetRandomBaseBuilding() => GetRandomBuilding(baseBuildings);
+
+        public GameObject GetRandomBuilding(List<GameObject> set) => set.Count == 0 ? null : set[Random.Range(0, set.Count)];
+
     }
 }

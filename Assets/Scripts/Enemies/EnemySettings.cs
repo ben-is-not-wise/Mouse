@@ -22,6 +22,14 @@ namespace HackedDesign
         [SerializeField] private float minRoamTime = 1f;
         [SerializeField] private float maxRoamTime = 10.0f;
         [SerializeField] private float roamTime = 7f;
+        [Header("Detection")]
+        [SerializeField] private float detectionTime = 1f;
+        [SerializeField] private float awarenessDecayTime = 2f;
+        [SerializeField] private float suspicionGiveUpTime = 3f;
+        [SerializeField, Range(0f, 1f)] private float loseThreshold = 0.5f;
+        [SerializeField, Range(0f, 1f)] private float minDistanceFactor = 0.3f;
+        [SerializeField] private float proximityDetectionMultiplier = 4f;
+        [SerializeField] private float touchRange = 1f;
         [Header("Flying")]
         [SerializeField] private float hoverHeight = 4f;
         [SerializeField] private float hoverDeadband = 0.5f;
@@ -48,6 +56,13 @@ namespace HackedDesign
         public float MinRoamTime { get => minRoamTime; }
         public float MaxRoamTime { get => maxRoamTime;  }
         public float RoamTime { get => roamTime; }
+        public float DetectionTime { get => detectionTime; }
+        public float AwarenessDecayTime { get => awarenessDecayTime; }
+        public float SuspicionGiveUpTime { get => suspicionGiveUpTime; }
+        public float LoseThreshold { get => loseThreshold; }
+        public float MinDistanceFactor { get => minDistanceFactor; }
+        public float ProximityDetectionMultiplier { get => proximityDetectionMultiplier; }
+        public float TouchRange { get => touchRange; }
         public bool Stationary { get => this.stationary;  }
         public float HoverHeight { get => hoverHeight; }
         public float HoverDeadband { get => hoverDeadband; }

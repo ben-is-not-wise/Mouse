@@ -7,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 
 public class Billboard : MonoBehaviour
 {
-    private const float defaultChance = 0.75f;
+    private const float defaultChance = 1f;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] public List<Sprite> billboards;
     [SerializeField] private bool change = false;

@@ -18,7 +18,7 @@ namespace HackedDesign.UI
             kineticText.text = os.KineticLevel.ToString();
             digitalText.text = os.DigitalLevel.ToString();
             stealthText.text = os.GhostLevel.ToString();
-            weaponDesc.text = os.CurrentWeapon.longDescription;
+            weaponDesc.text = os.ActiveActionWeapon?.definition.longDescription ?? "";
         }
     }
 }

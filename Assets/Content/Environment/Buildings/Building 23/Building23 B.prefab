@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4241151617882402468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6700206543757030752}
+  - component: {fileID: 841079077200533628}
+  m_Layer: 0
+  m_Name: Exterior
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6700206543757030752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241151617882402468}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 759593924568943018}
+  - {fileID: 1311501950650299260}
+  m_Father: {fileID: 5596529278115787063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &841079077200533628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241151617882402468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f954343a949857498a49f4df400a8b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mouse::HackedDesign.RandomBuildingContents
+  contents:
+  - {fileID: 7725735039552812564}
 --- !u!1 &6000086001279749296
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,12 +61,12 @@ GameObject:
   - component: {fileID: 6573909924021351970}
   - component: {fileID: 518629317335762216}
   m_Layer: 7
-  m_Name: Building
+  m_Name: Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &759593924568943018
 Transform:
   m_ObjectHideFlags: 0
@@ -31,9 +79,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1816683663464820034}
-  m_Father: {fileID: 5596529278115787063}
+  m_Children: []
+  m_Father: {fileID: 6700206543757030752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2952685519826531637
 SpriteRenderer:
@@ -132,10 +179,10 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 32, y: -64}
-  - {x: 32, y: 0}
-  - {x: 11.5, y: 0}
-  - {x: 1.5, y: -5}
+  - {x: 48, y: -64}
+  - {x: 48, y: 0}
+  - {x: 17, y: 0}
+  - {x: 7, y: -5}
   - {x: 0, y: -5}
   - {x: 0, y: -64}
   m_AdjacentStartPoint: {x: 0, y: 0}
@@ -156,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Mouse::HackedDesign.BuildingWindowSeed
   spriteRenderer: {fileID: 2952685519826531637}
   gridOffset: {x: 34, y: 24}
-  windowSize: {x: 150, y: 32}
+  windowSize: {x: 100, y: 32}
   windowGap: {x: 0, y: 12}
   minInterval: 10
   maxInterval: 20
@@ -167,7 +214,7 @@ MonoBehaviour:
   buildingColor: {r: 0, g: 0, b: 0, a: 1}
   windowColorA: {r: 0.2627451, g: 0.32941177, b: 0.32941177, a: 1}
   windowColorB: {r: 0.8, g: 1, b: 1, a: 1}
---- !u!1 &7942477827491397971
+--- !u!1 &7725735039552812564
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,86 +222,164 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1816683663464820034}
-  - component: {fileID: 739386770090544219}
-  - component: {fileID: 4468083005391229485}
-  - component: {fileID: 1707197417095267768}
+  - component: {fileID: 1311501950650299260}
+  - component: {fileID: 270336674234060415}
+  - component: {fileID: 6080345753684235804}
+  - component: {fileID: 8631627389770011472}
   m_Layer: 7
-  m_Name: Billboard
+  m_Name: Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &1816683663464820034
+--- !u!4 &1311501950650299260
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942477827491397971}
+  m_GameObject: {fileID: 7725735039552812564}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: -8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 759593924568943018}
+  m_Father: {fileID: 6700206543757030752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &739386770090544219
+--- !u!212 &270336674234060415
+SpriteRenderer:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7725735039552812564}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: d0c5a3806e014b9595023bf70bf7899f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 1991457745
+  m_SortingLayer: -1
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 6e713fe1b98ce2d47afc1cb4bd2e932d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 16, y: 16}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
+--- !u!68 &6080345753684235804
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7725735039552812564}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 48, y: -64}
+  - {x: 48, y: 0}
+  - {x: 17, y: 0}
+  - {x: 7, y: -5}
+  - {x: 0, y: -5}
+  - {x: 0, y: -64}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
+--- !u!114 &8631627389770011472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942477827491397971}
+  m_GameObject: {fileID: 7725735039552812564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9fe37c160ad8874b9e1b6a3a16c0906, type: 3}
+  m_Script: {fileID: 11500000, guid: 84e283ecf6994794a99e19004bb929bb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Mouse::HackedDesign.RandomContents
-  changeToPickSomething: 1
-  weightedPrefabs:
-  - weight: 0
-    prefab: {fileID: 9180354152676982706, guid: 73c92509c5d51f94fb8fa859c482fad5, type: 3}
-  - weight: 0
-    prefab: {fileID: 1688468520415235776, guid: 12b535f6dac967448ac64592a514c872, type: 3}
-  - weight: 0
-    prefab: {fileID: 3214574468486175203, guid: 1594c985a6c42fb4783de3473ca642ec, type: 3}
---- !u!114 &4468083005391229485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942477827491397971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4615ea1dd3708ad4aa826a37e6cae0ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Mouse::HackedDesign.RandomPosition
-  rangeX: {x: -5, y: 5}
-  rangeY: {x: -5, y: 5}
---- !u!114 &1707197417095267768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942477827491397971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d6434085e217985bf82c61a79cc9060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Mouse::HackedDesign.SortingLayerOverride
-  sortingLayer: Foreground Level
-  orderInLayer: 50
-  lightTargetSortingLayers:
-    names:
-    - Level
-    - Default
-    - Foreground Level
-    - Foreground
+  m_EditorClassIdentifier: Mouse::HackedDesign.BuildingWindowSeed
+  spriteRenderer: {fileID: 270336674234060415}
+  gridOffset: {x: 35, y: 24}
+  windowSize: {x: 98, y: 76}
+  windowGap: {x: 2, y: 12}
+  minInterval: 10
+  maxInterval: 60
+  flickerChance: 0.3
+  flickerProbability: 0.1
+  quickFlickChance: 0.1
+  keyTolerance: 0.05
+  buildingColor: {r: 0, g: 0, b: 0, a: 1}
+  windowColorA: {r: 0.32941177, g: 0.30980393, b: 0.2627451, a: 1}
+  windowColorB: {r: 0.99215686, g: 0.7254902, b: 0.41568628, a: 1}
 --- !u!1 &8131875419712681844
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5596529278115787063}
+  - component: {fileID: 2680955968400408227}
   m_Layer: 7
   m_Name: Building23 B
   m_TagString: Untagged
@@ -284,6 +410,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 759593924568943018}
+  - {fileID: 6700206543757030752}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2680955968400408227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8131875419712681844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24be1a22114ceb84db8faf25bae58d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mouse::HackedDesign.Building
+  exterior: {fileID: 6700206543757030752}
+  interior: {fileID: 0}

@@ -35,10 +35,11 @@ namespace HackedDesign
         public const int InventorySize = 16;
         public const int HackSlotCount = 4;
         public const int UpgradeSlotCount = 4;
-        public const int WeaponSlotCount = 3;
+        public const int ActionSlotCount = 8;
 
-        public WeaponInstance[] weaponSlots = new WeaponInstance[WeaponSlotCount];
-        public int currentWeaponSlot = (int)WeaponSlotId.Melee;
+        public WeaponInstance meleeSlot;
+        public ItemInstance[] actionSlots = new ItemInstance[ActionSlotCount];
+        public int currentActionSlot = 0;
         public int currentHackSlot = 0;
 
         public Item[] inventory = new Item[InventorySize];
@@ -53,10 +54,11 @@ namespace HackedDesign
             ammo = settings.StartingAmmo;
             infiniteAmmo = settings.InfiniteAmmo;
             infinityHealth = settings.InfiniteHealth;
-            weaponSlots[(int)WeaponSlotId.Melee] = settings.DefaultMelee != null ? new WeaponInstance(settings.DefaultMelee) : null;
-            weaponSlots[(int)WeaponSlotId.Primary] = settings.StartingWeapon != null ? new WeaponInstance(settings.StartingWeapon) : null;
-            weaponSlots[(int)WeaponSlotId.Grenade] = settings.StartingGrenade != null ? new WeaponInstance(settings.StartingGrenade) : null;
-            currentWeaponSlot = weaponSlots[(int)WeaponSlotId.Primary] != null ? (int)WeaponSlotId.Primary : (int)WeaponSlotId.Melee;
+            meleeSlot = settings.DefaultMelee != null ? new WeaponInstance(settings.DefaultMelee) : null;
+            System.Array.Clear(actionSlots, 0, actionSlots.Length);
+            actionSlots[0] = settings.StartingWeapon != null ? new WeaponInstance(settings.StartingWeapon) : null;
+            actionSlots[1] = settings.StartingGrenade != null ? new WeaponInstance(settings.StartingGrenade) : null;
+            currentActionSlot = System.Math.Max(0, System.Array.FindIndex(actionSlots, a => a != null));
             maxHealth = settings.StartingHealth;
             maxMomentum = settings.MaxMomentum;
             momentum = 0.0f;
@@ -137,10 +139,12 @@ namespace HackedDesign
 
     public enum OSTab
     {
-        Character,
-        Inventory,
+        Tasks,
+        Body,
+        Stash,
+        Data,
         Shop,
         Music,
-        Info
+        Shutdown
     }
 }

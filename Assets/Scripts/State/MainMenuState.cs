@@ -21,6 +21,7 @@ namespace HackedDesign
         public override void Begin()
         {
             mainMenu.StartGame += OnStart;
+            mainMenu.SkipGame += OnSkip;
             mainMenu.Options += OnOptions;
             mainMenu.Credits += OnCredits;
             mainMenu.Exit += OnExit;
@@ -30,13 +31,16 @@ namespace HackedDesign
         public override void End()
         {
             mainMenu.StartGame -= OnStart;
+            mainMenu.SkipGame -= OnSkip;
             mainMenu.Options -= OnOptions;
             mainMenu.Credits -= OnCredits;
             mainMenu.Exit -= OnExit;
             mainMenu.Hide();
         }
 
-        private void OnStart() => game.NewGame();
+        private void OnStart() => game.NewGame(Game.Instance.GameSettings.SkipStage);
+
+        private void OnSkip() => game.NewGame(SkipStage.SkipIntro);
 
         private void OnOptions() => Debug.Log("Main Menu Options");
 

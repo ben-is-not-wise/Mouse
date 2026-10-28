@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1714144932154578982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 896836530820355253}
+  - component: {fileID: 7123291534019779583}
+  - component: {fileID: 8400447083710653675}
+  m_Layer: 14
+  m_Name: Random Billboard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &896836530820355253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714144932154578982}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7123291534019779583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714144932154578982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9fe37c160ad8874b9e1b6a3a16c0906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mouse::HackedDesign.RandomContents
+  changeToPickSomething: 1
+  weightedPrefabs:
+  - weight: 0
+    prefab: {fileID: 9180354152676982706, guid: 73c92509c5d51f94fb8fa859c482fad5, type: 3}
+  - weight: 0
+    prefab: {fileID: 1688468520415235776, guid: 12b535f6dac967448ac64592a514c872, type: 3}
+--- !u!114 &8400447083710653675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714144932154578982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6434085e217985bf82c61a79cc9060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mouse::HackedDesign.SortingLayerOverride
+  sortingLayer: Default
+  orderInLayer: 0
+  lightTargetSortingLayers:
+    names: []

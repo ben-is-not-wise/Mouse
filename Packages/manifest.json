@@ -2,9 +2,9 @@
   "dependencies": {
     "com.coplaydev.unity-mcp": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
-    "com.unity.2d.animation": "16.0.0",
+    "com.unity.2d.animation": "16.0.1",
     "com.unity.2d.pixel-perfect": "6.0.0",
-    "com.unity.2d.psdimporter": "15.0.0",
+    "com.unity.2d.psdimporter": "15.0.1",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.spriteshape": "16.0.0",
     "com.unity.2d.tilemap": "1.0.0",

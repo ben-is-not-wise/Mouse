@@ -43,7 +43,7 @@ Material:
     - _KeyColor: {r: 1, g: 0, b: 1, a: 1}
     - _Seed: {r: 0, g: 0, b: 0, a: 0}
     - _WindowColorA: {r: 0.04, g: 0.02980392, b: 0.010196078, a: 1}
-    - _WindowColorB: {r: 1, g: 0.9401575, b: 0.8, a: 1}
+    - _WindowColorB: {r: 0.99215686, g: 0.7254902, b: 0.41568628, a: 1}
     - _WindowGap: {r: 12, g: 12, b: 0, a: 0}
     - _WindowSize: {r: 64, g: 32, b: 0, a: 0}
   m_BuildTextureStacks: []

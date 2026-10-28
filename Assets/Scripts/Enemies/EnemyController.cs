@@ -22,6 +22,8 @@ namespace HackedDesign
         [SerializeField] private LayerMask lineOfSightMask;
         [SerializeField] private LayerMask movementMask;
         [SerializeField, NotNull] private EnemySettings enemySettings;
+        [Header("Debug")]
+        [SerializeField, Range(0f, 1f)] private float awareness = 0f;
 
         private const float HearingPositionError = 2f;
 
@@ -36,6 +38,11 @@ namespace HackedDesign
         private bool wasHearingPlayer = false;
         private float lastPerceivedTime = 0f;
         private float nextAlertBroadcast = 0f;
+        private float lastSenseTime = 0f;
+        private bool detected = false;
+        private bool suspicious = false;
+        private Vector3 suspiciousPosition;
+        private float lastGlimpseTime = 0f;
 
         public IEnemyState CurrentState
         {
@@ -58,6 +65,8 @@ namespace HackedDesign
         public Vector3 LastKnownPlayerPosition { get; private set; }
 
         public bool CanSeePlayer { get; private set; }
+
+        public float Awareness => awareness;
 
         public bool CanHearPlayer { get; private set; }
 
@@ -144,6 +153,14 @@ namespace HackedDesign
                 : new EnemyIdleState(this);
         }
 
+        void OnDestroy()
+        {
+            if (EnemyManager.Instance != null)
+            {
+                EnemyManager.Instance.Remove(this);
+            }
+        }
+
         private void Start()
         {
             Reset();
@@ -162,7 +179,7 @@ namespace HackedDesign
 
         private void UpdateDetect(IPlayerController player)
         {
-            if (player == null)
+            if (player == null || !CurrentState.IsAlive)
             {
                 return;
             }
@@ -179,11 +196,18 @@ namespace HackedDesign
                 ? player.Character.CanSee(aimPivot.position, EnemySettings.MaxVisualRange, lineOfSightMask)
                 : null;
 
-            if (hit.HasValue && hit.Value.transform != null && hit.Value.transform.CompareTag(Tags.Player))
+            var inSight = hit.HasValue && hit.Value.transform != null && hit.Value.transform.CompareTag(Tags.Player);
+            var sqrDistance = (player.Transform.position - aimPivot.position).sqrMagnitude;
+            var inProximity = sqrDistance <= EnemySettings.ProximityRange * EnemySettings.ProximityRange;
+            var inTouch = sqrDistance <= EnemySettings.TouchRange * EnemySettings.TouchRange;
+
+            UpdateAwareness(player, inSight, inProximity, inTouch);
+
+            if (this.detected && (inSight || inProximity || inTouch))
             {
                 CanSeePlayer = true;
                 HasSeenPlayer = true;
-                LastKnownPlayerPosition = hit.Value.point;
+                LastKnownPlayerPosition = inSight ? hit!.Value.point : player.Transform.position;
             }
             else
             {
@@ -210,7 +234,7 @@ namespace HackedDesign
                 }
             }
 
-            if ((player.Transform.position - aimPivot.position).sqrMagnitude <= EnemySettings.ProximityRange * EnemySettings.ProximityRange)
+            if ((inProximity || inTouch) && this.detected)
             {
                 HasBeenAlerted = true;
                 LastKnownPlayerPosition = player.Transform.position;
@@ -234,6 +258,67 @@ namespace HackedDesign
                 HasSeenDeadEnemies = false;
                 wasHearingPlayer = false;
             }
+        }
+
+        private void UpdateAwareness(IPlayerController player, bool inSight, bool inProximity, bool inTouch)
+        {
+            var elapsed = Time.time - this.lastSenseTime;
+            this.lastSenseTime = Time.time;
+
+            var visibility = player.Character.OperatingSystem.Visibility;
+            var normalVisibility = player.Character.Settings != null ? player.Character.Settings.VisibilityNormal : 0.5f;
+            var distance = (player.Transform.position - aimPivot!.position).magnitude;
+            var distanceFactor = Mathf.Lerp(1f, EnemySettings.MinDistanceFactor, Mathf.InverseLerp(0f, EnemySettings.MaxVisualRange, distance));
+
+            var inView = inSight || inProximity;
+            var visible = visibility > 0f && normalVisibility > 0f;
+
+            if (inTouch)
+            {
+                this.suspiciousPosition = player.Transform.position;
+                this.lastGlimpseTime = Time.time;
+                awareness = 1f;
+            }
+            else if (inView && visible)
+            {
+                this.suspiciousPosition = player.Transform.position;
+                this.lastGlimpseTime = Time.time;
+                var proximityFactor = inProximity ? EnemySettings.ProximityDetectionMultiplier : 1f;
+                awareness += elapsed * (visibility / normalVisibility) * distanceFactor * proximityFactor / EnemySettings.DetectionTime;
+            }
+            else if (inView || this.detected || Time.time > this.lastGlimpseTime + EnemySettings.SuspicionGiveUpTime)
+            {
+                awareness -= elapsed / EnemySettings.AwarenessDecayTime;
+            }
+
+            awareness = Mathf.Clamp01(awareness);
+            Icon.Fill = awareness;
+
+            if (awareness >= 1f)
+            {
+                this.detected = true;
+            }
+            else if (awareness < EnemySettings.LoseThreshold)
+            {
+                this.detected = false;
+            }
+
+            UpdateSuspicionIcon();
+        }
+
+        private void UpdateSuspicionIcon()
+        {
+            var nowSuspicious = !this.detected && awareness > 0f;
+            if (nowSuspicious && Icon.IsHidden)
+            {
+                Icon.Searching();
+            }
+            else if (!nowSuspicious && this.suspicious && !this.detected && !CanHearPlayer && !HasBeenAlerted && !HasSeenPlayer)
+            {
+                Icon.Hide();
+            }
+
+            this.suspicious = nowSuspicious;
         }
 
         private void AlertNearbyAllies(Vector3 position)
@@ -269,11 +354,15 @@ namespace HackedDesign
             Character.Reset();
             Character.SetStateBattle();
             lastPerceivedTime = Time.time;
+            this.lastSenseTime = Time.time;
+            awareness = 0f;
+            this.detected = false;
+            this.suspicious = false;
         }
 
         public void UpdateBehaviour()
         {
-            Character.OperatingSystem.UpdateBehaviour(false);
+            Character.OperatingSystem.UpdateBehaviour();
         }
 
         public void FixedUpdateBehaviour(IPlayerController player)
@@ -299,6 +388,8 @@ namespace HackedDesign
                 canSeePlayer = CanSeePlayer,
                 hasSeenPlayer = HasSeenPlayer,
                 hasSeenDeadEnemies = HasSeenDeadEnemies,
+                suspicious = this.suspicious,
+                suspiciousPosition = this.suspiciousPosition,
                 facing = Mathf.RoundToInt(Character.transform.right.x),
                 settings = EnemySettings,
                 playerInFrontOfUs = GetPlayerInFrontOfUs(player),
@@ -328,6 +419,15 @@ namespace HackedDesign
             //Debug.Log("took a hit", this);
         }
 
-        private void Die() => CurrentState = new EnemyDeadState();
+        private void Die()
+        {
+            CurrentState = new EnemyDeadState();
+            awareness = 0f;
+            this.detected = false;
+            this.suspicious = false;
+            CanSeePlayer = false;
+            CanHearPlayer = false;
+            Icon.Hide();
+        }
     }
 }

@@ -143,12 +143,13 @@ namespace HackedDesign
 
             if (interact)
             {
-                //outlinable.enabled = true;
+                outlinable.enabled = true;
 
                 if (PlayerInRange())
                 {
                     //FDAC3D
-                    ColorUtility.TryParseHtmlString("FDAC3D", out var color);
+                    //E4FF1A
+                    ColorUtility.TryParseHtmlString("#E4FF1A", out var color);
                     outlinable.OutlineParameters.Color = color;
                 }
                 else
@@ -158,15 +159,15 @@ namespace HackedDesign
             }
             else if (ping)
             {
-                //outlinable.enabled = true;
+                outlinable.enabled = true;
                 outlinable.OutlineParameters.Color = Color.magenta;
             }
             else if (target)
             {
-                //outlinable.enabled = true;
+                outlinable.enabled = true;
                 if (PlayerInRange())
                 {
-                    ColorUtility.TryParseHtmlString("#FDAC3D", out var color);
+                    ColorUtility.TryParseHtmlString("#E4FF1A", out var color);
                     outlinable.OutlineParameters.Color = color;
                 }
                 else
@@ -177,7 +178,7 @@ namespace HackedDesign
             }
             else
             {
-                //outlinable.enabled = false;
+                outlinable.enabled = false;
             }
         }
 

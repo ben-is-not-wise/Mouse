@@ -106,6 +106,16 @@ namespace HackedDesign
             }
         }
 
+        public void Teleport(Vector2 position)
+        {
+            if (body.EnsureNotNull(this, nameof(body)))
+            {
+                body.linearVelocity = Vector2.zero;
+                body.position = position;
+                this.transform.position = position;
+            }
+        }
+
         public void Freeze()
         {
             Stop();
@@ -372,32 +382,47 @@ namespace HackedDesign
                 hitDirection = Vector2.down;
             }
 
+            if (!bodyCollider.EnsureNotNull(this, nameof(bodyCollider)))
+            {
+                return;
+            }
+
+            var bounds = bodyCollider.bounds;
+            var origin = (Vector2)bounds.center;
+            var contactFilter = new ContactFilter2D
+            {
+                useLayerMask = true,
+                layerMask = environmentMask,
+                useTriggers = false
+            };
+
             var hits = physicsScene.CapsuleCast(
-                origin: (Vector2)transform.position + new Vector2(0, 1),
-                size: new Vector2(0.76f, 2.1f),
-                capsuleDirection: CapsuleDirection2D.Vertical,
+                origin: origin,
+                size: (Vector2)bounds.size + new Vector2(0.1f, 0.1f),
+                capsuleDirection: bodyCollider.direction,
                 angle: 0f,
                 direction: hitDirection,
-                contactFilter: new ContactFilter2D
-                {
-                    useLayerMask = true,
-                    layerMask = environmentMask,
-                    useTriggers = false
-                },
+                contactFilter: contactFilter,
                 results: this.hitBuffer,
                 distance: 0.1f
              );
 
-            Vector2 summedNormal = Vector2.zero;
-            int validHitCount = 0;
+            Vector2 groundNormal = Vector2.zero;
+            Vector2 wallNormal = Vector2.zero;
 
             for (int i = 0; i < hits; i++)
             {
                 var hit = hitBuffer[i];
                 if (hit.collider != null)
                 {
-                    summedNormal += hit.normal;
-                    validHitCount++;
+                    if (hit.normal.y >= 0.5f)
+                    {
+                        groundNormal += hit.normal;
+                    }
+                    else if (Mathf.Abs(hit.normal.x) >= 0.75f)
+                    {
+                        wallNormal += hit.normal;
+                    }
 
                     if (hit.rigidbody != null && hit.rigidbody.sharedMaterial != null)
                     {
@@ -406,11 +431,35 @@ namespace HackedDesign
                 }
             }
 
-            ContactNormal = validHitCount > 0 ? (summedNormal / validHitCount).normalized : Vector2.zero;
+            float groundRaySpacing = bounds.extents.x * 0.75f;
+            float groundRayDistance = bounds.extents.y + 0.1f;
+
+            for (int ray = -1; ray <= 1; ray++)
+            {
+                var groundHits = physicsScene.Raycast(
+                    origin: origin + new Vector2(ray * groundRaySpacing, 0),
+                    direction: Vector2.down,
+                    distance: groundRayDistance,
+                    contactFilter: contactFilter,
+                    results: this.hitBuffer
+                );
+
+                for (int i = 0; i < groundHits; i++)
+                {
+                    var hit = hitBuffer[i];
+                    if (hit.collider != null && hit.distance > 0f && hit.normal.y >= 0.5f)
+                    {
+                        groundNormal += hit.normal;
+                    }
+                }
+            }
+
+            bool touchingGround = groundNormal != Vector2.zero;
+            ContactNormal = touchingGround ? groundNormal.normalized : wallNormal.normalized;
             // If we fly, we're always touching the ground for simplicities sake
-            OnGround = settings != null && settings.fly || ContactNormal.y >= 0.5f;
+            OnGround = settings != null && settings.fly || touchingGround;
             // If we fly, we're never wall climbing for simplicities sake
-            OnWall = wallStick && ((settings == null || !settings.fly) && Mathf.Abs(ContactNormal.x) >= 0.75f);
+            OnWall = wallStick && !touchingGround && ((settings == null || !settings.fly) && Mathf.Abs(ContactNormal.x) >= 0.75f);
             wallDirectionX = OnWall ? Mathf.Sign(ContactNormal.x) : 0f;
         }
         #endregion Movement

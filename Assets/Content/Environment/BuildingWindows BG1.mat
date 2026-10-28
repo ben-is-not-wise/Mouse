@@ -35,6 +35,7 @@ Material:
     - _KeyTolerance: 0.304
     - _MaxInterval: 32
     - _MinInterval: 5
+    - _QuickFlickChance: 0.1
     m_Colors:
     - _BuildingColor: {r: 0.31764704, g: 0.3960784, b: 0.5019608, a: 1}
     - _CellSize: {r: 1, g: 1, b: 0, a: 0}
@@ -43,8 +44,8 @@ Material:
     - _KeyColor: {r: 1, g: 0, b: 1, a: 1}
     - _Seed: {r: 0, g: 0, b: 0, a: 0}
     - _WindowColorA: {r: 0.2847656, g: 0.35507813, b: 0.45, a: 1}
-    - _WindowColorB: {r: 1, g: 0.85, b: 0.5, a: 1}
+    - _WindowColorB: {r: 0.99215686, g: 0.7254902, b: 0.41568628, a: 1}
     - _WindowGap: {r: 12, g: 12, b: 0, a: 0}
-    - _WindowSize: {r: 64, g: 32, b: 0, a: 0}
+    - _WindowSize: {r: 100, g: 32, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

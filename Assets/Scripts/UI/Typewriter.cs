@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace HackedDesign
 {
@@ -13,6 +14,9 @@ namespace HackedDesign
         [SerializeField] private UnityEngine.UI.Text text;
         [SerializeField] private int speed = 30;
 
+        [SerializeField] private bool playOnStart = false;
+        [SerializeField] private UnityEvent onFinish;
+
         private string origText;
         private CancellationTokenSource cts;
         private Task currentTask;
@@ -21,6 +25,14 @@ namespace HackedDesign
         public Text Text { get => this.text; set => this.text = value; }
 
         private void Awake() => OriginalText = Text.text;
+
+        private void Start()
+        {
+            if (playOnStart)
+            {
+                Play();
+            }
+        }
 
         public void Play()
         {
@@ -40,10 +52,16 @@ namespace HackedDesign
             cts?.Cancel();
             cts = new CancellationTokenSource();
             Text.text = OriginalText;
+            onFinish?.Invoke();
         }
 
         private async Task PlayTypewriter(CancellationToken token)
         {
+            if(Game.Instance.GameSettings.SkipTypewriter)
+            {
+                Finish();
+            }
+
             int tagLevel = 0;
             Text.text = "";
             // FIXME: Assumes all tags are color tags
@@ -72,6 +90,16 @@ namespace HackedDesign
                     i++;
                 }
 
+                if (i < OriginalText.Length && OriginalText[i] == '[')
+                {
+                    int bracketEnd = OriginalText.IndexOf(']', i);
+
+                    if (bracketEnd != -1)
+                    {
+                        i = bracketEnd + 1;
+                    }
+                }
+
                 if(i < (OriginalText.Length - 1))
                 {
                     string lowChar = "<color=\"#006600\">" + OriginalText[i + 1] + ColorTagEnd;
@@ -90,7 +118,7 @@ namespace HackedDesign
             token.ThrowIfCancellationRequested();
 
             Text.text = OriginalText;
+            onFinish?.Invoke();
         }
     }
 }
-

@@ -10,11 +10,13 @@ namespace HackedDesign.UI
         //[SerializeField] private CharacterData gameData;
         [SerializeField] private OperatingSystem os;
         [Header("UI")]
+        [SerializeField] private Text integrityText;
         [SerializeField] private Slider healthSlider;
         [SerializeField] private Text healthText;
         [SerializeField] private Slider energySlider;
         [SerializeField] private Text energyText;
         [SerializeField] private Slider preallocatedSlider;
+        [SerializeField] private Image visibilityImage;
         [SerializeField] private RectTransform attackPanel;
         [SerializeField] private RectTransform gunPanel;
         [SerializeField] private RectTransform meleePanel;
@@ -37,30 +39,20 @@ namespace HackedDesign.UI
             RepaintWeapon();
             RepaintHacks();
             RepaintMomentum();
+            RepaintVisibility();
         }
 
         private void RepaintWeapon()
         {
+            var weaponType = os.ActiveActionWeapon?.definition.weaponType;
 
-            meleePanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Unarmed);
-            gunPanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Gun);
-            grenadePanel.gameObject.SetActive(os.CurrentWeapon.weaponType == WeaponType.Grenade);
+            meleePanel.gameObject.SetActive(true);
+            gunPanel.gameObject.SetActive(weaponType == WeaponType.Gun);
+            grenadePanel.gameObject.SetActive(weaponType == WeaponType.Grenade);
 
-            if (os.CurrentWeapon.weaponType == WeaponType.Unarmed)
-            {
-                
-            }
-
-            
-
-            if (os.CurrentWeapon.weaponType == WeaponType.Gun)
+            if (weaponType == WeaponType.Gun)
             {
                 ammoText.text = os.Ammo.ToString();
-            }
-
-            if(os.CurrentWeapon.weaponType == WeaponType.Grenade)
-            {
-
             }
         }
 
@@ -68,6 +60,14 @@ namespace HackedDesign.UI
         {
             healthSlider.value = os.Health;
             healthText.text = os.Health.ToString("N0");
+            integrityText.text = os.Health > 50 ? "OK" : os.Health > 20 ? "HURT" : "CRITICAL";
+        }
+
+        private void RepaintVisibility()
+        {
+            var color = visibilityImage.color;
+            color.a = os.Visibility;
+            visibilityImage.color = color;
         }
 
         private void RepaintHacks()
