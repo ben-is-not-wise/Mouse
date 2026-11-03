@@ -30,7 +30,16 @@ namespace HackedDesign
             }
         }
 
-        void OnDisable() => ClearPreview();
+        void OnDisable()
+        {
+#if UNITY_EDITOR
+            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                return;
+            }
+#endif
+            ClearPreview();
+        }
 
         [ContextMenu("Reroll Preview")]
         private void RerollPreview()

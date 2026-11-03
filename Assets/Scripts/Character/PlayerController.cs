@@ -31,6 +31,7 @@ namespace HackedDesign
         [field: SerializeField, NotNull] public CharController Character { get; set; } = null!;
         [field: SerializeField, NotNull] private Targeter Targeter { get; set; } = null!;
         [field: SerializeField, NotNull] private Transform AimPivot { get; set; } = null!;
+        [field: SerializeField] private HackAimLine? HackAimLine { get; set; }
 
         public Transform Transform { get => this.transform; }
 
@@ -64,6 +65,7 @@ namespace HackedDesign
         private InputAction? nextWeaponAction = null;
         private InputAction? prevHackAction = null;
         private InputAction? nextHackAction = null;
+        private InputAction? pingAction = null;
 
         void Awake()
         {
@@ -115,6 +117,7 @@ namespace HackedDesign
             nextWeaponAction = PlayerInput.actions["Next Weapon"];
             prevHackAction = PlayerInput.actions["Prev Hack"];
             nextHackAction = PlayerInput.actions["Next Hack"];
+            pingAction = PlayerInput.actions["Ping"];
 
             selectAction.performed += SelectEvent;
             menuAction.performed += MenuEvent;
@@ -253,6 +256,16 @@ namespace HackedDesign
 
             UpdateAimLine();
 
+            if (secondaryAction!.triggered && !Character.IsAnimatingAttack)
+            {
+                TryHack(Character.OperatingSystem.ActiveActionHack);
+            }
+
+            if (pingAction!.triggered)
+            {
+                TryHack(Character.OperatingSystem.PingHack);
+            }
+
             if (Character.IsAnimatingAttack) // If we're playing the attacking animation, don't let the player take another action
             {
                 movement = 0;
@@ -350,6 +363,11 @@ namespace HackedDesign
                 Targeter.ShowTarget(direction, true /*IsAiming()*/, IsActionType(WeaponType.Gun));
             }
 
+            if (HackAimLine != null)
+            {
+                HackAimLine.Repaint(Character.OperatingSystem, Targeter, this.transform.position);
+            }
+
             var weapon = Character.OperatingSystem.ActiveActionWeapon;
             if (weapon != null && weapon.definition.weaponType == WeaponType.Grenade)
             {
@@ -358,6 +376,20 @@ namespace HackedDesign
             else
             {
                 Targeter.HideGrenadeArc();
+            }
+        }
+
+        private void TryHack(HackInstance? hack)
+        {
+            if (hack == null)
+            {
+                return;
+            }
+
+            var result = Character.OperatingSystem.TriggerHack(hack, Targeter.CurrentTarget, this, HackAimLine);
+            if (result != HackResult.Success)
+            {
+                Debug.Log($"Hack {hack.definition.name} failed: {result}");
             }
         }
 

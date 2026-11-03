@@ -50,6 +50,14 @@ namespace HackedDesign
         [SerializeField] private float gapLengthPixels = 2f;
         [SerializeField] private float dashScrollPixelsPerSecond = 0f;
 
+        [Header("Glitch (hidden edges, colour split, opacity)")]
+        [SerializeField, Range(0f, 1f)] private float opacity = 1f;
+        [SerializeField, Range(0f, 1f)] private float ghostAlpha = 0f;
+        [SerializeField, Range(0f, 1f)] private float regrowAlpha = 0.6f;
+        [SerializeField] private Vector2 chromaOffsetPixels = Vector2.zero;
+        [SerializeField] private Color chromaColorA = new(1f, 0.24f, 0.6f, 0.6f);
+        [SerializeField] private Color chromaColorB = new(0.24f, 0.72f, 1f, 0.6f);
+
         [Header("Render")]
         [SerializeField] private string sortingLayer = "Default";
         [SerializeField] private int sortingOrder = 0;
@@ -73,6 +81,13 @@ namespace HackedDesign
         private static readonly int DashOffsetPixelsId = Shader.PropertyToID("_DashOffsetPixels");
         private static readonly int PpuId = Shader.PropertyToID("_PPU");
         private static readonly int CamPixelOffsetId = Shader.PropertyToID("_CamPixelOffset");
+        private static readonly int EdgeRegrowId = Shader.PropertyToID("_EdgeRegrow");
+        private static readonly int OpacityId = Shader.PropertyToID("_Opacity");
+        private static readonly int GhostAlphaId = Shader.PropertyToID("_GhostAlpha");
+        private static readonly int RegrowAlphaId = Shader.PropertyToID("_RegrowAlpha");
+        private static readonly int ChromaOffsetId = Shader.PropertyToID("_ChromaOffset");
+        private static readonly int ChromaColorAId = Shader.PropertyToID("_ChromaColorA");
+        private static readonly int ChromaColorBId = Shader.PropertyToID("_ChromaColorB");
 
         private MeshFilter meshFilter;
         private MeshRenderer meshRenderer;
@@ -83,6 +98,7 @@ namespace HackedDesign
         private int edgeMask = 0x3F;
         private readonly Vector4[] edgeColorCache = new Vector4[MaxSides];
         private readonly float[] edgeMaskCache = new float[MaxSides];
+        private readonly float[] edgeRegrow = { -1f, -1f, -1f, -1f, -1f, -1f, -1f, -1f, -1f, -1f, -1f, -1f };
 
         private int MaskWidth => (1 << this.sides) - 1;
 
@@ -101,6 +117,12 @@ namespace HackedDesign
                 this.EnsureArrayLengths();
                 this.SyncEdgeMaskFromFields();
             }
+        }
+
+        public bool UseTransformRotation
+        {
+            get => this.useTransformRotation;
+            set => this.useTransformRotation = value;
         }
 
         public float RotationDegrees
@@ -137,6 +159,44 @@ namespace HackedDesign
         {
             get => this.dashEnabled;
             set => this.dashEnabled = value;
+        }
+
+        /// <summary>Multiplies the alpha of everything drawn.</summary>
+        public float Opacity
+        {
+            get => this.opacity;
+            set => this.opacity = Mathf.Clamp01(value);
+        }
+
+        /// <summary>Alpha of the dotted placeholder drawn where an edge is hidden. 0 = hidden edges draw nothing.</summary>
+        public float GhostAlpha
+        {
+            get => this.ghostAlpha;
+            set => this.ghostAlpha = Mathf.Clamp01(value);
+        }
+
+        public float RegrowAlpha
+        {
+            get => this.regrowAlpha;
+            set => this.regrowAlpha = Mathf.Clamp01(value);
+        }
+
+        /// <summary>Screen-space pixel offset of the pink/blue split of the visible outline. Zero = off.</summary>
+        public Vector2 ChromaOffsetPixels
+        {
+            get => this.chromaOffsetPixels;
+            set => this.chromaOffsetPixels = value;
+        }
+
+        /// <summary>Regrow progress (0..1) drawn along a hidden edge, growing from vertex i. Negative = none.</summary>
+        public void SetEdgeRegrow(int index, float progress)
+        {
+            if (index < 0 || index >= MaxSides)
+            {
+                return;
+            }
+
+            this.edgeRegrow[index] = progress < 0f ? -1f : Mathf.Clamp01(progress);
         }
 
         void Awake()
@@ -289,6 +349,13 @@ namespace HackedDesign
             this.propertyBlock.SetFloat(DashOffsetPixelsId, dashOffset);
             this.propertyBlock.SetFloat(PpuId, PixelsPerUnit);
             this.propertyBlock.SetVector(CamPixelOffsetId, Vector4.zero);
+            this.propertyBlock.SetFloatArray(EdgeRegrowId, this.edgeRegrow);
+            this.propertyBlock.SetFloat(OpacityId, this.opacity);
+            this.propertyBlock.SetFloat(GhostAlphaId, this.ghostAlpha);
+            this.propertyBlock.SetFloat(RegrowAlphaId, this.regrowAlpha);
+            this.propertyBlock.SetVector(ChromaOffsetId, new Vector4(Mathf.Round(this.chromaOffsetPixels.x), Mathf.Round(this.chromaOffsetPixels.y), 0f, 0f));
+            this.propertyBlock.SetColor(ChromaColorAId, this.chromaColorA);
+            this.propertyBlock.SetColor(ChromaColorBId, this.chromaColorB);
 
             this.meshRenderer.SetPropertyBlock(this.propertyBlock);
         }

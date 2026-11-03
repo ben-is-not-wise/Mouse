@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0089ff1f99433f34a8b8b787f8a5acbf, type: 3}
+  m_Name: Kuroko
+  m_EditorClassIdentifier: Mouse::HackedDesign.Corp
+  id: 
+  displayName: Kuroko
+  icon: {fileID: 21300000, guid: 6e4e47f84a277014593a210921e05b72, type: 3}
+  description: 'The trains arrive on time. The lights come on before you reach the door. The rubbish is gone by morning. Behind every seamless moment in Horizon is Kuroko: a workforce that never tires, never strikes and never steps into the spotlight. We work in plain sight, and the show goes on. Kuroko.'
+  randomStats: []
+  hideInWiki: 0
+  slogan: The city, handled.
+  parent: {fileID: 11400000, guid: 817ecc968756b9944867a734afe0cddc, type: 2}

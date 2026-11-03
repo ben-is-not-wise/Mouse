@@ -28,9 +28,16 @@ namespace HackedDesign.UI
         [SerializeField] private List<Image> imageList = new List<Image>(6);
 
 
-        void Awake()
+        void OnEnable()
         {
+            Debug.Log("enable");
             os.changeActions += Repaint;
+            Repaint();
+        }
+
+        void OnDisable()
+        {
+            os.changeActions -= Repaint;
         }
 
         public override void Repaint()
@@ -46,7 +53,7 @@ namespace HackedDesign.UI
         {
             var weaponType = os.ActiveActionWeapon?.definition.weaponType;
 
-            meleePanel.gameObject.SetActive(true);
+            //meleePanel.gameObject.SetActive(true);
             gunPanel.gameObject.SetActive(weaponType == WeaponType.Gun);
             grenadePanel.gameObject.SetActive(weaponType == WeaponType.Grenade);
 
@@ -58,6 +65,7 @@ namespace HackedDesign.UI
 
         private void RepaintHealth()
         {
+            healthSlider.maxValue = os.MaxHealth;
             healthSlider.value = os.Health;
             healthText.text = os.Health.ToString("N0");
             integrityText.text = os.Health > 50 ? "OK" : os.Health > 20 ? "HURT" : "CRITICAL";

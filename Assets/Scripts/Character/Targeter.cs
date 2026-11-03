@@ -28,12 +28,18 @@ namespace HackedDesign
         public UnityAction<Interactable> targetUpdateAction;
 
         private Interactable currentTarget;
+
+        public Interactable CurrentTarget => currentTarget;
+        public Vector3 AimDirection { get; private set; }
+        public Vector3 TargetPoint { get; private set; }
+        public LayerMask TargetMask => targetMask;
+        public LayerMask LaserMask => laserMask;
         private ICharacterExecute charExecute;
 
         private readonly Vector3[] linePoints = new Vector3[2];
         private Vector3[] arcPoints;
 
-        private readonly RaycastHit2D[] hitBuffer = new RaycastHit2D[1];
+        private readonly RaycastHit2D[] hitBuffer = new RaycastHit2D[8];
 
         private readonly AimCommand falseAimCommand = new(false);
         private readonly AimCommand trueAimCommand = new(true);
@@ -132,10 +138,10 @@ namespace HackedDesign
 
         public void ShowTarget(Vector3 direction, bool aiming, bool hasPistol)
         {
+            AimDirection = direction.normalized;
             int hitCount = Physics2D.RaycastNonAlloc(pivot.position,direction.normalized,hitBuffer,targetRadius,targetMask);
 
-            var hit = hitCount > 0 ? hitBuffer[0] : default;
-            UpdateHover(hit);
+            UpdateHover(NearestInteractableHit(hitCount));
 
             if (aiming)
             {
@@ -179,10 +185,30 @@ namespace HackedDesign
             }
         }
 
+        // Hits come back nearest first. Triggers and other non-interactable colliders (e.g. a lamppost's
+        // light zone) are passed through; the first solid wall or door (laserMask) blocks the target.
+        private RaycastHit2D NearestInteractableHit(int hitCount)
+        {
+            for (int i = 0; i < hitCount; i++)
+            {
+                var collider = hitBuffer[i].collider;
+                if (collider.TryGetComponent<Interactable>(out _))
+                {
+                    return hitBuffer[i];
+                }
+                if (!collider.isTrigger && laserMask.Contains(collider.gameObject.layer))
+                {
+                    return default;
+                }
+            }
+            return default;
+        }
+
         private void UpdateHover(RaycastHit2D hit)
         {
             if (hit && hit.collider.TryGetComponent(out Interactable newTarget))
             {
+                TargetPoint = hit.point;
                 if (currentTarget != newTarget)
                 {
                     ClearHighlightable();

@@ -108,6 +108,11 @@ namespace HackedDesign
         {
             pingTimer = Time.time;
             ping = true;
+
+            if (os.OrNull() != null)
+            {
+                os.RevealBarrier();
+            }
         }
 
         public void TriggerInteract()

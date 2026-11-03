@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0089ff1f99433f34a8b8b787f8a5acbf, type: 3}
+  m_Name: Sakura
+  m_EditorClassIdentifier: Mouse::HackedDesign.Corp
+  id: 
+  displayName: Sakura
+  icon: {fileID: 21300000, guid: 63cfcdee19dc16642ac51935c56ae4e1, type: 3}
+  description: 'Every winter ends. At Sakura, we believe no life should be lost to the cold. Since the first graft, our technology has carried the knowledge, skill and warmth of millions into a new spring, so the people you love, and the people you rely on, are never truly gone. Through our family of companies we keep cities running, homes full and families together. '
+  randomStats: []
+  hideInWiki: 0
+  slogan: Bloom again.
+  parent: {fileID: 0}

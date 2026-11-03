@@ -14,6 +14,7 @@
         FlyingDrone,
         FanDrone,
         ShieldDrone,
-        Helicopter
+        Helicopter,
+        TargetDummy
     }
 }

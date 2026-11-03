@@ -5,9 +5,11 @@ namespace HackedDesign
     [CreateAssetMenu(fileName = "EMP", menuName = "Mouse/OS/Emp")]
     public class Emp : Hack
     {
+        public override bool RequiresTarget => false;
+
         public override void Trigger(GameObject target, PlayerController player)
         {
-            var results = Physics2D.OverlapCircleAll(player.transform.position, player.Character.OperatingSystem.PingRadius);
+            var results = Physics2D.OverlapCircleAll(player.transform.position, range);
 
             foreach (var result in results)
             {

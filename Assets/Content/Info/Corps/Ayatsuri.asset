@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0089ff1f99433f34a8b8b787f8a5acbf, type: 3}
+  m_Name: Ayatsuri
+  m_EditorClassIdentifier: Mouse::HackedDesign.Corp
+  id: 
+  displayName: Ayatsuri
+  icon: {fileID: 0}
+  description: 'A body is only as good as the hand that guides it. Ayatsuri builds the frames, chassis and drones that let skilled minds work anywhere: high-rise maintenance, hazardous sites, round-the-clock security. Every unit moves with the grace of a master puppeteer.'
+  randomStats: []
+  hideInWiki: 0
+  slogan: Perfectly directed.
+  parent: {fileID: 11400000, guid: 817ecc968756b9944867a734afe0cddc, type: 2}

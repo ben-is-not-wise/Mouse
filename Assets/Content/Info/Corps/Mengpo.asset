@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0089ff1f99433f34a8b8b787f8a5acbf, type: 3}
+  m_Name: Mengpo
+  m_EditorClassIdentifier: Mouse::HackedDesign.Corp
+  id: 
+  displayName: Mengpo
+  icon: {fileID: 0}
+  description: 'Grief is heavy. Memory can be heavier. At Mengpo we gently care for every persona in our keeping, easing away the pain, the confusion and the noise, so that what remains is calm, capable and content. Our reconditioning gives each mind a clean start: everything it needs, nothing that hurts. A warm bowl for a long journey.'
+  randomStats: []
+  hideInWiki: 0
+  slogan: Remember what matters.
+  parent: {fileID: 11400000, guid: 817ecc968756b9944867a734afe0cddc, type: 2}

@@ -30,23 +30,30 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlockGap: 0
-    - _BlockSize: 4
-    - _Distortion: 3
+    - _BlockSize: 12
+    - _Coherence: 0.8
+    - _Distortion: 0
+    - _FieldContrast: 3
+    - _FieldScale: 4
+    - _FieldSpeed: 0.02
     - _FrameRate: 2
-    - _MaxHold: 20
-    - _MinHold: 1.5
+    - _MaxHold: 10
+    - _MaxRestart: 16
+    - _MinHold: 3
+    - _MinRestart: 3
+    - _Mosaic: 0
     - _RevealChance: 0
-    - _Speed: 0.3
-    - _SubdivideChance: 0.125
-    - _TearAmount: 12
-    - _TearChance: 0.125
+    - _Speed: 0
+    - _SubdivideChance: 0.06
+    - _TearAmount: 8
+    - _TearChance: 0.0665
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorA: {r: 0.9019608, g: 0.34901962, b: 0.34901962, a: 1}
-    - _ColorB: {r: 0.5490196, g: 0.18039216, b: 0.29803923, a: 1}
-    - _ColorC: {r: 0.08627451, g: 0.03137255, b: 0.05882353, a: 1}
-    - _ColorD: {r: 0.05490196, g: 0.56078434, b: 0.56078434, a: 1}
-    - _ColorWeights: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+    - _ColorA: {r: 0.7987421, g: 0.7987421, b: 0.7987421, a: 1}
+    - _ColorB: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
+    - _ColorC: {r: 0.9685534, g: 0.8297296, b: 0.7766701, a: 1}
+    - _ColorD: {r: 0.6375143, g: 0.77040935, b: 0.8930817, a: 1}
+    - _ColorWeights: {r: 5, g: 2, b: 3, a: 3}
     - _GapColor: {r: 0, g: 0, b: 0, a: 1}
     - _Seed: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

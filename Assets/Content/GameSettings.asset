@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   skipStage: 0
-  infiniteMomentum: 0
+  infiniteMomentum: 1
   showDamageNumbers: 1
   shatterMagnitude: 10
   interactDistance: 2
@@ -21,6 +21,6 @@ MonoBehaviour:
   knockbackAmount: 1
   knockbackTime: 0.2
   knockbackFreezeTime: 0.2
-  spawnEnemies: 0
+  spawnEnemies: 1
   spawnChaser: 0
   skipTypewriter: 0

@@ -83,6 +83,7 @@ namespace HackedDesign
             }
         }
 
-        public float CurrentSpeed(CharacterSpeedContext ctx) => ctx.crouched ? ctx.crouchSpeed : (ctx.walk ? ctx.walkSpeed : ctx.runSpeed) + ctx.momentum;
+        // Momentum no longer adds speed; that will come back as a passive program on the synapse web.
+        public float CurrentSpeed(CharacterSpeedContext ctx) => ctx.crouched ? ctx.crouchSpeed : (ctx.walk ? ctx.walkSpeed : ctx.runSpeed);
     }
 }

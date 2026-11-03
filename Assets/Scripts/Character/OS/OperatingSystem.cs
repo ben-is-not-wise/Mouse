@@ -17,6 +17,7 @@ namespace HackedDesign
         [SerializeField] public Action dieActions;
         [SerializeField] public Action hitActions;
         [SerializeField] public BarrierIndicator barrier;
+        [SerializeField] private Vector3 barrierOffset = new(0f, 1.5f, 0f);
         private CharacterData characterData = new();
 
         [SerializeField] private List<Hack> repoHacks = new();
@@ -36,17 +37,98 @@ namespace HackedDesign
 
             if (barrier.OrNull() != null && characterData.barrierSlot != null)
             {
+                characterData.barrierSlot.Tick(Time.time);
                 characterData.currentBarrierRotation += Time.deltaTime * characterData.barrierSlot.stats.Get(ItemStatKeys.BarrierRotationSpeed);
 
                 barrier.Repaint(characterData.barrierSlot, characterData.currentBarrierRotation, true);
             }
         }
 
-        public float PingRadius => this.characterData.pingRadius;
+        /// <summary>Shows the barrier in full for a while (called when the character is Pinged).</summary>
+        public void RevealBarrier()
+        {
+            if (barrier.OrNull() != null)
+            {
+                barrier.Reveal();
+            }
+        }
 
         public void ResetBarrierRotation()
         {
             this.characterData.currentBarrierRotation = 0;
+        }
+
+        public Vector3 BarrierCentre => barrier.OrNull() != null ? barrier.transform.position : transform.position + barrierOffset;
+
+        /// <summary>The barrier edge facing a world position, allowing for rotation. -1 with no barrier.</summary>
+        public int FacingEdge(Vector2 from)
+        {
+            var slot = characterData.barrierSlot;
+            if (slot == null || slot.Faces == 0)
+            {
+                return -1;
+            }
+
+            // Same convention as HexIndicator: vertex 0 on +X, counter-clockwise, edge i spans vertex i to i+1.
+            Vector2 direction = from - (Vector2)BarrierCentre;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - characterData.currentBarrierRotation;
+            float sector = 360f / slot.Faces;
+            return Mathf.Clamp(Mathf.FloorToInt(Mathf.Repeat(angle, 360f) / sector), 0, slot.Faces - 1);
+        }
+
+        public bool BreakFacingEdge(Vector2 from)
+        {
+            var slot = characterData.barrierSlot;
+            int edge = FacingEdge(from);
+            if (edge < 0)
+            {
+                return false;
+            }
+            // Stats so subroutines and hacks can push these up or down; the Barrier asset is the base value.
+            float delay = Mathf.Max(0f, slot.stats.Get(ItemStatKeys.BarrierRegrowDelay, slot.definition.RegrowDelay));
+            float duration = Mathf.Max(0f, slot.stats.Get(ItemStatKeys.BarrierRegrowTime, slot.definition.RegrowTime));
+            return slot.BreakEdge(edge, delay, duration);
+        }
+
+        /// <summary>World-space end points of a barrier edge, allowing for rotation.</summary>
+        public bool TryGetEdge(int edge, out Vector2 start, out Vector2 end)
+        {
+            var slot = characterData.barrierSlot;
+            if (slot == null || edge < 0 || edge >= slot.Faces)
+            {
+                start = end = BarrierCentre;
+                return false;
+            }
+
+            Vector2 centre = BarrierCentre;
+            float radius = slot.definition.Radius;
+            float sector = 360f / slot.Faces;
+            float a0 = (characterData.currentBarrierRotation + edge * sector) * Mathf.Deg2Rad;
+            float a1 = a0 + sector * Mathf.Deg2Rad;
+            start = centre + new Vector2(Mathf.Cos(a0), Mathf.Sin(a0)) * radius;
+            end = centre + new Vector2(Mathf.Cos(a1), Mathf.Sin(a1)) * radius;
+            return true;
+        }
+
+        // Characters set up in a prefab without a BarrierIndicator (e.g. the target dummy) get one
+        // built at runtime when they start with a barrier.
+        private void EnsureBarrierIndicator()
+        {
+            if (barrier.OrNull() != null || characterData.barrierSlot == null)
+            {
+                return;
+            }
+
+            var go = new GameObject("Barrier");
+            go.layer = gameObject.layer;
+            go.transform.SetParent(transform, false);
+            go.transform.localPosition = barrierOffset;
+
+            var hex = go.AddComponent<HexIndicator>();
+            hex.UseTransformRotation = false;
+
+            barrier = go.AddComponent<BarrierIndicator>();
+            barrier.indicator = hex;
         }
 
         public IReadOnlyList<Hack> ActiveHacks => this.characterData.hackSlots.Where(h => h != null).Select(h => h.definition).ToList();
@@ -68,7 +150,14 @@ namespace HackedDesign
                     }
                     if (characterData.health <= 0)
                     {
-                        dieActions?.Invoke();
+                        if (characterData.infinityHealth)
+                        {
+                            this.characterData.health = characterData.maxHealth;
+                        }
+                        else
+                        {
+                            dieActions?.Invoke();
+                        }
                     }
                 }
             }
@@ -86,6 +175,10 @@ namespace HackedDesign
         public WeaponInstance MeleeWeapon => this.characterData.meleeSlot;
         public ItemInstance ActiveAction => this.characterData.actionSlots[this.characterData.currentActionSlot];
         public WeaponInstance ActiveActionWeapon => ActiveAction as WeaponInstance;
+        public HackInstance ActiveActionHack => ActiveAction as HackInstance;
+
+        /// <summary>The installed Ping hack, fired from its own button. Null if none is installed.</summary>
+        public HackInstance PingHack => this.characterData.hackSlots.FirstOrDefault(h => h?.definition is Ping);
         public IReadOnlyList<ItemInstance> ActionSlots => this.characterData.actionSlots;
         public int CurrentActionSlot => this.characterData.currentActionSlot;
 
@@ -273,6 +366,7 @@ namespace HackedDesign
                         sub.OnInstall(characterData.barrierSlot.definition);
                     }
                 }
+                EnsureBarrierIndicator();
             }
             foreach (var instance in characterData.actionSlots.OfType<WeaponInstance>().Append(characterData.meleeSlot))
             {
@@ -304,6 +398,52 @@ namespace HackedDesign
                 gameData.AddTask(new OSTask(hack.name, hack.puUsage));
                 hack.Trigger(null);
             }*/
+        }
+
+        public HackResult TriggerHack(HackInstance instance, Interactable target, PlayerController player, HackAimLine aimLine = null)
+        {
+            if (instance?.definition == null)
+            {
+                return HackResult.NoHack;
+            }
+
+            var hack = instance.definition;
+
+            if (Time.time < instance.readyTime)
+            {
+                return HackResult.CoolingDown;
+            }
+
+            if (hack.RequiresTarget)
+            {
+                if (target == null)
+                {
+                    return HackResult.NoTarget;
+                }
+
+                if ((target.transform.position - player.transform.position).sqrMagnitude > hack.range * hack.range)
+                {
+                    return HackResult.OutOfRange;
+                }
+            }
+
+            if (Momentum < hack.puUsage)
+            {
+                return HackResult.NoEnergy;
+            }
+
+            Momentum -= hack.puUsage;
+            instance.readyTime = Time.time + hack.puTime;
+            var targetObject = target != null ? target.gameObject : null;
+            if (hack.RequiresTarget && aimLine != null)
+            {
+                aimLine.Fire(hack, targetObject, player);
+            }
+            else
+            {
+                hack.Trigger(targetObject, player);
+            }
+            return HackResult.Success;
         }
 
         public IReadOnlyList<Item> Inventory => this.characterData.inventory;
@@ -440,6 +580,14 @@ namespace HackedDesign
                 sub.OnUninstall(instance.definition);
                 inv[Array.IndexOf(inv, null)] = sub;
                 instance.installed[i] = null;
+            }
+            var actions = this.characterData.actionSlots;
+            for (int i = 0; i < actions.Length; i++)
+            {
+                if (actions[i] == instance)
+                {
+                    actions[i] = null;
+                }
             }
             slots[hackSlot] = null;
             changeActions?.Invoke();

@@ -21,6 +21,12 @@ Shader "HackedDesign/HexIndicator"
         [PerRendererData] _DashOffsetPixels ("Dash Offset (px)", Float)         = 0
         [PerRendererData] _PPU              ("Pixels Per Unit", Float)          = 16
         [PerRendererData] _CamPixelOffset   ("Camera Subpixel Offset (world xy)", Vector) = (0,0,0,0)
+        [PerRendererData] _Opacity          ("Opacity", Float)                  = 1
+        [PerRendererData] _GhostAlpha       ("Ghost Alpha (hidden edges)", Float) = 0
+        [PerRendererData] _RegrowAlpha      ("Regrow Alpha", Float)             = 0.6
+        [PerRendererData] _ChromaOffset     ("Chroma Offset (px xy)", Vector)   = (0,0,0,0)
+        [PerRendererData] _ChromaColorA     ("Chroma Color A", Color)           = (1,0.24,0.6,0.6)
+        [PerRendererData] _ChromaColorB     ("Chroma Color B", Color)           = (0.24,0.72,1,0.6)
     }
 
     SubShader
@@ -83,6 +89,13 @@ Shader "HackedDesign/HexIndicator"
             float  _DashOffsetPixels;
             float  _PPU;
             float4 _CamPixelOffset;
+            float  _EdgeRegrow[12]; // per-edge regrow progress 0..1 for hidden edges; < 0 = none
+            float  _Opacity;
+            float  _GhostAlpha;
+            float  _RegrowAlpha;
+            float4 _ChromaOffset;   // xy = screen-space pixel offset of the colour split; 0 = off
+            float4 _ChromaColorA;
+            float4 _ChromaColorB;
 
             Varyings vert(Attributes IN)
             {
@@ -128,6 +141,25 @@ Shader "HackedDesign/HexIndicator"
                 return _EdgeMask[clamp(idx, 0, 11)];
             }
 
+            int SectorOf(float2 p, float sides)
+            {
+                float norm = frac(atan2(p.y, p.x) / TWO_PI);
+                return clamp((int)floor(norm * sides), 0, (int)sides - 1);
+            }
+
+            float Band(float d)
+            {
+                return (_InwardOutline > 0.5)
+                    ? step(d, 0.0) * step(-_LineWidthPixels, d)
+                    : step(abs(d), _LineWidthPixels * 0.5);
+            }
+
+            // Outline band of the visible edges only, at a local pixel position (used for the chroma split).
+            float VisibleBand(float2 p, float r, float sides)
+            {
+                return Band(RegularPolygonSdf(p, r, sides)) * SampleEdgeMask(SectorOf(p, sides));
+            }
+
             float4 frag(Varyings IN) : SV_Target
             {
                 // --- Quantise the fragment to the world pixel grid (1 / _PPU units). ---
@@ -146,40 +178,62 @@ Shader "HackedDesign/HexIndicator"
 
                 // --- Which edge owns this fragment (clean angular sector cut). ---
                 // Vertex i sits at angle i*(360/n) (vertex 0 at +X, CCW); sector i spans that wedge.
-                float ang = atan2(rp.y, rp.x);
-                float norm = frac(ang / TWO_PI);
-                int   sector = (int)floor(norm * sides);
-                sector = clamp(sector, 0, (int)sides - 1);
+                int   sector = SectorOf(rp, sides);
                 float edgeOn = SampleEdgeMask(sector);
+
+                // --- Position along the owning edge, in pixels (dash + regrow both use it). ---
+                float sideStep  = TWO_PI / sides;
+                float sideLenPx = 2.0 * circumRadiusPx * sin(PI / sides);
+                float a0 = sector * sideStep;
+                float2 v0 = float2(cos(a0), sin(a0)) * circumRadiusPx;
+                float2 v1 = float2(cos(a0 + sideStep), sin(a0 + sideStep)) * circumRadiusPx;
+                float2 dir = normalize(v1 - v0);
+                float t = clamp(dot(rp - v0, dir), 0.0, sideLenPx);
 
                 // --- Dash gate: arc length along the perimeter, modulo (dash + gap), in pixels. ---
                 float dashGate = 1.0;
                 if (_DashEnabled > 0.5)
                 {
-                    float sideStep  = TWO_PI / sides;
-                    float sideLenPx = 2.0 * circumRadiusPx * sin(PI / sides);
-                    float a0 = sector * sideStep;
-                    float2 v0 = float2(cos(a0), sin(a0)) * circumRadiusPx;
-                    float2 v1 = float2(cos(a0 + sideStep), sin(a0 + sideStep)) * circumRadiusPx;
-                    float2 dir = normalize(v1 - v0);
-                    float t = clamp(dot(rp - v0, dir), 0.0, sideLenPx);
                     float s = sector * sideLenPx + t + _DashOffsetPixels;
                     float period = max(_DashLengthPixels + _GapLengthPixels, 0.0001);
                     dashGate = step(fmod(s, period), _DashLengthPixels);
                 }
 
                 // --- Outline band + fill, hard step() only (no fwidth / smoothstep -> no AA). ---
-                float band = (_InwardOutline > 0.5)
-                    ? step(d, 0.0) * step(-_LineWidthPixels, d)
-                    : step(abs(d), _LineWidthPixels * 0.5);
+                float band = Band(d);
                 float outline = band * edgeOn * dashGate;
                 float fill = (_FillEnabled > 0.5) ? step(d, 0.0) : 0.0;
 
+                // Hidden edges: a faint dotted placeholder, plus a solid run that grows from vertex i
+                // as the edge regrows (progress 0..1 in _EdgeRegrow).
+                float hidden = band * (1.0 - edgeOn);
+                float regrow = _EdgeRegrow[clamp(sector, 0, 11)];
+                float grown = hidden * step(0.0, regrow) * step(t, floor(regrow * sideLenPx));
+                float ghost = hidden * (1.0 - grown) * step(fmod(floor(t), 2.0), 0.5) * step(0.001, _GhostAlpha);
+
+                // Chromatic split: the visible outline sampled at +/- an offset given in screen pixels.
+                float chromaA = 0.0;
+                float chromaB = 0.0;
+                if (dot(_ChromaOffset.xy, _ChromaOffset.xy) > 0.0)
+                {
+                    float2 off = Rotate(_ChromaOffset.xy, -_RotationRad);
+                    chromaA = VisibleBand(rp - off, circumRadiusPx, sides) * (1.0 - outline);
+                    chromaB = VisibleBand(rp + off, circumRadiusPx, sides) * (1.0 - outline) * (1.0 - chromaA);
+                    float keep = (1.0 - grown) * (1.0 - ghost);
+                    chromaA *= keep;
+                    chromaB *= keep;
+                }
+
                 float4 outlineCol = (_UseEdgeColors > 0.5) ? _EdgeColors[sector] : _OutlineColor;
 
-                float4 col;
-                col.rgb = _FillColor.rgb * fill * (1.0 - outline) + outlineCol.rgb * outline;
-                col.a   = _FillColor.a   * fill * (1.0 - outline) + outlineCol.a   * outline;
+                float4 col = float4(0, 0, 0, 0);
+                col += float4(_FillColor.rgb, _FillColor.a) * fill * (1.0 - outline) * (1.0 - grown) * (1.0 - ghost) * (1.0 - chromaA) * (1.0 - chromaB);
+                col += float4(outlineCol.rgb, outlineCol.a) * outline;
+                col += float4(outlineCol.rgb, outlineCol.a * _RegrowAlpha) * grown;
+                col += float4(outlineCol.rgb, outlineCol.a * _GhostAlpha) * ghost;
+                col += _ChromaColorA * chromaA;
+                col += _ChromaColorB * chromaB;
+                col.a *= _Opacity;
 
                 clip(col.a - 0.001);
                 return col;

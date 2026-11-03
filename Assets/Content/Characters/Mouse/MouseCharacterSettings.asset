@@ -39,7 +39,11 @@ MonoBehaviour:
   defaultMelee: {fileID: 11400000, guid: 3e345b983de8811479ef9ed6e1f75cf2, type: 2}
   startingGrenade: {fileID: 11400000, guid: 26858494ca1e6764abffafaa16fe2ef1, type: 2}
   startingInventory: []
-  startingHacks: []
+  startingHacks:
+  - hack: {fileID: 11400000, guid: a72e794d523223945adb326b79628f99, type: 2}
+    subroutines: []
+  - hack: {fileID: 11400000, guid: a96e0a98fd134a828060fcad39d32b0b, type: 2}
+    subroutines: []
   startingUpgrades: []
   startingBarrier:
     barrier: {fileID: 0}

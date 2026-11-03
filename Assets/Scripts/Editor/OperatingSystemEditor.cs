@@ -80,6 +80,10 @@ namespace HackedDesign.Editor
                 {
                     DrawWeaponSlot(label, weapon);
                 }
+                else if (actionSlots[i] is HackInstance hack)
+                {
+                    EditorGUILayout.LabelField(label, hack.definition != null ? $"{hack.definition.name} (hack)" : "-");
+                }
                 else
                 {
                     EditorGUILayout.LabelField(label, actionSlots[i] != null ? actionSlots[i].GetType().Name : "-");

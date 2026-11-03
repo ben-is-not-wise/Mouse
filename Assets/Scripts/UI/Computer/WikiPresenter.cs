@@ -17,6 +17,8 @@ namespace HackedDesign
         [SerializeField] private AvatarPresenter avatar;
         [SerializeField] private Image itemSprite;
         [SerializeField] private new Text name;
+
+        [SerializeField] private Text slogan;
         [SerializeField] private Text description;
 
         private InfoCategory selectedCategory = InfoCategory.Person;
@@ -59,8 +61,8 @@ namespace HackedDesign
         private void UpdateCategories()
         {
             this.people.Set("People", 0, InfoRepository.Instance.People.Count);
-            this.corps.Set("Corps/Factions", 0, InfoRepository.Instance.Corps.Count);
-            //this.factions.Set("Factions", 0, InfoRepository.Instance.Factions.Count);
+            this.corps.Set("Corps", 0, InfoRepository.Instance.Corps.Count);
+            this.factions.Set("Factions", 0, InfoRepository.Instance.Factions.Count);
             this.weapons.Set("Weapons", 0, 12);
             this.components.Set("Components", 0, 12);
             UpdateCategorySelection();
@@ -110,22 +112,25 @@ namespace HackedDesign
                 return;
             }
 
-            var person = item as Person;
-
-            this.avatar.gameObject.SetActive(person != null);
-            this.itemSprite.gameObject.SetActive(person == null);
-
-            if (person != null)
+            switch(item)
             {
-                this.avatar.Set(person.gender, person.face, person.hair);
+                case Person person:
+                    this.avatar.gameObject.SetActive(true);
+                    this.itemSprite.gameObject.SetActive(false);
+                    this.avatar.Set(person.gender, person.face, person.hair);
+                    this.name.text = GetDisplayName(item);
+                    this.description.text = item.description;
+                    this.slogan.text = person.corp;
+                    break;
+                case Corp corp:
+                    this.avatar.gameObject.SetActive(false);
+                    this.itemSprite.gameObject.SetActive(true);
+                    this.itemSprite.sprite = corp.icon;
+                    this.name.text = GetDisplayName(corp);
+                    this.description.text = corp.description;
+                    this.slogan.text = corp.slogan;
+                    break;
             }
-            else
-            {
-                this.itemSprite.sprite = item.icon;
-            }
-
-            this.name.text = GetDisplayName(item);
-            this.description.text = item.description;
         }
 
         private static string GetDisplayName(Item item) => string.IsNullOrWhiteSpace(item.displayName) ? item.name : item.displayName;

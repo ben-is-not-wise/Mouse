@@ -33,6 +33,22 @@ Shader "HackedDesign/AdBlockGlitch"
 
         _RevealChance ("Chance A Block Shows The Sprite Underneath", Range(0,1)) = 0
 
+        // Hidden image: instead of every block rolling its own colour, blocks read a smooth
+        // noise "image" at their centre, so neighbours share colours and the squares look
+        // like a pixelated picture. The 4 colours become a ramp, sorted dark to light.
+        _Coherence ("Hidden Image Strength (0 random, 1 smooth)", Range(0,1)) = 0
+        _FieldScale ("Hidden Image Shape Size (blocks)", Float) = 4
+        _FieldSpeed ("Hidden Image Morph Speed", Float) = 0.05
+        _FieldContrast ("Hidden Image Contrast", Float) = 1.5
+        // Every so often the hidden image is thrown away and replaced by a brand new one.
+        // Each gap is random between min and max. Set max to 0 to never restart.
+        _MinRestart ("Min Seconds Before The Image Restarts", Float) = 8
+        _MaxRestart ("Max Seconds Before The Image Restarts", Float) = 20
+
+        // Mosaic: each block takes the sprite's own colour at its centre (nearest neighbour),
+        // so the billboard art itself is censored.
+        _Mosaic ("Mosaic From Sprite (0 palette, 1 sprite)", Range(0,1)) = 0
+
         // Per-instance random offset, set once at spawn by AdBlockGlitch.cs so billboards
         // sharing this material don't glitch in sync.
         _Seed ("Per-Instance Random Seed", Vector) = (0,0,0,0)
@@ -95,6 +111,13 @@ Shader "HackedDesign/AdBlockGlitch"
                 float _TearChance;
                 float _TearAmount;
                 float _RevealChance;
+                float _Coherence;
+                float _FieldScale;
+                float _FieldSpeed;
+                float _FieldContrast;
+                float _MinRestart;
+                float _MaxRestart;
+                float _Mosaic;
                 float4 _Seed;
             CBUFFER_END
 
@@ -123,6 +146,111 @@ Shader "HackedDesign/AdBlockGlitch"
                 float a = hash21(float2(band, i));
                 float b = hash21(float2(band, i + 1.0));
                 return lerp(a, b, f * f * (3.0 - 2.0 * f)) * 2.0 - 1.0;
+            }
+
+            float valueNoise(float2 p)
+            {
+                float2 i = floor(p);
+                float2 f = frac(p);
+                f = f * f * (3.0 - 2.0 * f);
+                float a = hash21(i);
+                float b = hash21(i + float2(1.0, 0.0));
+                float c = hash21(i + float2(0.0, 1.0));
+                float d = hash21(i + float2(1.0, 1.0));
+                return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
+            }
+
+            // Which image we're on. Restarts sit on an even beat of the average gap, each nudged
+            // by its own random amount of up to a quarter of (max - min), so the gap between
+            // any two restarts always lands between min and max.
+            float restartEpoch(float time)
+            {
+                float maxGap = max(_MaxRestart, _MinRestart);
+                if (maxGap <= 0.0)
+                {
+                    return 0.0;
+                }
+
+                float minGap = max(min(_MinRestart, maxGap), 0.0);
+                float average = max((minGap + maxGap) * 0.5, 0.01);
+                float jitter = (maxGap - minGap) * 0.25;
+                float k = floor(time / average);
+                float start = k * average + (hash21(float2(k, 7.3) + _Seed.xy) * 2.0 - 1.0) * jitter;
+                if (time < start)
+                {
+                    return k - 1.0;
+                }
+
+                float next = (k + 1.0) * average + (hash21(float2(k + 1.0, 7.3) + _Seed.xy) * 2.0 - 1.0) * jitter;
+                return time >= next ? k + 1.0 : k;
+            }
+
+            // The hidden image: two octaves of value noise sliding past each other, so the
+            // shapes slowly morph rather than just scrolling.
+            float hiddenImage(float2 blocks, float time)
+            {
+                float epoch = restartEpoch(time);
+                float2 p = blocks / max(_FieldScale, 0.001) + _Seed.xy
+                         + float2(hash21(float2(epoch, 1.9)), hash21(float2(epoch, 4.6))) * 1000.0;
+                float drift = time * _FieldSpeed;
+                float n = valueNoise(p + float2(drift, drift * 0.6)) * 0.65
+                        + valueNoise(p * 2.03 + float2(17.0 - drift * 0.8, 31.0 + drift * 0.5)) * 0.35;
+                return saturate((n - 0.5) * _FieldContrast + 0.5);
+            }
+
+            float luminance(float4 c)
+            {
+                return dot(c.rgb, float3(0.299, 0.587, 0.114));
+            }
+
+            void sortPair(inout float4 colorA, inout float weightA, inout float4 colorB, inout float weightB)
+            {
+                if (luminance(colorA) > luminance(colorB))
+                {
+                    float4 c = colorA;
+                    colorA = colorB;
+                    colorB = c;
+                    float w = weightA;
+                    weightA = weightB;
+                    weightB = w;
+                }
+            }
+
+            // Same weighted pick as pickColor, but with the colours sorted dark to light so
+            // a smooth roll gives smooth shading instead of jumping between unrelated colours.
+            float4 pickRamp(float roll)
+            {
+                float4 c0 = _ColorA;
+                float4 c1 = _ColorB;
+                float4 c2 = _ColorC;
+                float4 c3 = _ColorD;
+                float4 w = max(_ColorWeights, 0.0);
+                float w0 = w.x;
+                float w1 = w.y;
+                float w2 = w.z;
+                float w3 = w.w;
+                sortPair(c0, w0, c1, w1);
+                sortPair(c2, w2, c3, w3);
+                sortPair(c0, w0, c2, w2);
+                sortPair(c1, w1, c3, w3);
+                sortPair(c1, w1, c2, w2);
+
+                roll *= max(w0 + w1 + w2 + w3, 0.0001);
+                if (roll < w0)
+                {
+                    return c0;
+                }
+                roll -= w0;
+                if (roll < w1)
+                {
+                    return c1;
+                }
+                roll -= w1;
+                if (roll < w2)
+                {
+                    return c2;
+                }
+                return c3;
             }
 
             float4 pickColor(float roll)
@@ -172,6 +300,7 @@ Shader "HackedDesign/AdBlockGlitch"
                 float2 cell = floor(pixel / blockSize);
                 float2 local = pixel - cell * blockSize;
                 float2 cellId = cell + _Seed.xy;
+                float size = blockSize;
 
                 // Some blocks split into a 2x2 of smaller squares, so the pattern isn't a
                 // perfectly regular grid.
@@ -181,7 +310,9 @@ Shader "HackedDesign/AdBlockGlitch"
                     float2 quadrant = min(floor(local / halfSize), 1.0);
                     cellId = cellId * 2.0 + quadrant + 500.0;
                     local -= quadrant * halfSize;
+                    size = halfSize;
                 }
+                float2 blockCenter = pixel - local + floor(size * 0.5) + 0.5;
 
                 float alpha = sprite.a * IN.color.a;
                 if (any(local < floor(_BlockGap)))
@@ -192,7 +323,25 @@ Shader "HackedDesign/AdBlockGlitch"
                 // Every block keeps its colour for its own random hold time, then re-rolls.
                 float hold = max(lerp(_MinHold, _MaxHold, hash21(cellId + 3.1)), 0.01);
                 float segment = floor(time / hold + hash21(cellId + 91.7) * 100.0);
-                float4 color = pickColor(hash21(cellId + segment * 13.37));
+                float roll = hash21(cellId + segment * 13.37);
+                float4 color;
+                if (_Coherence > 0.0)
+                {
+                    float field = hiddenImage(blockCenter / blockSize, time);
+                    color = pickRamp(lerp(roll, field, _Coherence));
+                }
+                else
+                {
+                    color = pickColor(roll);
+                }
+
+                // Nearest-neighbour mosaic: one sprite pixel from the block's centre fills
+                // the whole block.
+                if (_Mosaic > 0.0)
+                {
+                    half4 mosaic = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, blockCenter * _MainTex_TexelSize.xy);
+                    color.rgb = mosaic.a > 0.01 ? lerp(color.rgb, mosaic.rgb, _Mosaic) : color.rgb;
+                }
 
                 if (hash21(cellId + segment * 7.13 + 55.5) < _RevealChance)
                 {

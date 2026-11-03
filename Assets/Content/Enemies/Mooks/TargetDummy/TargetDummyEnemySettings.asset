@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013efa53d65a1cd4d9770b49ee51b3cf, type: 3}
+  m_Name: TargetDummyEnemySettings
+  m_EditorClassIdentifier: 
+  reactionTime: 0.5
+  recognitionTime: 0.4
+  aggressive: 1
+  stationary: 0
+  giveUpTime: 10
+  memoryTime: 15
+  alertRadius: 12
+  proximityRange: 2.5
+  aimError: 0.5
+  targetLeading: 0
+  maxVisualRange: 8
+  fieldOfView: 120
+  minRoamTime: 1
+  maxRoamTime: 10
+  roamTime: 7
+  detectionTime: 1
+  awarenessDecayTime: 2
+  suspicionGiveUpTime: 3
+  loseThreshold: 0.5
+  minDistanceFactor: 0.3
+  proximityDetectionMultiplier: 4
+  touchRange: 1
+  hoverHeight: 4
+  hoverDeadband: 0.5
+  groundProbeDistance: 8
+  canJumpGaps: 0
+  autoShootScore: 0.55
+  autoShootMinInterval: 3
+  autoShootMaxInterval: 6
+  <SpawnOffset>k__BackingField: {x: 0, y: 0}

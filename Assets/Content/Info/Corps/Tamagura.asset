@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0089ff1f99433f34a8b8b787f8a5acbf, type: 3}
+  m_Name: Tamagura
+  m_EditorClassIdentifier: Mouse::HackedDesign.Corp
+  id: 
+  displayName: Tamagura
+  icon: {fileID: 0}
+  description: A Tamagura home shrine gives your loved one a place of honour and a voice in the family.
+  randomStats: []
+  hideInWiki: 0
+  slogan: Keep them close.
+  parent: {fileID: 11400000, guid: c628f06edbeee2b418f322c7667c952f, type: 2}

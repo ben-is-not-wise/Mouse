@@ -14,7 +14,6 @@ namespace HackedDesign
         public int ammo = 0;
         public int ram = 100;
         public int maxRam = 100;
-        public int pingRadius = 10;
         public bool infiniteAmmo = false;
         public bool infinityHealth = false;
         public int currentMission = 2;
@@ -94,6 +93,21 @@ namespace HackedDesign
             }
 
             currentHackSlot = System.Math.Max(0, System.Array.FindIndex(hackSlots, h => h != null));
+
+            // Hacks also sit on the action bar after the weapons, so Secondary fires whichever slot is selected
+            foreach (var hack in hackSlots)
+            {
+                if (hack == null || (hack.definition != null && hack.definition.HasOwnButton))
+                {
+                    continue;
+                }
+                int free = System.Array.IndexOf(actionSlots, null);
+                if (free < 0)
+                {
+                    break;
+                }
+                actionSlots[free] = hack;
+            }
 
             var startUpgrades = settings.StartingUpgrades;
             for (int i = 0; i < startUpgrades.Count && i < upgradeSlots.Length; i++)

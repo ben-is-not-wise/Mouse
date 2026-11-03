@@ -90,6 +90,8 @@ namespace HackedDesign
 
         private bool jumpFlag = false;
         private bool knockback = false;
+        private int aliveLayer;
+        private int corpseLayer;
 
         private bool Aiming { get; set; } = false;
         private float DesiredMovement => InputDirection * Mathf.Max(
@@ -133,6 +135,8 @@ namespace HackedDesign
             {
                 head = transform;
             }
+            this.corpseLayer = LayerMask.NameToLayer(Layers.Corpse);
+            this.aliveLayer = collider != null ? collider.gameObject.layer : this.gameObject.layer;
             operatingSystem.hitActions += Hit;
             operatingSystem.dieActions += Die;
             SetStateIdle();
@@ -318,6 +322,7 @@ namespace HackedDesign
             {
                 collider.enabled = true;
             }
+            SetCorpse(false);
         }
 
         public void Physics()
@@ -483,6 +488,7 @@ namespace HackedDesign
             }
 
             SetStateDead();
+            SetCorpse(true);
 
             DieActions?.Invoke();
         }
@@ -495,8 +501,19 @@ namespace HackedDesign
                 Animator.SetTrigger(AnimatorParams.Splat);
             }
             SetStateDead();
+            SetCorpse(true);
 
             StartCoroutine(EndFall());
+        }
+
+        private void SetCorpse(bool corpse)
+        {
+            if (collider == null || this.corpseLayer < 0)
+            {
+                return;
+            }
+
+            collider.gameObject.layer = corpse ? this.corpseLayer : this.aliveLayer;
         }
 
         private IEnumerator EndFall()

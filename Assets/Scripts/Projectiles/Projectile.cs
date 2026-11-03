@@ -102,6 +102,12 @@ namespace HackedDesign
                 return;
             }
 
+            // Pass through trigger zones (e.g. a lamppost's light) unless they're something a projectile can hit.
+            if (other.isTrigger && !IsHittable(other))
+            {
+                return;
+            }
+
             if (explosive)
             {
                 Explode();
@@ -113,6 +119,9 @@ namespace HackedDesign
 
             ReturnToPool();
         }
+
+        private static bool IsHittable(Collider2D other) =>
+            other.TryGetComponent<CharController>(out _) || other.TryGetComponent<BreakGlass>(out _);
 
         private void Explode()
         {

@@ -36,7 +36,7 @@ namespace HackedDesign.UI
 
                 dialogText.text = page.Text;
                 avatar.SetByName(page.Speaker);
-                nameText.text = page.Speakertitle;
+                nameText.text = page.Speakertitle.ToUpper();
                 typewriter.Play(page.Text);
             }
             else

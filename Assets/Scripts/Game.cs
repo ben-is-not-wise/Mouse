@@ -104,6 +104,7 @@ namespace HackedDesign
         public void SetStatePlaying() => CurrentState = new PlayingState(this);
         public void SetStateLoadLevel() => CurrentState = new LoadLevelState(this);
         public void SetStateAct0LoadTutorialLevel() => CurrentState = new LoadTutorialState(this);
+        public void SetStateTestingLevel() => CurrentState = new LoadTestingState(this);
         public void SetStateMainMenu() => CurrentState = new MainMenuState(this, uiManager.MainMenu);
         public void SetStateDeath() => CurrentState = new DeathState(this);
         public void SetStateLevelEnd() => CurrentState = new LevelEndState(this);
@@ -169,8 +170,7 @@ namespace HackedDesign
                     cutscene.Stop(this);
                     Level.Reset();
                     Player.Teleport(Level.GetLevelPlayerSpawnLocation() + Vector3.up);
-                    Player.Character.ExecuteCommand(new OutfitSwapCommand("PD"));
-                    SetStateAct0LoadTutorialLevel();
+                    SetStateTestingLevel();
                     break;
                 default:
                     Debug.Log("Intro");

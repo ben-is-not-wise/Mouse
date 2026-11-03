@@ -20,6 +20,16 @@ namespace HackedDesign.UI.DamageNumbers
             }
         }
 
+        /// <summary>Spawns a short terminal word above a hack's target. Not gated by ShowDamageNumbers.</summary>
+        public void SpawnTag(string word, Color colour, Vector3 start)
+        {
+            var dn = GetPooledInstance();
+            if (dn != null)
+            {
+                dn.ShowTag(word, colour, start);
+            }
+        }
+
         private DamageNumber GetPooledInstance()
         {
             foreach(var x in pool)
