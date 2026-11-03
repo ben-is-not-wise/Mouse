@@ -16,8 +16,6 @@ namespace HackedDesign
         [SerializeField] private Color[] edgePalette =
         {
             new(1f, 0.2f, 0.2f, 1f),    // Red: Firewall
-            new(1f, 0.7f, 0.1f, 1f),    // Amber: Authentication
-            new(0.6f, 0.3f, 1f, 1f),    // Violet: Encryption
             new(0.2f, 1f, 0.4f, 1f),    // Green: Intrusion detection
             new(1f, 1f, 1f, 1f),        // White: Watchdog
             new(0.25f, 0.25f, 0.3f, 1f) // Black: Black ICE

@@ -7,5 +7,6 @@
         Faction,
         Corp,
         Item,
+        Hack
     }
 }

@@ -29,6 +29,8 @@ namespace HackedDesign
         private WikiButton factions;
         private WikiButton weapons;
         private WikiButton components;
+
+        private WikiButton hacks;
         private readonly List<WikiButton> items = new List<WikiButton>();
         private readonly List<Item> itemData = new List<Item>();
 
@@ -39,12 +41,14 @@ namespace HackedDesign
             this.factions = Instantiate(prefab, category.transform);
             this.weapons = Instantiate(prefab, category.transform);
             this.components = Instantiate(prefab, category.transform);
+            this.hacks = Instantiate(prefab, category.transform);
 
             this.people.onClick.AddListener(() => SelectCategory(InfoCategory.Person));
             this.corps.onClick.AddListener(() => SelectCategory(InfoCategory.Corp));
             this.factions.onClick.AddListener(() => SelectCategory(InfoCategory.Faction));
             this.weapons.onClick.AddListener(() => SelectCategory(InfoCategory.Weapon));
             this.components.onClick.AddListener(() => SelectCategory(InfoCategory.Item));
+            this.hacks.onClick.AddListener(() => SelectCategory(InfoCategory.Hack));
         }
 
         public void OnEnable()
@@ -65,6 +69,7 @@ namespace HackedDesign
             this.factions.Set("Factions", 0, InfoRepository.Instance.Factions.Count);
             this.weapons.Set("Weapons", 0, 12);
             this.components.Set("Components", 0, 12);
+            this.hacks.Set("Hacks", 0, InfoRepository.Instance.Hacks.Count);
             UpdateCategorySelection();
         }
 
@@ -75,6 +80,7 @@ namespace HackedDesign
             this.factions.Active = this.selectedCategory == InfoCategory.Faction;
             this.weapons.Active = this.selectedCategory == InfoCategory.Weapon;
             this.components.Active = this.selectedCategory == InfoCategory.Item;
+            this.hacks.Active = this.selectedCategory == InfoCategory.Hack;
         }
 
         private void SelectCategory(InfoCategory category)
@@ -171,3 +177,4 @@ namespace HackedDesign
         }
     }
 }
+

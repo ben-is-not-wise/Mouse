@@ -83,7 +83,7 @@ namespace HackedDesign
 
         public int Faces => Edges.Length;
 
-        /// <summary>Breaks an edge: it stays open for `delay` seconds, then refills over `duration` seconds.</summary>
+        /// <summary>Breaks an edge and every other intact edge of its colour: they stay open for `delay` seconds, then refill over `duration` seconds.</summary>
         public bool BreakEdge(int index, float delay, float duration)
         {
             var all = Edges;
@@ -91,10 +91,18 @@ namespace HackedDesign
             {
                 return false;
             }
-            all[index].broken = true;
-            all[index].brokenAt = Time.time;
-            all[index].regrowStartAt = Time.time + delay;
-            all[index].regrowAt = Time.time + delay + duration;
+            var colour = all[index].colour;
+            foreach (var edge in all)
+            {
+                if (edge.broken || edge.colour != colour)
+                {
+                    continue;
+                }
+                edge.broken = true;
+                edge.brokenAt = Time.time;
+                edge.regrowStartAt = Time.time + delay;
+                edge.regrowAt = Time.time + delay + duration;
+            }
             return true;
         }
 

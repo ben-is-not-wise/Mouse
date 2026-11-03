@@ -13,9 +13,11 @@ namespace HackedDesign
         [SerializeField] private List<Person> people;
         [SerializeField] private List<Faction> factions;
         [SerializeField] private List<Corp> corps;
+        [SerializeField] private List<Hack> hacks;
         public List<Faction> Factions => factions;
         public List<Corp> Corps => corps;
         public List<Person> People => people;
+        public List<Hack> Hacks => hacks;
 
         public WeaponSettings GetWeaponByName(string name) => weapons.FirstOrDefault(w => w.name == name);
     }

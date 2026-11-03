@@ -111,7 +111,8 @@ namespace HackedDesign
             if (target != null && (target.transform.position - playerPosition).sqrMagnitude <= hack.range * hack.range)
             {
                 lineEnd = targeter.TargetPoint;
-                state = os.Momentum < hack.puUsage ? AimState.Dim : AimState.Locked;
+                bool shielded = target.OS != null && hack.IsBlocked(target.OS, os.BarrierCentre);
+                state = os.Momentum < hack.puUsage || shielded ? AimState.Dim : AimState.Locked;
             }
             else if (target != null)
             {

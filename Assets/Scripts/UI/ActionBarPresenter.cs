@@ -24,10 +24,6 @@ namespace HackedDesign.UI
 
         [SerializeField] private Text ammoText;
 
-        [SerializeField] private List<Button> buttonList = new List<Button>(6);
-        [SerializeField] private List<Image> imageList = new List<Image>(6);
-
-
         void OnEnable()
         {
             Debug.Log("enable");
@@ -44,7 +40,6 @@ namespace HackedDesign.UI
         {
             RepaintHealth();
             RepaintWeapon();
-            RepaintHacks();
             RepaintMomentum();
             RepaintVisibility();
         }
@@ -76,46 +71,6 @@ namespace HackedDesign.UI
             var color = visibilityImage.color;
             color.a = os.Visibility;
             visibilityImage.color = color;
-        }
-
-        private void RepaintHacks()
-        {
-            if (!os.Enabled)
-            {
-                for (int i = 0; i < buttonList.Count; i++)
-                {
-                    buttonList[i].gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < buttonList.Count; i++)
-                {
-                    if (os.ActiveHacks.Count > i)
-                    {
-                        Hack hack = os.ActiveHacks[i];
-                        var text = buttonList[i].gameObject.GetComponentInChildren<Text>();
-                        if (text != null)
-                        {
-                            text.text = hack.shortName ?? hack.name;
-                        }
-                        else
-                        {
-                            Debug.LogWarning("Action button has no text component");
-                        }
-
-                        var img = imageList[i];
-                        if (img != null)
-                        {
-                            img.sprite = hack.buttonIcon;
-                        }
-                        else
-                        {
-                            Debug.LogWarning("Action button has no image component");
-                        }
-                    }
-                }
-            }
         }
 
         private void RepaintMomentum()

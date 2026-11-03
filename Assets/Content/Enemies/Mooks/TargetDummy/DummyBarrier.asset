@@ -24,12 +24,6 @@ MonoBehaviour:
   hideInWiki: 1
   radius: 1.5
   subroutineSlots: 1
-  edgeLayout:
-  - 0
-  - 1
-  - 2
-  - 3
-  - 4
-  - 0
+  edgeLayout: 000000000100000000000000010000000200000000000000000000000000000000000000000000000000000000000000i
   regrowDelay: 5
   regrowTime: 10

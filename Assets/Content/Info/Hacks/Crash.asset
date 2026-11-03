@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a52cdf4eb51ab842a10b584c0d70b37, type: 3}
+  m_Name: Crash
+  m_EditorClassIdentifier: 
+  id: CRS
+  displayName: Crash
+  icon: {fileID: 0}
+  description: Uploads a payload that stuns the target. Blocked by an intact Firewall or Black ICE edge.
+  randomStats: []
+  hideInWiki: 0
+  shortName: Crash
+  buttonIcon: {fileID: 21300000, guid: 0bd4e201bdc4b01479efc3e98c42e281, type: 3}
+  puIcon: {fileID: 0}
+  puUsage: 1
+  puTime: 1
+  subroutineSlots: 1
+  range: 15
+  travelSpeed: 200
+  stunDuration: 3
+  blockedBy: 0000000003000000i
+  impact:
+    material: {fileID: 0}
+    sortingLayer: Default
+    sortingOrder: 102
+    ringPoints: 16
+    ringStartRadius: 2
+    ringEndRadius: 12
+    ringSteps: 4
+    ringDuration: 0.2
+    ringColour: {r: 1, g: 1, b: 1, a: 1}
+    splitDelay: 0.1
+    splitDuration: 0.2
+    splitMinPixels: 1
+    splitMaxPixels: 3
+    splitColourA: {r: 0.996, g: 0.086, b: 0.286, a: 1}
+    splitColourB: {r: 0.208, g: 0.502, b: 0.502, a: 1}
+    shardCount: 10
+    shardLife: 0.6
+    shardSpeed: 60
+    shardGravity: 240
+    shardBlinkTime: 0.2
+    shardBlinkRate: 15
+  tagText: CRASH
+  tagColour: {r: 1, g: 0.6, b: 0.1, a: 1}
+  blockedTagText: BLOCKED
+  blockedTagColour: {r: 0.55, g: 0.55, b: 0.6, a: 1}
+  tagOffsetPixels: 4

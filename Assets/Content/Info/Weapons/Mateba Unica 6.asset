@@ -29,5 +29,5 @@ MonoBehaviour:
   weaponType: 1
   minKineticLevel: 0
   longDescription: .357 Magnum
-  projectileForce: 15
+  projectileForce: 20
   range: 1

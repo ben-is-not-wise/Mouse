@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 
   displayName: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 44fa3518ee160da4ca0a6743b35ac7fe, type: 3}
   description: 
   randomStats:
   - key: physicalMeleeDamageMin
@@ -25,7 +25,9 @@ MonoBehaviour:
     min: 70
     max: 70
     asInt: 1
+  hideInWiki: 0
   weaponType: 0
   minKineticLevel: 0
   longDescription: Unarmed
   projectileForce: 13
+  range: 1

@@ -20,5 +20,7 @@ namespace HackedDesign
         public void End() => this.ai.Icon.Hide();
 
         public void UpdateBehaviour(AiContext ctx) => brain.Tick(ai, ctx);
+
+        public void Stun(float duration) => brain.Force(new StunAction(), duration);
     }
 }

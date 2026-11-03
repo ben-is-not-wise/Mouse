@@ -44,6 +44,10 @@ MonoBehaviour:
     subroutines: []
   - hack: {fileID: 11400000, guid: a96e0a98fd134a828060fcad39d32b0b, type: 2}
     subroutines: []
+  - hack: {fileID: 11400000, guid: 2305f17e9dadd814ba81d6328f16ee95, type: 2}
+    subroutines: []
+  - hack: {fileID: 11400000, guid: 38acc17711ca9f145a4bd949c5cd066b, type: 2}
+    subroutines: []
   startingUpgrades: []
   startingBarrier:
     barrier: {fileID: 0}

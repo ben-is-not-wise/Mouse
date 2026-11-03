@@ -414,6 +414,16 @@ namespace HackedDesign
             lastPerceivedTime = Time.time;
         }
 
+        public bool Stun(float duration)
+        {
+            if (CurrentState is not EnemyUtilityState utility)
+            {
+                return false;
+            }
+            utility.Stun(duration);
+            return true;
+        }
+
         private void Hit()
         {
             //Debug.Log("took a hit", this);

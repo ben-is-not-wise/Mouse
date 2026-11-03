@@ -21,6 +21,8 @@ namespace HackedDesign
 
         /// <summary>Hacks with their own button (e.g. Ping) stay off the action bar.</summary>
         public virtual bool HasOwnButton => false;
+
+        public virtual bool IsBlocked(OperatingSystem os, Vector2 from) => false;
         public abstract void Trigger(GameObject target, PlayerController player);
 
         /// <summary>Called when the hack's packet lands at hitPoint. Defaults to the plain Trigger.</summary>
